@@ -6,7 +6,6 @@
     <title>Title</title>
     <!--customize css-->
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="simple-sidebar.css">
     <!--bootstrap css-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
 
@@ -14,6 +13,7 @@
 
 
 <body>
+
 <div class="container-fluid px-4">
     <div class="row g-5 py-1">
         <!--left column-->
@@ -102,13 +102,6 @@
                         <li><a id="addOdd"  onclick="addOdd()" class="dropdown-item" href="#">Odd</a></li>
                     </ul>
                 </div>
-                <!--set priority-->
-                <form class="form-inline">
-                    <div class="form-group mx-sm-3 mb-2">
-                        <input id="priority" class="form-control" id="inputPassword2" placeholder="0">
-                    </div>
-                    <button onclick="set_priority(value)" type="button" class="btn btn-primary mb-2">Set Priority</button>
-                </form>
                 <!--slider and stepper-->
                 <div class="col-9">
                     <div class="row">
@@ -137,6 +130,8 @@
 
                 </div>
             </div>
+
+
         </div>
     </div>
 
@@ -161,7 +156,8 @@
 <script src="lib/cytoscape-context-menus.js"></script>
 <!--bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-
+<!--clipboard-->
+<script src="lib/cytoscape-clipboard.js"></script>
 
 <!--customized js-->
 <script src="graph.js"></script>
@@ -171,7 +167,6 @@
 <script src="layout.js"></script>g
 <script src="undo_redo.js"></script>
 <script src="menu.js"></script>
-<script src="label.js"></script>
 <script src="cytoscape.js"></script>
 
 </body>
