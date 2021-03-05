@@ -2,6 +2,12 @@
 let cy = cytoscape({
     container: document.getElementById("cy"),
     style: [
+        // {
+        //     selector: '#node0',
+        //     style: {
+        //         'label': "1"
+        //     }
+        // },
         {
             selector: 'node[name]',
             style: {

@@ -44,6 +44,7 @@ panel.on("dragfree", "#a_drag", function(evt) {
             y: evt.target.renderedPosition('y') - top
         }
     );
+    // cy.$("#node" + i).style("label", "1");
     i = i + 1;
 
     evt.target.position(

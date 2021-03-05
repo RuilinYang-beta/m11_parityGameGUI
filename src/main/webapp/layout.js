@@ -1,7 +1,8 @@
 /* auto-layout */
 var colasetting = {
     refresh: 0.1,
-    fit: false
+    fit: false,
+    nodeSpacing: function( node ){ return 0; },
 }
 cy.on("drag", function(evt) {
     cy.layout({name: 'cola', colasetting}).run();
