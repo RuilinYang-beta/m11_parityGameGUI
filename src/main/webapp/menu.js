@@ -2,31 +2,30 @@
 var contextMenu = cy.contextMenus({
     menuItems: [
         {
-            id: 'color',
-            content: 'change color',
-            tooltipText: 'change color',
+            id: 'ownership',
+            content: 'change ownership',
+            tooltipText: 'change ownership',
             selector: 'node',
             hasTrailingDivider: true,
             submenu: [
                 {
-                    id: 'color-blue',
-                    content: 'blue',
-                    tooltipText: 'blue',
+                    id: 'shape-even',
+                    content: 'even',
+                    tooltipText: 'even',
                     onClickFunction: function (event) {
                         let target = event.target || event.cyTarget;
-                        target.style('background-color', '#258fea');
+
                         target.style('type', 'even')
                         target.style('shape', `ellipse`)
                     },
 
                 },
                 {
-                    id: 'color-red',
-                    content: 'red',
-                    tooltipText: 'red',
+                    id: 'shape-odd',
+                    content: 'odd',
+                    tooltipText: 'odd',
                     onClickFunction: function (event) {
                         let target = event.target || event.cyTarget;
-                        target.style('background-color', '#e73413')
                         target.style('type', 'odd')
                         target.style('shape', `pentagon`)
                     },

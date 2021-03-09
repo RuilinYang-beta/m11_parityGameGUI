@@ -53,6 +53,7 @@ panel.on("dragfree", "#a_drag", function(evt) {
 });
 
 
+
 panel.on("drag", "#b_drag", function(evt) {
     evt.target.style().opacity = 0.4;
 });

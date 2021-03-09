@@ -14,7 +14,6 @@ let cy = cytoscape({
         { data: { id: 'node6', type: 'even'} },
         { data: { id: 'node7', type: 'even'} },
         { data: { id: 'node8', type: 'even'} },
-
         { data: { id: '0-1', source: 'node0', target: 'node1' } },
         { data: { id: '1-0', source: 'node1', target: 'node0' } },
         { data: { id: '1-5', source: 'node1', target: 'node5' } },
@@ -34,6 +33,7 @@ let cy = cytoscape({
 
     style: [
         // styles for test graph
+
         { selector: '#node0', style: { 'label': '0'} },
         { selector: '#node1', style: { 'label': '2'} },
         { selector: '#node2', style: { 'label': '7'} },
@@ -43,17 +43,12 @@ let cy = cytoscape({
         { selector: '#node6', style: { 'label': '6'} },
         { selector: '#node7', style: { 'label': '2'} },
         { selector: '#node8', style: { 'label': '3'} },
-        {
-            selector: 'node[name]',
-            style: {
-                'content': 'data(name)'
-            }
-        },
 
         {
             selector: ':selected',
             style: {
-
+                'border-width': 18,
+                'border-opacity': 0.2
             }
         },
 
@@ -61,7 +56,8 @@ let cy = cytoscape({
             selector: 'edge',
             style: {
                 'curve-style': 'bezier',
-                'target-arrow-shape': 'triangle'
+                'target-arrow-shape': 'triangle',
+                'background-color': 'red',
             }
         },
 
@@ -133,6 +129,7 @@ let cy = cytoscape({
                 'background-color': '#e73413',
             }
         },
+
         // position of priority number
         {
             selector: "node",
