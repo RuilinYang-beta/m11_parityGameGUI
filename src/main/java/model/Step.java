@@ -20,7 +20,6 @@ public class Step {
         this.action = action;
         this.type = type;
         this.msg = msg;
-
     }
 
     public enum Action{
