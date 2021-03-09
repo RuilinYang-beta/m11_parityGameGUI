@@ -132,6 +132,14 @@ let cy = cytoscape({
                 'shape': 'pentagon',
                 'background-color': '#e73413',
             }
-        }
+        },
+        // position of priority number
+        {
+            selector: "node",
+            style: {
+                "text-halign": "center",
+                "text-valign": "center",
+            }
+        },
     ],
 });
