@@ -43,17 +43,12 @@ let cy = cytoscape({
         { selector: '#node6', style: { 'label': '6'} },
         { selector: '#node7', style: { 'label': '2'} },
         { selector: '#node8', style: { 'label': '3'} },
-        {
-            selector: 'node[name]',
-            style: {
-                'content': 'data(name)'
-            }
-        },
 
         {
             selector: ':selected',
             style: {
-
+                'border-width': 18,
+                'border-opacity': 0.2
             }
         },
 
@@ -61,7 +56,8 @@ let cy = cytoscape({
             selector: 'edge',
             style: {
                 'curve-style': 'bezier',
-                'target-arrow-shape': 'triangle'
+                'target-arrow-shape': 'triangle',
+                'background-color': 'red',
             }
         },
 
