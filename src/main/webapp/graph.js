@@ -4,16 +4,26 @@ let cy = cytoscape({
 
     // test graph
     elements: [
+        // compound nodes
+        { data: { id: 'pnode0', type: 'compound'} },
+        { data: { id: 'pnode1', type: 'compound'}  },
+        { data: { id: 'pnode2', type: 'compound'} },
+        { data: { id: 'pnode3', type: 'compound'}  },
+        { data: { id: 'pnode4', type: 'compound'} },
+        { data: { id: 'pnode5', type: 'compound'} },
+        { data: { id: 'pnode6', type: 'compound'} },
+        { data: { id: 'pnode7', type: 'compound'} },
+        { data: { id: 'pnode8', type: 'compound'} },
         // nodes
-        { data: { id: 'node0', type: 'even'} },
-        { data: { id: 'node1', type: "odd"}  },
-        { data: { id: 'node2', type: 'even'} },
-        { data: { id: 'node3', type: 'odd'}  },
-        { data: { id: 'node4', type: 'even'} },
-        { data: { id: 'node5', type: 'even'} },
-        { data: { id: 'node6', type: 'even'} },
-        { data: { id: 'node7', type: 'even'} },
-        { data: { id: 'node8', type: 'even'} },
+        { data: { id: 'node0', type: 'even', parent: 'pnode0'} },
+        { data: { id: 'node1', type: "odd", parent: 'pnode1'}  },
+        { data: { id: 'node2', type: 'even', parent: 'pnode2'} },
+        { data: { id: 'node3', type: 'odd', parent: 'pnode3'}  },
+        { data: { id: 'node4', type: 'even', parent: 'pnode4'} },
+        { data: { id: 'node5', type: 'even', parent: 'pnode5'} },
+        { data: { id: 'node6', type: 'even', parent: 'pnode6'} },
+        { data: { id: 'node7', type: 'even', parent: 'pnode7'} },
+        { data: { id: 'node8', type: 'even', parent: 'pnode8'} },
         { data: { id: '0-1', source: 'node0', target: 'node1' } },
         { data: { id: '1-0', source: 'node1', target: 'node0' } },
         { data: { id: '1-5', source: 'node1', target: 'node5' } },
@@ -119,14 +129,14 @@ let cy = cytoscape({
         {
             selector: 'node[type="even"]',
             style: {
-                'background-color': '#258fea'
+                'background-color': '#ffffff'
             },
         },
         {
             selector: 'node[type="odd"]',
             style: {
                 'shape': 'pentagon',
-                'background-color': '#e73413',
+                'background-color': '#ffffff',
             }
         },
 
@@ -140,3 +150,6 @@ let cy = cytoscape({
         },
     ],
 });
+
+let steps;
+let step_ptr = 0;
