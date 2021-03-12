@@ -1,18 +1,14 @@
 baseURL = "http://localhost:8080/rest"
 
-//
-// JSON.stringify(cy.json())
-// { elements: { nodes: [], edges: [] },
-//   style: []
-// }
-
-
 // id:          cy.$(`#${node}`).data().id     --> trim
 // owner:       cy.$(`#${node}`).data().type
 // priority:    cy.$(`#${node}`).style().label
 // out:         cy.$("#node0").neighborhood("node").forEach( e => console.log(e.data().id))
 
-
+/**
+ * When the play button is clicked, this function is triggered, the current graph is serialized
+ * into a .pg file format and send to server.
+ */
 function tempFunc(){
     // only send relevant data to server!
     let nodes = cy.json().elements.nodes;
@@ -39,7 +35,11 @@ function tempFunc(){
 
 }
 
-
+/**
+ * Turn the current nodes on the graph into a string representation.
+ * @param nodesCy
+ * @returns {string}
+ */
 function getGameString(nodesCy){
 
     let gameString = [];
@@ -74,8 +74,6 @@ function getGameString(nodesCy){
     console.log(gameString);
     return gameString;
 }
-
-
 
 
 

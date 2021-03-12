@@ -25,6 +25,23 @@ function addOdd(){
 }
 
 
+/**
+ * Add a node with given owner and priority.
+ * Make use of the addEven and addOdd function, in addition set the priority in the style of the node.
+ * @returns {string} the id of the newly created node.
+ */
+function addNodeWithPriority(owner, priority){
+    let thisId = 'node' + i;
+    if (owner % 2 === 0) {
+        addEven();
+    } else {
+        addOdd();
+    }
+    cy.$(`#${thisId}`).style("label", priority);
+    return thisId;
+}
+
+
 /* add node by drag-and-drop */
 panel.on("drag", "#a_drag", function(evt) {
     evt.target.style().opacity = 0.4;
