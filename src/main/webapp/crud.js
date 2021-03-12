@@ -20,6 +20,8 @@ function tempFunc(){
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
+                console.log("i'm in");
+                console.log(this.responseText);
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
             }
@@ -64,14 +66,11 @@ function getGameString(nodesCy){
         nodeString += focus.neighborhood("edge").filter(e => e.data().source === focusId).map(e => e.data().target.slice(4)).join(",") + ";";
 
         gameString.push(nodeString);
-
-        // TODO: sometimes a node has label in .pg files, deal with it (need enable setting txt label in UI)
     }
 
     gameString.unshift("parity " + gameString.length + ";");
     gameString = gameString.join("\n");
 
-    console.log(gameString);
     return gameString;
 }
 

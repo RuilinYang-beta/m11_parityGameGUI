@@ -8,7 +8,7 @@ function step_forward() {
     let step = steps[step_ptr];
 
     // push current states of the nodes to stack
-    let prev_step = []
+    let prev_step = [];
     step.focus.forEach(function (item) {
         let v = cy.$("#pnode" + item);
         prev_step.push({
@@ -46,7 +46,7 @@ function step_backward() {
     step_ptr -= 1;
 
     // pop previous states of the nodes from stack
-    let prev_step = stack.pop()
+    let prev_step = stack.pop();
 
     // restore previous states of the nodes
     prev_step.forEach(function (item) {
