@@ -78,16 +78,17 @@ let cy = cytoscape({
         {
             selector: 'node[type="even"]',
             style: {
-                'background-color': '#258fea'
+                'background-color': '#ffffff'
             },
         },
         {
             selector: 'node[type="odd"]',
             style: {
                 'shape': 'pentagon',
-                'background-color': '#e73413',
+                'background-color': '#ffffff',
             }
         },
+
         // position of priority number
         {
             selector: "node",
@@ -98,3 +99,6 @@ let cy = cytoscape({
         },
     ],
 });
+
+let steps;
+let step_ptr = 0;

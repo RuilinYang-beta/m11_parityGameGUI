@@ -13,17 +13,17 @@ function tempFunc(){
     // only send relevant data to server!
     let nodes = cy.json().elements.nodes;
 
-    if (typeof nodes != 'undefined') {
+    if (typeof nodes !== undefined) {
         let gameString = getGameString(cy.nodes());
 
         // http POST
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
-            if (this.readyState === 4 && this.status === 200){
-                console.log(this.responseText);
-                console.log(JSON.parse(this.responseText));
+            if (this.readyState === 4 && this.status === 200) {
+                steps = JSON.parse(this.responseText);
+                console.log(steps);
             }
-        }
+        };
         req.open("POST", baseURL + "/vertex", true);
         req.setRequestHeader("Content-type", "text/plain");
         req.send(gameString);
@@ -48,7 +48,7 @@ function getGameString(nodesCy){
     for (let i = 0; i < nodesCy.length; i++){
         let focus = nodesCy[i];
         // in case this is not a node
-        if (focus.data().type === undefined) {
+        if (focus.data().type === undefined || focus.data().type === 'compound') {
             continue;
         }
         let nodeString = "";
