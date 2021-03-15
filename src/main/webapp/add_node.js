@@ -20,6 +20,9 @@ function addEven(){
         }
     );
 
+    // add listener for setting priority
+    addPriorityListener(i);
+
     // id counter ++
     i = i + 1;
 
@@ -46,6 +49,9 @@ function addOdd(){
         }
     );
 
+    // add listener for setting priority
+    addPriorityListener(i);
+
     // id counter ++
     i = i + 1;
 
@@ -70,6 +76,8 @@ function addNodeWithPriority(owner, priority){
 }
 
 
+
+
 /* add node by drag-and-drop */
 panel.on("drag", "#a_drag", function(evt) {
     evt.target.style().opacity = 0.4;
@@ -91,6 +99,9 @@ panel.on("dragfree", "#a_drag", function(evt) {
             parent: 'pnode' + i
         },
     });
+
+    // add listener for setting priority
+    addPriorityListener(i);
 
     // set position of the node
     let top = $("#cy").position().top;
@@ -133,6 +144,9 @@ panel.on("dragfree", "#b_drag", function(evt) {
             parent: 'pnode' + i
         },
     });
+
+    // add listener for setting priority
+    addPriorityListener(i);
 
     // set position of the node
     let top = $("#cy").position().top;
