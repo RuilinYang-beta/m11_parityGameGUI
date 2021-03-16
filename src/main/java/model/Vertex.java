@@ -1,7 +1,6 @@
 package model;
 
 public class Vertex {
-    // and the model used in actual computing is Vertex and Graph
     private int id;
     private int priority;
     private int owner;

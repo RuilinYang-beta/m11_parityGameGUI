@@ -20,4 +20,7 @@ public interface Algorithm {
 
     // temp method
     Collection<Step> getSteps();
+
+    // temp method
+    Map<Vertex, Vertex> getStrategyMap();
 }

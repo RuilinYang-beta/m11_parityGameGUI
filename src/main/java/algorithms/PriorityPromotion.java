@@ -1,339 +1,393 @@
-package algorithms;
-
-import model.Game;
-import model.Step;
-import model.Step.Action;
-import model.Vertex;
-
-import java.util.*;
-import java.util.stream.Collectors;
-
-// TODO: need to set strategy
-
-/**
- * Algorithm priority promotion. 
- * This class contains some algorithms that might be specific to priority promotion, 
- * for example, **reset the priority of all nodes / reset priority of a subset of nodes**,
- * and **get the successor of a set of node**, 
- * Currently not sure if they are specific only to priority promotion, 
- * if other algorithms also need these functionalities, consider moving them to class Game. 
- */
-public class PriorityPromotion implements Algorithm{
-	
-	private static int p;
-    private final Map<Vertex, Integer> winnerMap = new HashMap<>();
-    private Collection<Step> steps = new ArrayList<>();
-
-	public void solve(Game pg){
-
-		List<Vertex> allNodes = new ArrayList<>(pg.getVertices());
-		Game currentSubgame = pg;
-
-		while (!allNodes.isEmpty()) {
-			// find a dominion, and extend it with its attractors
-			Map<Integer, Collection<Vertex>> dominionMap = findDominion(currentSubgame);
-			Map.Entry<Integer, Collection<Vertex>> entry = dominionMap.entrySet().iterator().next(); // the first and only entry
-			int player = entry.getKey();
-			Collection<Vertex> dominion = entry.getValue();
-			Collection<Vertex> dominionAndItsAttractor = getAttractor(currentSubgame, dominion, currentSubgame.getVertices(), player);
-
-			triggerStep(dominionAndItsAttractor, Action.HIGHLIGHT, player, "dominion and its attractor");
-
-			// record winners for  each node
-			for (Vertex v : dominionAndItsAttractor) {
-				winnerMap.put(v, player);
-			}
-			// update subgame by removing all the node and relevant edges of dominionAndItsAttractor from currentSubgame
-			allNodes.removeAll(dominionAndItsAttractor);
-			currentSubgame = computeSubgame(currentSubgame, dominionAndItsAttractor);
-
-			triggerStep(dominionAndItsAttractor, Action.SHADE, player, "");
-		}
-	}
-
-
-	/**
-	 * Given a parity game, return a pair, where the key is the player, the value is the list of nodes
-	 * starting from which the player can make sure to win.
-	 * @param pg
-	 * @return
-	 */
-	public Map<Integer, Collection<Vertex>> findDominion(Game pg){
-		resetRegionPriority(pg);
-		Map<Integer, Collection<Vertex>> regionMap = new HashMap<>();
-
-		p = getHighestPriority(pg);
-		Game currentSubgame = pg;
-
-		while (true) {
-			int player = p % 2;
-			// nodes of the current subgame
-			Collection<Vertex> available = currentSubgame.getVertices();
-
-			// the base for computing attractor, that is
-			// nodes within current subgame that has nodal priority / regional priority equal to p
-			Collection<Vertex> base =  available.stream()
-					 					  .filter(e -> e.getPriority() == p || e.getRegion() == p)
-										  .collect(Collectors.toList());
-
-			triggerStep(base, Action.HIGHLIGHT, player, "base");
-
-			// within current subgame,
-			// for player's node:   if it can go to base?  add
-			// for opponent's node: if it must go to base? add
-			Collection<Vertex> attractor = getAttractor(currentSubgame, base, available, player);
-
-			triggerStep(attractor, Action.HIGHLIGHT, player, "attractor");
-
-			// among player's node within attractor, those who must escape attractor
-			Collection<Vertex> playerOpen = attractor.stream()
-													.filter(e -> e.getOwner() == player &&
-															noIntersection(pg.getOutMap().get(e), attractor))
-													.collect(Collectors.toList());
-
-			// among (successor of (opponent's node in attractor)), those who are outside attractor
-			// (ie. where can opponent escape to, in original game)
-			Collection<Vertex> opponentNodes = attractor.stream()
-														.filter(e -> e.getOwner() != player)
-														.collect(Collectors.toList());
-
-			Collection<Vertex> opponentEscapeSet = getSuccessorOfNodes(opponentNodes, pg);
-			opponentEscapeSet.removeAll(attractor);
-
-			// where can opponent escape to, in current subgame
-			Collection<Vertex> opponentCurrentEscapSet = getSuccessorOfNodes(opponentNodes, currentSubgame);
-			opponentCurrentEscapSet.removeAll(attractor);
-
-			if (!playerOpen.isEmpty() || !opponentCurrentEscapSet.isEmpty()) {
-				// if the attractorList is open in current subgame
-				// set region of attractorList to be p
-				for (Vertex node : attractor) {
-					node.setRegion(p);
-				}
-				regionMap.put(p, attractor);
-
-				triggerStep(attractor, Action.SHADE, player,"locally open, set regional priority of attractor");
-
-				// update currentSubgame and p, continue with the next highest priority
-				currentSubgame = computeSubgame(currentSubgame, attractor);
-				p = getHighestPriority(currentSubgame);
-
-			} else if (!opponentEscapeSet.isEmpty()) {
-				// the attractor is closed in current subgame, but open in original game
-				// promote attractor, reset region priority for some nodes
-				p = getLowestRegionalPriority(new ArrayList<>(opponentEscapeSet));
-				// promote the attractor to the lowest region that it can go to
-				for (Vertex node : attractor) {
-					node.setRegion(p);
-				}
-				regionMap.get(p).addAll(attractor);
-				triggerStep(regionMap.get(p), Action.HIGHLIGHT, p % 2, "locally closed & globally open, promote the attractor");
-
-				// reset the region priority of the  nodes with region < p
-				Collection<Vertex> toNeutralize = new ArrayList<>();
-				for (Vertex node : pg.getVertices()) {
-					if (node.getRegion() < p) {
-						if (regionMap.containsKey(node.getRegion())) {
-							toNeutralize.addAll(regionMap.get(node.getRegion()));
-							regionMap.remove(node.getRegion());
-						}
-						node.setRegion(node.getPriority());
-					}
-				}
-
-				if (toNeutralize.size() != 0) {
-					triggerStep(toNeutralize, Action.NEUTRALIZE, -1, "reset nodes with region < " + p);
-				}
-
-				// update current subgame for next iter
-				currentSubgame = computeSubGame(pg, p);
-			} else {
-				// the attractor is closed in the original game
-				Map<Integer, Collection<Vertex>> dominion = new HashMap<>();
-				dominion.put(player, attractor);
-
-				triggerStep(attractor, Action.SHADE, player, "globally closed, dominion found!");
-
-				return dominion;
-			}
-		}
-	}
-
-	/**
-	 * Given a base for attraction, and a list of node that is available (present in current subgame), and a player, 
-	 * return the list of attractor nodes.
-	 * @param base: 	 the base for computing attractor nodes
-	 * @param available: the nodes that remains in the current subgame
-	 * @param player: 	 the player that the attractor is computed for
-	 * @return a list of nodes that is the attractor of the base (including base themselves) 
-	 */
-	public Collection<Vertex> getAttractor(Game currentSubgame, Collection<Vertex> base, Collection<Vertex> available, int player){
-		
-		if (base.size() == available.size()) {
-			return base;
-		}
-		
-		Map<Vertex, List<Vertex>> inMap = currentSubgame.getInMap();
-		
-		List<Vertex> attractor = new ArrayList<>(base);      // shallow copy
-		List<Vertex> queue = new ArrayList<>(base);   	   // shallow copy
-		
-		while (!queue.isEmpty()) {
-			Vertex v = queue.remove(0);
-			
-			if (inMap.containsKey(v)) {
-				
-				for (Vertex u: inMap.get(v)) {
-					
-					// the node should be in current subgame, and not in current attractorList
-					if (available.contains(u) && !attractor.contains(u)) {
-						
-						if (u.getOwner() == player) {
-							// node belongs to player, can strategically move to v
-							// TODO: set player's strategy (?)
-							attractor.add(u);
-							queue.add(u);
-						} else {
-							// node belongs to opponent, 
-							// if all of its successor (in current game) is contained in attractorList, 
-							// then the node have no choice but enter the attractor area, add it to attractor
-							List<Vertex> whereCanOpponentGo = currentSubgame.getOutMap().get(u)
-																			.stream() 
-															 				.filter(available::contains)   // in current subgame
-																			.collect(Collectors.toList());
-							
-							if (attractor.containsAll(whereCanOpponentGo)) {
-								attractor.add(u);
-								queue.add(u);
-							}
-						}
-					}
-				}
-			}
-
-		}
-		return attractor;
-	}
-	
-
-
-	private void triggerStep(Collection<Vertex> vertices, Action command, Integer parity, String msg){
-		System.out.println("In trigger step!");
-		System.out.println("" + vertices + "; " + command + "; " + parity + "; " + msg);
-
-		Collection<Integer> ids = vertices.stream().map(e -> e.getId()).collect(Collectors.toList());
-
-		steps.add(new Step(ids, command, parity, msg));
-
-
-	}
-
-	/**
-	 * Compute the subgame after removing nodes with regional priority **larger** than p. 
-	 */
-	public Game computeSubGame(Game pg, int p) {
-		List<Vertex> toRemove = pg.getVertices().stream()
-													 .filter(e -> e.getRegion() > p)
-													 .collect(Collectors.toList());
-		return computeSubgame(pg, toRemove);
-	}
-	
-	/**
-	 * Compute the subgame after removing a collection of nodes.
-	 * This includes removing all the edges associated with the removed nodes. 
-	 */
-	public Game computeSubgame(Game pg, Collection<Vertex> toRemove) {
-		Collection<Vertex> nodes = new ArrayList<>(pg.getVertices());
-		nodes.removeAll(toRemove);
-		
-		Map<Vertex, List<Vertex>> newOutMap = new HashMap<>(pg.getOutMap());
-		
-		Iterator<Map.Entry<Vertex, List<Vertex>>> iter = newOutMap.entrySet().iterator();
-		while (iter.hasNext()) {
-		    Map.Entry<Vertex, List<Vertex>> entry = iter.next();
-
-		    if (toRemove.contains(entry.getKey())) {
-			    // if the fromNode is in toRemove, remove the entry
-		    	iter.remove();
-		    } else {
-		    	// should keep the entry, but probably update the value
-				List<Vertex> targets = new ArrayList<>(entry.getValue());
-				targets.removeAll(toRemove);
-				
-				if (targets.size() == 0) {
-					iter.remove();
-				} else {
-					// update entry value
-					entry.setValue(targets);
-				}
-			}
-		}
-		
-		return new Game(nodes, newOutMap);
-	}
-	
-	private static int getLowestRegionalPriority(List<Vertex> nodes) {
-		int p = nodes.get(0).getRegion();
-		for (int i = 1; i < nodes.size(); i++) {
-			if (nodes.get(i).getRegion() < p) {
-				p = nodes.get(i).getRegion();
-			}
-		}
-		return p;
-	}
-	
-	/**
-	 * return the union of the successors for each node in nodes
-	 */
-	private Collection<Vertex> getSuccessorOfNodes(Collection<Vertex> nodes, Game pg){
-		Collection<Vertex> result = new HashSet<>();
-		for (Vertex node : nodes) {
-			List<Vertex> succ = pg.getOutMap().get(node);
-			result.addAll(succ);
-		}
-		return result;
-	}
-	
-	
-	private boolean noIntersection(Collection<Vertex> list1, Collection<Vertex> list2) {
-		Collection<Vertex> intersection = list1.stream()
-												 .filter(list2::contains)
-												 .collect(Collectors.toList());
-		return intersection.isEmpty();
-	}
-	
-	/**
-	 * Set the region priority of each node to the node's own priority
-	 */
-	private void resetRegionPriority(Game pg) {
-		for (Vertex node: pg.getVertices()) {
-			node.setRegion(node.getPriority());
-		}
-	}
-
-	private int getHighestPriority(Game pg) {
-		int p = -1;
-		for (Vertex v : pg.getVertices()) {
-			if (v.getPriority() > p) {
-				p = v.getPriority();
-			}
-		}
-		return p;
-	}
-
-	public int getWinner(Vertex v) {
-		return winnerMap.get(v);
-	}
-
-	public Vertex getStrategy(Vertex v){
-		return null;
-	}
-
-	public Map<Vertex, Integer> getWinnerMap() {
-		return winnerMap;
-	}
-
-	public Collection<Step> getSteps() {
-		return steps;
-	}
-}
+//package algorithms;
+//
+//import com.google.gson.Gson;
+//import com.google.gson.reflect.TypeToken;
+//import model.Game;
+//import model.Step;
+//import model.Step.Action;
+//import model.Vertex;
+//
+//import java.lang.reflect.Type;
+//import java.util.*;
+//import java.util.stream.Collectors;
+//
+///**
+// * Algorithm priority promotion.
+// * This class contains some methods that might be specific to priority promotion,
+// * for example, **reset the priority of all nodes / reset priority of a subset of nodes**,
+// * and **get the successor of a set of node**,
+// * Currently not sure if they are specific only to priority promotion,
+// * if other algorithms also need these functionalities, consider moving them to class Game.
+// */
+//public class PriorityPromotion implements Algorithm{
+//
+//	private static int p;
+//    private final Map<Vertex, Integer> winnerMap = new HashMap<>();
+//	private final Map<Vertex, Vertex> strategyMap = new HashMap<>();
+//    private List<List<Map<String,String>>> steps = new ArrayList<>();
+//
+//    private final List<Map<String,String>> gameStatus = new ArrayList<>();
+//	// strings for the status of a node
+//    private final String NEUTRAL = "NEUTRAL";
+//    private final String HIGHLIGHTED = "HIGHLIGHTED";
+//    private final String SHADED = "SHADED";
+//
+//
+//	public void solve(Game pg){
+//		initGameStatus(pg);
+//
+//		List<Vertex> allNodes = new ArrayList<>(pg.getVertices());
+//		Game currentSubgame = pg;
+//
+//		while (!allNodes.isEmpty()) {
+//			// find a dominion, and extend it with its attractors
+//			Map<Integer, Collection<Vertex>> dominionMap = findDominion(currentSubgame);
+//			Map.Entry<Integer, Collection<Vertex>> entry = dominionMap.entrySet().iterator().next(); // the first and only entry
+//			int player = entry.getKey();
+//			Collection<Vertex> dominion = entry.getValue();
+//			Collection<Vertex> dominionAndItsAttractor = getAttractor(currentSubgame, dominion, currentSubgame.getVertices(), player);
+//
+//			triggerStep(dominionAndItsAttractor, Action.HIGHLIGHT, player, "dominion and its attractor");
+//
+//
+//			for (Vertex v : dominionAndItsAttractor) {
+//				// record winners for  each node
+//				winnerMap.put(v, player);
+//
+//				// set strategy for nodes within dominionAndItsAttractor if node owner and winner is the same
+//				// the strategy is to move within dominionAndItsAttractor
+//				if (v.getOwner() == player) {
+//					for (Vertex out : pg.getOutMap().get(v)) {
+//						if (dominionAndItsAttractor.contains(out)) {
+//							strategyMap.put(v, out);
+//							break;
+//						}
+//					}
+//				}
+//			}
+//
+//			// update subgame by removing all the node and relevant edges of dominionAndItsAttractor from currentSubgame
+//			allNodes.removeAll(dominionAndItsAttractor);
+//			currentSubgame = computeSubgame(currentSubgame, dominionAndItsAttractor);
+//
+//			triggerStep(dominionAndItsAttractor, Action.SHADE, player, "");
+//		}
+//	}
+//
+//
+//
+//	private void initGameStatus(Game pg){
+//		Collection<Vertex> vertices = pg.getVertices();
+//		for (Vertex v : vertices) {
+//			Map<String, String> nodeStatus = new HashMap<>();
+//			nodeStatus.put("id", "" + v.getId());
+//			nodeStatus.put("region", "" + v.getPriority()); // init regional priority is node priority
+//			nodeStatus.put("status", NEUTRAL);
+//
+//			gameStatus.add(v.getId(), nodeStatus);  // node i is at index i of gameStatus
+//		}
+//	}
+//
+//	/**
+//	 * Given a parity game, return a pair, where the key is the player, the value is the list of nodes
+//	 * starting from which the player can make sure to win.
+//	 * @param pg
+//	 * @return
+//	 */
+//	public Map<Integer, Collection<Vertex>> findDominion(Game pg){
+//		resetRegionPriority(pg);
+//		Map<Integer, Collection<Vertex>> regionMap = new HashMap<>();
+//
+//		p = getHighestPriority(pg);
+//		Game currentSubgame = pg;
+//
+//		while (true) {
+//			int player = p % 2;
+//			// nodes of the current subgame
+//			Collection<Vertex> available = currentSubgame.getVertices();
+//			// the base for computing attractor, that is
+//			// nodes within current subgame that has nodal priority / regional priority equal to p
+//			Collection<Vertex> base =  available.stream()
+//					 					  .filter(e -> e.getPriority() == p || e.getRegion() == p)
+//										  .collect(Collectors.toList());
+//
+//			triggerStep(base, HIGHLIGHTED,  p, "base");
+//
+//			// within current subgame,
+//			// for player's node:   if it can go to base?  add
+//			// for opponent's node: if it must go to base? add
+//			Collection<Vertex> attractor = getAttractor(currentSubgame, base, available, player);
+//
+//			triggerStep(attractor, Action.HIGHLIGHT, player, "attractor");
+//
+//			// among player's node within attractor, those who must escape attractor
+//			Collection<Vertex> playerOpen = attractor.stream()
+//													.filter(e -> e.getOwner() == player &&
+//															noIntersection(pg.getOutMap().get(e), attractor))
+//													.collect(Collectors.toList());
+//
+//			// among (successor of (opponent's node in attractor)), those who are outside attractor
+//			// (ie. where can opponent escape to, in original game)
+//			Collection<Vertex> opponentNodes = attractor.stream()
+//														.filter(e -> e.getOwner() != player)
+//														.collect(Collectors.toList());
+//
+//			Collection<Vertex> opponentEscapeSet = getSuccessorOfNodes(opponentNodes, pg);
+//			opponentEscapeSet.removeAll(attractor);
+//
+//			// where can opponent escape to, in current subgame
+//			Collection<Vertex> opponentCurrentEscapSet = getSuccessorOfNodes(opponentNodes, currentSubgame);
+//			opponentCurrentEscapSet.removeAll(attractor);
+//
+//			if (!playerOpen.isEmpty() || !opponentCurrentEscapSet.isEmpty()) {
+//				// if the attractorList is open in current subgame
+//				// set region of attractorList to be p
+//				for (Vertex node : attractor) {
+//					node.setRegion(p);
+//				}
+//				regionMap.put(p, attractor);
+//
+//				triggerStep(attractor, Action.SHADE, player,"locally open, set regional priority of attractor");
+//
+//				// update currentSubgame and p, continue with the next highest priority
+//				currentSubgame = computeSubgame(currentSubgame, attractor);
+//				p = getHighestPriority(currentSubgame);
+//
+//			} else if (!opponentEscapeSet.isEmpty()) {
+//				// the attractor is closed in current subgame, but open in original game
+//				// promote attractor, reset region priority for some nodes
+//				p = getLowestRegionalPriority(new ArrayList<>(opponentEscapeSet));
+//				// promote the attractor to the lowest region that it can go to
+//				for (Vertex node : attractor) {
+//					node.setRegion(p);
+//				}
+//				regionMap.get(p).addAll(attractor);
+//				triggerStep(regionMap.get(p), Action.HIGHLIGHT, p % 2, "locally closed & globally open, promote the attractor");
+//
+//				// reset the region priority of the  nodes with region < p
+//				Collection<Vertex> toNeutralize = new ArrayList<>();
+//				for (Vertex node : pg.getVertices()) {
+//					if (node.getRegion() < p) {
+//						// reset region
+//						if (regionMap.containsKey(node.getRegion())) {
+//							toNeutralize.addAll(regionMap.get(node.getRegion()));
+//							regionMap.remove(node.getRegion());
+//						}
+//						node.setRegion(node.getPriority());
+//					}
+//				}
+//
+//				if (toNeutralize.size() != 0) {
+//					triggerStep(toNeutralize, Action.NEUTRALIZE, -1, "reset nodes with region < " + p);
+//				}
+//
+//				// update current subgame for next iter
+//				currentSubgame = computeSubGame(pg, p);
+//			} else {
+//				// the attractor is closed in the original game
+//				Map<Integer, Collection<Vertex>> dominion = new HashMap<>();
+//				dominion.put(player, attractor);
+//
+//				triggerStep(attractor, Action.SHADE, player, "globally closed, dominion found!");
+//
+//				return dominion;
+//			}
+//		}
+//	}
+//
+//	/**
+//	 * Given a base for attraction, and a list of node that is available (present in current subgame), and a player,
+//	 * return the list of attractor nodes.
+//	 * @param base: 	 the base for computing attractor nodes
+//	 * @param available: the nodes that remains in the current subgame
+//	 * @param player: 	 the player that the attractor is computed for
+//	 * @return a list of nodes that is the attractor of the base (including base themselves)
+//	 */
+//	public Collection<Vertex> getAttractor(Game currentSubgame, Collection<Vertex> base, Collection<Vertex> available, int player){
+//
+//		if (base.size() == available.size()) {
+//			return base;
+//		}
+//
+//		Map<Vertex, List<Vertex>> inMap = currentSubgame.getInMap();
+//
+//		List<Vertex> attractor = new ArrayList<>(base);      // shallow copy
+//		List<Vertex> queue = new ArrayList<>(base);   	     // shallow copy
+//
+//		while (!queue.isEmpty()) {
+//			Vertex v = queue.remove(0);
+//
+//			if (inMap.containsKey(v)) {
+//
+//				for (Vertex u: inMap.get(v)) {
+//
+//					// the node should be in current subgame, and not in current attractorList
+//					if (available.contains(u) && !attractor.contains(u)) {
+//
+//						if (u.getOwner() == player) {
+//							// node belongs to player, can strategically move to v
+//							attractor.add(u);
+//							queue.add(u);
+//
+//						} else {
+//							// node belongs to opponent,
+//							// if all of its successor (in current game) is contained in attractorList,
+//							// then the node have no choice but enter the attractor area, add it to attractor
+//							List<Vertex> whereCanOpponentGo = currentSubgame.getOutMap().get(u)
+//																			.stream()
+//															 				.filter(available::contains)   // in current subgame
+//																			.collect(Collectors.toList());
+//
+//							if (attractor.containsAll(whereCanOpponentGo)) {
+//								attractor.add(u);
+//								queue.add(u);
+//							}
+//						}
+//					}
+//				}
+//			}
+//
+//		}
+//		return attractor;
+//	}
+//
+//
+//
+//	private void triggerStep(Collection<Vertex> focus, String command, Integer priority, String msg){
+//		System.out.println("In trigger step!");
+//		System.out.println("" + focus + "; " + command + "; " + priority + "; " + msg);
+//
+//
+//
+//		// modify gameStatus
+//		for (Vertex v : focus) {
+//			Map<String, String> nodeStatus = gameStatus.get(v.getId());
+//			nodeStatus.put("region", "" + priority);
+//			nodeStatus.put("status", command);
+//		}
+//
+//		// construct updateStatus
+//
+//
+//		// add message
+//
+//		Collection<Integer> ids = focus.stream().map(e -> e.getId()).collect(Collectors.toList());
+//
+//		steps.add(new Step(ids, command, parity, msg));
+//
+//
+//	}
+//
+//	/**
+//	 * Compute the subgame after removing nodes with regional priority **larger** than p.
+//	 */
+//	public Game computeSubGame(Game pg, int p) {
+//		List<Vertex> toRemove = pg.getVertices().stream()
+//													 .filter(e -> e.getRegion() > p)
+//													 .collect(Collectors.toList());
+//		return computeSubgame(pg, toRemove);
+//	}
+//
+//	/**
+//	 * Compute the subgame after removing a collection of nodes.
+//	 * This includes removing all the edges associated with the removed nodes.
+//	 */
+//	public Game computeSubgame(Game pg, Collection<Vertex> toRemove) {
+//		Collection<Vertex> nodes = new ArrayList<>(pg.getVertices());
+//		nodes.removeAll(toRemove);
+//
+//		Map<Vertex, List<Vertex>> newOutMap = new HashMap<>(pg.getOutMap());
+//
+//		Iterator<Map.Entry<Vertex, List<Vertex>>> iter = newOutMap.entrySet().iterator();
+//		while (iter.hasNext()) {
+//		    Map.Entry<Vertex, List<Vertex>> entry = iter.next();
+//
+//		    if (toRemove.contains(entry.getKey())) {
+//			    // if the fromNode is in toRemove, remove the entry
+//		    	iter.remove();
+//		    } else {
+//		    	// should keep the entry, but probably update the value
+//				List<Vertex> targets = new ArrayList<>(entry.getValue());
+//				targets.removeAll(toRemove);
+//
+//				if (targets.size() == 0) {
+//					iter.remove();
+//				} else {
+//					// update entry value
+//					entry.setValue(targets);
+//				}
+//			}
+//		}
+//
+//		return new Game(nodes, newOutMap);
+//	}
+//
+//	private static int getLowestRegionalPriority(List<Vertex> nodes) {
+//		int p = nodes.get(0).getRegion();
+//		for (int i = 1; i < nodes.size(); i++) {
+//			if (nodes.get(i).getRegion() < p) {
+//				p = nodes.get(i).getRegion();
+//			}
+//		}
+//		return p;
+//	}
+//
+//	/**
+//	 * return the union of the successors for each node in nodes
+//	 */
+//	private Collection<Vertex> getSuccessorOfNodes(Collection<Vertex> nodes, Game pg){
+//		Collection<Vertex> result = new HashSet<>();
+//		for (Vertex node : nodes) {
+//			List<Vertex> succ = pg.getOutMap().get(node);
+//			result.addAll(succ);
+//		}
+//		return result;
+//	}
+//
+//
+//	private boolean noIntersection(Collection<Vertex> list1, Collection<Vertex> list2) {
+//		Collection<Vertex> intersection = list1.stream()
+//												 .filter(list2::contains)
+//												 .collect(Collectors.toList());
+//		return intersection.isEmpty();
+//	}
+//
+//	/**
+//	 * Set the region priority of each node to the node's own priority
+//	 */
+//	private void resetRegionPriority(Game pg) {
+//		for (Vertex node: pg.getVertices()) {
+//			node.setRegion(node.getPriority());
+//		}
+//	}
+//
+//	private int getHighestPriority(Game pg) {
+//		int p = -1;
+//		for (Vertex v : pg.getVertices()) {
+//			if (v.getPriority() > p) {
+//				p = v.getPriority();
+//			}
+//		}
+//		return p;
+//	}
+//
+//	public int getWinner(Vertex v) {
+//		return winnerMap.get(v);
+//	}
+//
+//	public Vertex getStrategy(Vertex v){
+//		return null;
+//	}
+//
+//	public Map<Vertex, Integer> getWinnerMap() {
+//		return winnerMap;
+//	}
+//
+//	public Collection<Step> getSteps() {
+//		return steps;
+//	}
+//
+//	public Map<Vertex, Vertex> getStrategyMap() {
+//		return strategyMap;
+//	}
+//}
