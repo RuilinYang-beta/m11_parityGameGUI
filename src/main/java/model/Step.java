@@ -1,55 +1,47 @@
 package model;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Collection;
 
 @XmlRootElement
 public class Step {
 
-    private Collection<Integer> focus;
-    private Action action;
-    private Integer type;
-    private String msg;   // the message to display to log steps
+    // all nodes, all attributes
+    // the attribute is pre-determined per algorithm (so that client knows how to parse it)
+    private GameStatus game;
+    // some nodes, all attributes
+    private GameStatus update;
+    // the message to display to log steps
+    private String msg;
 
     public Step(){
 
     }
 
-    public Step(Collection<Integer> focus, Action action, int type, String msg){
-        this.focus = focus;
-        this.action = action;
-        this.type = type;
+    public Step(GameStatus game, String msg) {
+        this.game = game;
         this.msg = msg;
     }
 
-    public enum Action{
-        HIGHLIGHT,
-        SHADE,
-        NEUTRALIZE
+    public Step(GameStatus game, GameStatus update, String msg) {
+        this.game = game;
+        this.update = update;
+        this.msg = msg;
     }
 
-    public Collection<Integer> getFocus() {
-        return focus;
+    public GameStatus getGame() {
+        return game;
     }
 
-    public void setFocus(Collection<Integer> focus) {
-        this.focus = focus;
+    public void setGame(GameStatus game) {
+        this.game = game;
     }
 
-    public Action getAction() {
-        return action;
+    public GameStatus getUpdate() {
+        return update;
     }
 
-    public void setAction(Action action) {
-        this.action = action;
-    }
-
-    public Integer getType() {
-        return type;
-    }
-
-    public void setType(Integer type) {
-        this.type = type;
+    public void setUpdate(GameStatus update) {
+        this.update = update;
     }
 
     public String getMsg() {
@@ -60,7 +52,7 @@ public class Step {
         this.msg = msg;
     }
 
-    public String toString() {
-        return "" + focus + "; " + action + "; " + type + "; " + msg;
+    public String toString(){
+        return "Game: " + this.game + ";\nUpdate: " + this.update + ";\nmsg: " + this.msg;
     }
 }
