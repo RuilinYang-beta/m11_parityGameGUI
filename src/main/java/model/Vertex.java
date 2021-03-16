@@ -4,7 +4,7 @@ public class Vertex {
     private int id;
     private int priority;
     private int owner;
-    private String label;
+    private String label;  // sometimes in the .pg file there's init label for a node
     private Integer region = null;
 
     // this is necessary

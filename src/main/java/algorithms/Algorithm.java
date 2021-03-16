@@ -11,16 +11,11 @@ public interface Algorithm {
 
     void solve(Game pg);
 
-    int getWinner(Vertex v);
+    String getWinner(Vertex v);
 
-    Vertex getStrategy(Vertex v);
-
-    // temp method
-    Map<Vertex, Integer> getWinnerMap();
+    String getStrategy(Vertex v);
 
     // temp method
     Collection<Step> getSteps();
 
-    // temp method
-    Map<Vertex, Vertex> getStrategyMap();
 }

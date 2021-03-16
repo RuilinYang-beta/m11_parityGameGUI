@@ -3,11 +3,9 @@ package model;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import javax.xml.bind.annotation.XmlRootElement;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -28,19 +26,23 @@ public class GameStatus extends ArrayList<HashMap<String, String>>{
     }
 
 
-//    public GameStatus getDeepCopy(GameStatus original){
-//
-//        List<Map<String, String>> copy = new ArrayList<>();
-//        for (int i = 0; i < status.size(); i++) {
-//            Map<String, String> map = status.get(i);
-//            String jsonString = gson.toJson(map);
-////            System.out.println(jsonString);
-//
-//            Type type = new TypeToken<HashMap<String, String>>(){}.getType();
-//            HashMap<String, String> mapCopy = gson.fromJson(jsonString, type);
-//            list2.add(i, mapCopy);
-//        }
-//        list2.get(0).put("id", "99");
-//        return null;
-//    }
+    /**
+     * Deep copy this object by serialize and deserialize every HashMap inside it.
+     * @return A deep copy of this object.
+     */
+    public GameStatus getDeepCopy(){
+        Gson gson = new Gson();
+        GameStatus copy = new GameStatus();
+
+        for (int i = 0; i < this.size(); i++) {
+            Map<String, String> map = this.get(i);
+            String jsonString = gson.toJson(map);
+
+            Type type = new TypeToken<HashMap<String, String>>(){}.getType();
+            HashMap<String, String> mapCopy = gson.fromJson(jsonString, type);
+            copy.add(i, mapCopy);
+        }
+
+        return copy;
+    }
 }
