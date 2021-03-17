@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>Collapsible sidebar using Bootstrap 4</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="css/sidebar_style.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+
+</head>
+
+<body>
+
+<div class="wrapper">
+    <!-- Sidebar  -->
+    <nav id="sidebar">
+        <div class="sidebar-header">
+            <h3>Oink Visualization</h3>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li class="active">
+                <a href="#graph" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Graph</a>
+                <ul class="collapse list-unstyled" id="graph">
+                    <li>
+                        <a href="#">Type</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="upload()">Import</a>
+                        <input type="file" id="import_file" hidden/>
+                    </li>
+                    <li>
+                        <a href="#">Export</a>
+                    </li>
+                    <li>
+                        <a href="#add_node" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Add Node</a>
+                        <ul class="collapse list-unstyled" id="add_node">
+                            <li>
+                                <a id="addEven" onclick="addEven()" class="dropdown-item" href="#">Even</a>
+                            </li>
+                            <li>
+                                <a id="addOdd"  onclick="addOdd()" class="dropdown-item" href="#">Odd</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="active">
+                <a href="#algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Algorithm</a>
+                <ul class="collapse list-unstyled" id="algorithm">
+                    <li>
+                        <a href="#select_algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Select Algorithm</a>
+                        <ul class="collapse list-unstyled" id="select_algorithm">
+                            <li>
+                                <a href="#">Priority Promotion</a>
+                            </li>
+                            <li>
+                                <a href="#">DFI</a>
+                            </li>
+                            <li>
+                                <a href="#">Other</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+
+            <li class="active">
+                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">rr</a>
+            </li>
+
+
+            <li>
+                <a href="#">About</a>
+            <li>
+            <li>
+                <a href="#">Portfolio</a>
+            </li>
+            <li>
+                <a href="#">Contact</a>
+            </li>
+        </ul>
+
+        <ul class="list-unstyled CTAs">
+            <li>
+                <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- Page Content  -->
+    <div id="content">
+        <button type="button" id="sidebarCollapse" class="btn btn-info">
+            <i class="fas fa-align-left"></i>
+            <span></span>
+        </button>
+
+        <!--speed-->
+        <div class="col-3">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon2">Speed:</span>
+                <input type="number" class="form-control" placeholder="steps/s" aria-label="Username" aria-describedby="basic-addon2">
+            </div>
+        </div>
+
+        <div id="step_controller">
+            <!--start & end-->
+            <div id="start_end">
+                <a href="#" class="col-4">
+                    <img id="start" src="images\play-48dp.svg" alt="play" onclick="tempFunc()">
+                </a>
+                <a href="#" class="col-4">
+                    <img src="images\pause-48dp.svg" alt="pause">
+                </a>
+                <a href="#" class="col-4">
+                    <img src="images\stop-48dp.svg" alt="stop">
+                </a>
+            </div>
+<!--            <div class="col-3">-->
+<!--                &lt;!&ndash;a hidden field to set priority&ndash;&gt;-->
+<!--                <input type="number" id="inputPriority" style="opacity: 0">-->
+<!--                &lt;!&ndash;                            <input type="number" id="inputPriority">&ndash;&gt;-->
+<!--            </div>-->
+            <!--slider and stepper-->
+            <div id="forward_backward">
+
+                <a href="#" class="col-2">
+                    <img src="images\backward-48dp.svg" alt="I'm a link." onclick="step_backward()">
+                </a>
+                <input id="slider" class="col-5 slider" type="range" min="1" max="20" value="15" step="1">
+                <a href="#" class="col-2">
+                    <img src="images\forward-48dp.svg" alt="I'm a link." onclick="step_forward()">
+                </a>
+            </div>
+        </div>
+
+        <!--graph area-->
+        <div id="graph_area" style="position:relative">
+            <div id="cy" class="dropzone"></div>
+            <div id="panel"></div>
+        </div>
+
+    </div>
+</div>
+
+<!-- jQuery CDN - Slim version (=without AJAX) -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<!-- Popper.JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+<!-- jQuery Custom Scroller CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+<!--about cytoscape-->
+<script src="lib/cytoscape.min.js" ></script>
+<!--edge handles-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js"></script>
+<script src="lib/cytoscape-edgehandles.js"></script>
+<!--webcola-->
+<script src="http://marvl.infotech.monash.edu/webcola/cola.min.js"></script>
+<script src="lib/cytoscape-cola.js"></script>
+<!--redo-undo-->
+<script src="lib/cytoscape-undo-redo.js"></script>
+<!--menu-->
+<script src="lib/cytoscape-context-menus.js"></script>
+<!--bootstrap-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+<!--clipboard-->
+<script src="lib/cytoscape-clipboard.js"></script>
+
+<!--customized js-->
+<script src="sidebar.js"></script>
+<script src="graph.js"></script>
+<script src="panel.js"></script>
+<script src="add_node.js"></script>
+<script src="add_edge.js"></script>
+<script src="layout.js"></script>
+<script src="undo_redo.js"></script>
+<script src="menu.js"></script>
+<script src="label.js"></script>
+<script src="cytoscape.js"></script>
+<script src="crud.js"></script>
+<script src="steps.js"></script>
+<script src="import_file.js"></script>
+
+</body>
+
+</html>

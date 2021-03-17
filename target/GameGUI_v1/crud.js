@@ -1,18 +1,14 @@
 baseURL = "http://localhost:8080/rest"
 
-//
-// JSON.stringify(cy.json())
-// { elements: { nodes: [], edges: [] },
-//   style: []
-// }
-
-
 // id:          cy.$(`#${node}`).data().id     --> trim
 // owner:       cy.$(`#${node}`).data().type
 // priority:    cy.$(`#${node}`).style().label
 // out:         cy.$("#node0").neighborhood("node").forEach( e => console.log(e.data().id))
 
-
+/**
+ * When the play button is clicked, this function is triggered, the current graph is serialized
+ * into a .pg file format and send to server.
+ */
 function tempFunc(){
     // only send relevant data to server!
     let nodes = cy.json().elements.nodes;
@@ -24,6 +20,8 @@ function tempFunc(){
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
+                console.log("i'm in");
+                console.log(this.responseText);
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
             }
@@ -39,7 +37,11 @@ function tempFunc(){
 
 }
 
-
+/**
+ * Turn the current nodes on the graph into a string representation.
+ * @param nodesCy
+ * @returns {string}
+ */
 function getGameString(nodesCy){
 
     let gameString = [];
@@ -64,18 +66,13 @@ function getGameString(nodesCy){
         nodeString += focus.neighborhood("edge").filter(e => e.data().source === focusId).map(e => e.data().target.slice(4)).join(",") + ";";
 
         gameString.push(nodeString);
-
-        // TODO: sometimes a node has label in .pg files, deal with it (need enable setting txt label in UI)
     }
 
     gameString.unshift("parity " + gameString.length + ";");
     gameString = gameString.join("\n");
 
-    console.log(gameString);
     return gameString;
 }
-
-
 
 
 

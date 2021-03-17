@@ -40,12 +40,12 @@ let panel = cytoscape({
 
 panel.add({
     data: {id: "a", type: "even"},
-    renderedPosition: {x: 50, y: 100}
+    renderedPosition: {x: 37.5, y: 100}
 })
 
 panel.add({
     data: {id: "b", type: "odd"},
-    renderedPosition: {x: 50, y: 200}
+    renderedPosition: {x: 37.5, y: 200}
 })
 
 panel.add({ data: { id: "a_drag", type: "even" } });
