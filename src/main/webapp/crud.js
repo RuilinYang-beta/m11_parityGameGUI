@@ -21,7 +21,6 @@ function tempFunc(){
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
                 console.log("i'm in");
-                console.log(this.responseText);
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
             }
