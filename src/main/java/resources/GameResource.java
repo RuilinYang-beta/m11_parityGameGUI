@@ -18,15 +18,6 @@ public class GameResource {
     public Collection<Step> parseGame(String gameString){
 
         return Solver.process(gameString, false);
+//        return null;
     }
-
-
-    private static HashMap<String, String> makeMap(List<String> labelList, List<String> dataList){
-        HashMap<String, String> result = new HashMap<>();
-        for (int i = 0; i < labelList.size(); i++){
-            result.put(labelList.get(i), dataList.get(i));
-        }
-        return result;
-    }
-
 }

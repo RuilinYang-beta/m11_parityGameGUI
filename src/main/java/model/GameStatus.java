@@ -10,39 +10,34 @@ import java.util.Map;
 
 
 /**
- * This class tend to save some typing of List<Map<String, String>>.
+ * This class tend to save some typing of HashMap<Integer, HashMap<String, String>>。
  * It's intended to be a generic template to describe the overall status / the update of the game.
  */
-public class GameStatus extends ArrayList<HashMap<String, String>>{
-
+//public class GameStatus extends ArrayList<HashMap<String, String>>{
+public class GameStatus extends HashMap<Integer, HashMap<String, String>>{
 
     public GameStatus(){
         super();
     }
 
-    public GameStatus(HashMap<String, String> map) {
-        super();
-        this.add(map);
-    }
-
 
     /**
-     * Deep copy this object by serialize and deserialize every HashMap inside it.
+     * Deep copy this object by serialize and deserialize every inner HashMap.
      * @return A deep copy of this object.
      */
     public GameStatus getDeepCopy(){
         Gson gson = new Gson();
         GameStatus copy = new GameStatus();
 
-        for (int i = 0; i < this.size(); i++) {
-            Map<String, String> map = this.get(i);
+        for (var entry : this.entrySet()) {
+            int id = entry.getKey();
+            var map = entry.getValue();
             String jsonString = gson.toJson(map);
 
             Type type = new TypeToken<HashMap<String, String>>(){}.getType();
             HashMap<String, String> mapCopy = gson.fromJson(jsonString, type);
-            copy.add(i, mapCopy);
+            copy.put(id, mapCopy);
         }
-
         return copy;
     }
 }

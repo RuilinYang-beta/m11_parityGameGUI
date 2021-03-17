@@ -95,9 +95,9 @@ public class PriorityPromotion implements Algorithm {
 			nodeStatus.put("strategy", null);
 			nodeStatus.put("winner", null);
 			// node i is at index i of gameStatus
-			gameStatus.add(v.getId(), nodeStatus);
+			gameStatus.put(v.getId(), nodeStatus);
 
-			// init region to vertices map, and vertex to region map
+			// init vertex-region map
 			regionMap.put(v, v.getPriority());
 		}
 	}
@@ -287,7 +287,7 @@ public class PriorityPromotion implements Algorithm {
             int id = v.getId();
             // updateStatus share the same set of data with gameStatusCopy
             // they won't be changed later
-            updateStatus.add(gameStatusCopy.get(id));
+            updateStatus.put(id, gameStatusCopy.get(id));
         }
 
 		// construct Step object
