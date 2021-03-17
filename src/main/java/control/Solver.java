@@ -13,11 +13,10 @@ import parser.PGParser.EdgeContext;
 import parser.PGParser.LineContext;
 import parser.PGParser.RootContext;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -26,12 +25,12 @@ public class Solver {
     /**
      * Pares a gameString to a Game object, feed it to an algorithm, and write the output
      */
-    public static Collection<Step> process(String gameString) {
+    public static Collection<Step> process(String gameString, boolean isFilename) {
         Game game;
 
         // first parse the file (given on input)
         try {
-            game = parse(gameString);
+            game = parse(gameString, isFilename);
             if (game == null) return null; // in case of a parsing error
         } catch (FileNotFoundException e) {
             System.err.println("File " + gameString + " not found!");
@@ -47,9 +46,15 @@ public class Solver {
         algorithm.solve(game);
 
         // temp
-        for (var entry : algorithm.getWinnerMap().entrySet()) {
-            System.out.println(entry);
+        System.out.println("winnerMap");
+        for (Vertex v : game.getVertices()){
+            System.out.println("" + v + " won by " + algorithm.getWinner(v));
         }
+        System.out.println("strategyMap");
+        for (Vertex v : game.getVertices()) {
+            System.out.println("" + v + " -> " + algorithm.getStrategy(v));
+        }
+
 
         return algorithm.getSteps();
 
@@ -64,9 +69,21 @@ public class Solver {
     /**
      * takes the string of .pg file, transform it into a Game.
      */
-    public static Game parse(String gameString) throws IOException {
+    public static Game parse(String gameString, boolean isFilename) throws IOException {
 
-        InputStream stream = new ByteArrayInputStream(gameString.getBytes(StandardCharsets.UTF_8));
+        InputStream stream = null;
+
+        if (isFilename) {
+            // when gameString is the path to a file, use for local testing
+            Path filePath = Path.of(gameString);
+            String content = Files.readString(filePath);
+            System.out.println(content);
+            stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
+        } else {
+            // when gameString is the string content of a .pg file
+            stream = new ByteArrayInputStream(gameString.getBytes(StandardCharsets.UTF_8));
+        }
+
         PGLexer l = new PGLexer(CharStreams.fromStream(stream));
         PGParser p = new PGParser(new CommonTokenStream(l));
 
@@ -141,35 +158,30 @@ public class Solver {
 
 
 
+
     public static void main(String[] args) {
-        // the game on slide 119
-        String testGameString = "parity 9;\n" +
-                "0 0 0 1;\n" +
-                "1 2 1 5,0;\n" +
-                "2 7 0 1,6;\n" +
-                "3 1 1 2,4;\n" +
-                "4 5 0 3,8;\n" +
-                "5 8 0 6;\n" +
-                "6 6 0 7;\n" +
-                "7 2 0 3,8;\n" +
-                "8 3 0 7,4;";
-
-        process(testGameString);
-
-//        File f = new File("src/games/testFromSlides.pg");
-//        if (f.isDirectory()) {
-////        	var files = f.listFiles((dir, name) -> name.endsWith(".pg"));
-//            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
+        // ===== option 1: test using a gameString =====
+//        String testGameString = "parity 5;\n" +
+//                "38 0 1 38,39;\n" +
+//                "39 4 1 42,38;\n" +
+//                "40 4 1 41;\n" +
+//                "41 5 0 38,40;\n" +
+//                "42 6 0 41;";
 //
-//
-//            if (files != null) {
-////            	for (var file : files) {
-//                for (File file : files) {
-//                    process(file.getPath());
-//                }
-//            }
-//        } else {
-//            process(f.getPath());
-//        }
+//        process(testGameString, false);
+
+        // ===== option 2: test using a file path =====
+        File f = new File("src/games/dummy.pg");
+        if (f.isDirectory()) {
+            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
+
+            if (files != null) {
+                for (File file : files) {
+                    process(file.getPath(), true);
+                }
+            }
+        } else {
+            process(f.getPath(), true);
+        }
     }
 }

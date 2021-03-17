@@ -1,17 +1,10 @@
 package model;
 
 public class Vertex {
-    // and the model used in actual computing is Vertex and Graph
     private int id;
     private int priority;
     private int owner;
-    private String label;
-    private Integer region = null;
-
-    // this is necessary
-    public Vertex(){
-
-    }
+    private String label;  // sometimes in the .pg file there's init label for a node
 
     public Vertex(int id, int priority, int owner) {
         this.id = id;
@@ -54,14 +47,6 @@ public class Vertex {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public Integer getRegion() {
-        return region;
-    }
-
-    public void setRegion(Integer region) {
-        this.region = region;
     }
 
     public String toString(){

@@ -33,11 +33,20 @@
             <!--two buttons-->
             <div class="row g-1 py-1">
                 <div class="col-6">
-                    <button type="button" class="btn btn-outline-secondary" onclick="upload()">Import Graph</button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="upload()">Import</button>
                     <input type="file" id="import_file" hidden/>
                 </div>
-                <div class="col-6">
-                    <button type="button" class="btn btn-outline-secondary">Generate Graph</button>
+<!--                <div class="col-6">-->
+<!--                    <button type="button" class="btn btn-outline-secondary">Export..</button>-->
+<!--                </div>-->
+                <div class="dropdown col-6">
+                    <button class="btn btn-outline-secondary dropdown-toggle px-4" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                        Export ..
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Export Game</a></li>
+                        <li><a class="dropdown-item" href="#">Export Solution</a></li>
+                    </ul>
                 </div>
             </div>
             <!--log steps-->

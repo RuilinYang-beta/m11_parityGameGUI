@@ -12,7 +12,7 @@ function readSingleFile(e) {
         return;
     }
     if (!file.name.endsWith(".pg")){
-        console.log("please choose a .pg file");
+        alert("please choose a .pg file");
         return;
     }
     var reader = new FileReader();
