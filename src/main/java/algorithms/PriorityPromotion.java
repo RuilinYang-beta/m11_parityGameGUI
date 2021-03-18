@@ -93,6 +93,9 @@ public class PriorityPromotion implements Algorithm {
 			nodeStatus.put("id", "" + v.getId());
 			// init regional priority is node priority
 			nodeStatus.put("region", "" + v.getPriority());
+			// init color is its priority's color
+			nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
+			// init visual effect is neutral, when neutral, color & region attribute doesn't matter
 			nodeStatus.put("effect", Effect.NEUTRAL.toString());
 			// the below two attr is wait to be set
 			nodeStatus.put("strategy", null);
@@ -280,6 +283,7 @@ public class PriorityPromotion implements Algorithm {
 		for (Vertex v : focus) {
 		    int id = v.getId();
 			gameStatus.get(id).put("region", "" + priority);
+			gameStatus.get(id).put("color", (priority % 2 == 0)? "even" : "odd");
 			gameStatus.get(id).put("effect", effect);
 		}
 		GameStatus gameStatusCopy = gameStatus.getDeepCopy();

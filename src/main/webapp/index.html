@@ -43,7 +43,10 @@
                         <input type="file" id="import_file" hidden/>
                     </li>
                     <li>
-                        <a href="#">Export</a>
+                        <a href="#" onclick="exportGame()">Export Game</a>
+                    </li>
+                    <li>
+                        <a href="#" onclick="exportSolution()">Export Solution</a>
                     </li>
                     <li>
                         <a href="#add_node" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Add Node</a>
@@ -121,7 +124,7 @@
             <!--start & end-->
             <div id="start_end">
                 <a href="#" class="col-4">
-                    <img id="start" src="images\play-48dp.svg" alt="play" onclick="tempFunc()">
+                    <img id="start" src="images\play-48dp.svg" alt="play" onclick="post()">
                 </a>
                 <a href="#" class="col-4">
                     <img src="images\pause-48dp.svg" alt="pause">
@@ -196,7 +199,8 @@
 <script src="cytoscape.js"></script>
 <script src="crud.js"></script>
 <script src="steps.js"></script>
-<script src="import_file.js"></script>
+<script src="import.js"></script>
+<script src="export.js"></script>
 
 </body>
 
