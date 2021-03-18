@@ -1,3 +1,5 @@
+// a variable storing current file name
+let currentFile = null;
 
 function upload(){
     $("#import_file").click();
@@ -5,7 +7,11 @@ function upload(){
 
 $("#import_file").change(readSingleFile);
 
+/**
+ * From a event read the content of the file.
+ */
 function readSingleFile(e) {
+    currentFile = null;
     let file = e.target.files[0];
     if (!file) {
         console.log("not file");
@@ -15,10 +21,10 @@ function readSingleFile(e) {
         alert("please choose a .pg file");
         return;
     }
+    currentFile = file.name.split(".")[0];
     var reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function(e) {
-        console.log(reader.result);
         console.log(reader.result.trim());
         addGraphFromString(reader.result.trim());
     };
@@ -26,8 +32,7 @@ function readSingleFile(e) {
 
 
 /**
- * From a gameString as in .pg file, to a graph model displayed.
- * @param gameString
+ * From a gameString as in .pg file, to construct a graph model and display it.
  */
 function addGraphFromString(gameString){
     // a map from the id in the gameString, to the actual id assigned
@@ -47,6 +52,7 @@ function addGraphFromString(gameString){
         edgeMap[quasiId] = nodeArray[3].match(/\d+/g);
         // TODO: sometimes there's label in the .pg file, need to support it
 
+        // add nodes
         let realId = addNodeWithPriority(owner, priority);
         idMap[quasiId] = realId;
     }
