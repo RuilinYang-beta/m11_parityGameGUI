@@ -36,16 +36,13 @@
                     <button type="button" class="btn btn-outline-secondary" onclick="upload()">Import</button>
                     <input type="file" id="import_file" hidden/>
                 </div>
-<!--                <div class="col-6">-->
-<!--                    <button type="button" class="btn btn-outline-secondary">Export..</button>-->
-<!--                </div>-->
                 <div class="dropdown col-6">
                     <button class="btn btn-outline-secondary dropdown-toggle px-4" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
                         Export ..
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Export Game</a></li>
-                        <li><a class="dropdown-item" href="#">Export Solution</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="exportGame()">Export Game</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="exportSolution()">Export Solution</a></li>
                     </ul>
                 </div>
             </div>
@@ -92,7 +89,7 @@
                 <div class="col-4">
                     <div class="row">
                         <a href="#" class="col-4">
-                            <img id="start" src="images\play-48dp.svg" alt="play" onclick="tempFunc()">
+                            <img id="start" src="images\play-48dp.svg" alt="play" onclick="post()">
                         </a>
                         <a href="#" class="col-4">
                             <img src="images\pause-48dp.svg" alt="pause">
@@ -190,7 +187,9 @@
 <script src="cytoscape.js"></script>
 <script src="crud.js"></script>
 <script src="steps.js"></script>
-<script src="import_file.js"></script>
+<script src="import.js"></script>
+<script src="export.js"></script>
+
 
 </body>
 </html>
