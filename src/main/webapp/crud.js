@@ -20,7 +20,6 @@ function tempFunc(){
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
-                console.log("i'm in");
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
             }
@@ -74,4 +73,42 @@ function getGameString(nodesCy){
 }
 
 
+let algorithm;
+let alg_customized_attributes;
 
+/**
+ * Set the algorithm to be run;
+ * Get the attributes of the algorithm as a list of json object;
+ * @param algorithm
+ * @returns {string}
+ */
+function set_algorithm(choice) {
+    algorithm = choice;
+    // todo: post algorithm choice to server
+    get_attributes(algorithm);
+}
+
+/**
+ * Helper Function;
+ * Get the attributes of the algorithm as a list of json object;
+ * @param algorithm
+ * @returns {string}
+ */
+function get_attributes(algorithm) {
+    // http POST
+    let req = new XMLHttpRequest();
+    req.onreadystatechange = function(){
+        if (this.readyState === 4 && this.status === 200) {
+            // the list of attributes
+            // the first element has two values: "true" or "false"
+            // indicating whether the user would like to use common attribute "effect"
+            // the rest elements are names of customized attributes
+            alg_customized_attributes = JSON.parse(this.responseText);
+            console.log(alg_customized_attributes);
+        }
+    };
+
+    req.open("POST", baseURL + "/algorithm", true);
+    req.setRequestHeader("Content-type", "text/plain");
+    req.send(algorithm);
+}

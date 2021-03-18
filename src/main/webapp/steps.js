@@ -1,3 +1,8 @@
+/**
+ * List<> steps: 1.game 2.update
+ * List<> attributes: step forward & backward
+ * **/
+
 let stack = [];
 function step_forward() {
     // point to the desired step

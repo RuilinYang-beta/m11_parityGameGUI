@@ -1,5 +1,7 @@
 package algorithms;
 
+import algorithms.Effect;
+
 import model.Game;
 import model.GameStatus;
 
@@ -27,12 +29,13 @@ public class PriorityPromotion implements Algorithm {
 	private final List<Step> steps = new ArrayList<>();
     // for recording the current status of the whole game
     private final GameStatus gameStatus = new GameStatus();
-	// strings for the status of a node
-    private final String NEUTRAL = "NEUTRAL";
-    private final String HIGHLIGHT = "HIGHLIGHT";
-    private final String SHADE = "SHADE";
 
     private boolean solved = false;
+
+    // attributes of the algorithm
+	private Collection<String> attributes = new ArrayList<>();
+	// whether user would like to use common attribute Effect
+	private boolean effect = false;
 
 	public void solve(Game pg){
 		init(pg);
@@ -66,13 +69,13 @@ public class PriorityPromotion implements Algorithm {
 				}
 			}
 
-            triggerStep(dominionAndItsAttractor, HIGHLIGHT, player, "dominion and its attractor, with strategy");
+            triggerStep(dominionAndItsAttractor, Effect.HIGHLIGHT.toString(), player, "dominion and its attractor, with strategy");
 
 			// update subgame by removing all the node and relevant edges of dominionAndItsAttractor from currentSubgame
 			allNodes.removeAll(dominionAndItsAttractor);
 			currentSubgame = computeSubgame(currentSubgame, dominionAndItsAttractor);
 
-			triggerStep(dominionAndItsAttractor, SHADE, player, "");
+			triggerStep(dominionAndItsAttractor, Effect.SHADE.toString(), player, "");
 		}
         solved = true;
 	}
@@ -90,7 +93,7 @@ public class PriorityPromotion implements Algorithm {
 			nodeStatus.put("id", "" + v.getId());
 			// init regional priority is node priority
 			nodeStatus.put("region", "" + v.getPriority());
-			nodeStatus.put("status", NEUTRAL);
+			nodeStatus.put("effect", Effect.NEUTRAL.toString());
 			// the below two attr is wait to be set
 			nodeStatus.put("strategy", null);
 			nodeStatus.put("winner", null);
@@ -124,14 +127,14 @@ public class PriorityPromotion implements Algorithm {
 					 					  .filter(e -> e.getPriority() == p || regionMap.get(e) == p)
 										  .collect(Collectors.toList());
 
-			triggerStep(base, HIGHLIGHT,  p, "base");
+			triggerStep(base, Effect.HIGHLIGHT.toString(),  p, "base");
 
 			// within current subgame,
 			// for player's node:   if it can go to base?  add
 			// for opponent's node: if it must go to base? add
 			Collection<Vertex> attractor = getAttractor(currentSubgame, base, available, player);
 
-			triggerStep(attractor, HIGHLIGHT, p, "attractor");
+			triggerStep(attractor, Effect.HIGHLIGHT.toString(), p, "attractor");
 
 			// among player's node within attractor, those who must escape attractor
 			Collection<Vertex> playerOpen = attractor.stream()
@@ -160,7 +163,7 @@ public class PriorityPromotion implements Algorithm {
 				}
 				regionMapInv.put(p, attractor);
 
-				triggerStep(attractor, SHADE, p,"locally open, set regional priority of attractor");
+				triggerStep(attractor, Effect.SHADE.toString(), p,"locally open, set regional priority of attractor");
 
 				// update currentSubgame and p, continue with the next highest priority
 				currentSubgame = computeSubgame(currentSubgame, attractor);
@@ -176,7 +179,7 @@ public class PriorityPromotion implements Algorithm {
 				}
 				regionMapInv.get(p).addAll(attractor);
 
-				triggerStep(regionMapInv.get(p), HIGHLIGHT, p, "locally closed & globally open, promote the attractor");
+				triggerStep(regionMapInv.get(p), Effect.HIGHLIGHT.toString(), p, "locally closed & globally open, promote the attractor");
 
 				// reset the region priority of the  nodes with region < p
 				Collection<Vertex> toNeutralize = new ArrayList<>();
@@ -193,7 +196,7 @@ public class PriorityPromotion implements Algorithm {
 				}
 
 				if (toNeutralize.size() != 0) {
-					triggerStep(toNeutralize, NEUTRAL, -1, "reset nodes with region < " + p);
+					triggerStep(toNeutralize, Effect.NEUTRAL.toString(), -1, "reset nodes with region < " + p);
 				}
 
 				// update current subgame for next iter
@@ -203,7 +206,7 @@ public class PriorityPromotion implements Algorithm {
 				Map<Integer, Collection<Vertex>> dominion = new HashMap<>();
 				dominion.put(player, attractor);
 
-				triggerStep(attractor, SHADE, player, "globally closed, dominion found!");
+				triggerStep(attractor, Effect.SHADE.toString(), player, "globally closed, dominion found!");
 
 				return dominion;
 			}
@@ -265,19 +268,19 @@ public class PriorityPromotion implements Algorithm {
 	/**
 	 * Given the nodes that changed from last step, construct a step and add it to steps for later returning to client.
 	 * @param focus: nodes that have gone through change from last step
-	 * @param status: the status that *focus* should change into
+	 * @param effect: the status that *focus* should change into
 	 * @param priority: the priority of the focus nodes
 	 * @param msg: the message of this step
 	 */
-	private void triggerStep(Collection<Vertex> focus, String status, Integer priority, String msg){
+	private void triggerStep(Collection<Vertex> focus, String effect, Integer priority, String msg){
 		System.out.println("In trigger step!");
-		System.out.println("" + focus + "; " + status + "; " + priority + "; " + msg);
+		System.out.println("" + focus + "; " + effect + "; " + priority + "; " + msg);
 
 		// modify gameStatus
 		for (Vertex v : focus) {
 		    int id = v.getId();
 			gameStatus.get(id).put("region", "" + priority);
-			gameStatus.get(id).put("status", status);
+			gameStatus.get(id).put("effect", effect);
 		}
 		GameStatus gameStatusCopy = gameStatus.getDeepCopy();
 
@@ -401,5 +404,24 @@ public class PriorityPromotion implements Algorithm {
 	public Collection<Step> getSteps() {
 		assert(solved);
 		return steps;
+	}
+
+	public void setEffect() {
+		this.effect = true;
+	}
+
+	public Collection<String> getAttributes() {
+		// set common attributes
+		this.setEffect();
+		if (this.effect) {
+			this.attributes.add("true");
+		} else {
+			this.attributes.add("false");
+		}
+
+		// set customized attributes
+		this.attributes.add("region");
+
+		return this.attributes;
 	}
 }

@@ -17,7 +17,7 @@ public class GameResource {
     @Produces(MediaType.APPLICATION_JSON)   // the computed steps
     public Collection<Step> parseGame(String gameString){
 
+        // todo: to be generalized
         return Solver.process(gameString, false);
-//        return null;
     }
 }

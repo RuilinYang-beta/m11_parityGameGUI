@@ -41,6 +41,7 @@ public class Solver {
             return null;
         }
 
+        // todo: to be generalized
         // now we have the vertices, solve the parity game with the freezing-fixed-point-iteration algorithm
         Algorithm algorithm = new PriorityPromotion();
         algorithm.solve(game);

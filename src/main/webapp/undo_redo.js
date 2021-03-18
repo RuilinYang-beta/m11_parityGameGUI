@@ -3,17 +3,17 @@ var ur = cy.undoRedo({
     isDebug: true
 });
 
-cy.on("afterUndo", function (e, name) {
-    document.getElementById("undos").innerHTML += "<span style='color: darkred; font-weight: bold'>Undo: </span> " + name  +"</br>";
-});
-
-cy.on("afterRedo", function (e, name) {
-    document.getElementById("undos").innerHTML += "<span style='color: darkblue; font-weight: bold'>Redo: </span>" + name  +"</br>";
-});
-
-cy.on("afterDo", function (e, name) {
-    document.getElementById("undos").innerHTML += "<span style='color: darkmagenta; font-weight: bold'>Do: </span>" + name  +"</br>";
-});
+// cy.on("afterUndo", function (e, name) {
+//     document.getElementById("undos").innerHTML += "<span style='color: darkred; font-weight: bold'>Undo: </span> " + name  +"</br>";
+// });
+//
+// cy.on("afterRedo", function (e, name) {
+//     document.getElementById("undos").innerHTML += "<span style='color: darkblue; font-weight: bold'>Redo: </span>" + name  +"</br>";
+// });
+//
+// cy.on("afterDo", function (e, name) {
+//     document.getElementById("undos").innerHTML += "<span style='color: darkmagenta; font-weight: bold'>Do: </span>" + name  +"</br>";
+// });
 
 document.addEventListener("keydown", function (e) {
     if(e.which === 46) {
@@ -38,12 +38,12 @@ document.addEventListener("keydown", function (e) {
 
 });
 
-document.getElementById('batchButton').addEventListener("click", function(e){
-    actions = [];
-
-    actions.push({
-        name: "remove",
-        param: cy.$(":selected")
-    });
-    ur.do("batch", actions);
-});
+// document.getElementById('batchButton').addEventListener("click", function(e){
+//     actions = [];
+//
+//     actions.push({
+//         name: "remove",
+//         param: cy.$(":selected")
+//     });
+//     ur.do("batch", actions);
+// });

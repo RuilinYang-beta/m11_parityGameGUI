@@ -18,4 +18,8 @@ public interface Algorithm {
     // temp method
     Collection<Step> getSteps();
 
+    // get list of attributes related to this algorithm
+    // temp method
+    Collection<String> getAttributes();
+
 }
