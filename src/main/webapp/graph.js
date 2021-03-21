@@ -100,5 +100,3 @@ let cy = cytoscape({
     ],
 });
 
-let steps;
-let step_ptr = 0;

@@ -1,7 +1,5 @@
 package algorithms;
 
-import algorithms.Effect;
-
 import model.Game;
 import model.GameStatus;
 
@@ -33,9 +31,9 @@ public class PriorityPromotion implements Algorithm {
     private boolean solved = false;
 
     // attributes of the algorithm
-	private Collection<String> attributes = new ArrayList<>();
-	// whether user would like to use common attribute Effect
-	private boolean effect = false;
+	private Map<String, Collection<String>> attributes = new HashMap<String, Collection<String>>();
+
+
 
 	public void solve(Game pg){
 		init(pg);
@@ -92,7 +90,7 @@ public class PriorityPromotion implements Algorithm {
 			HashMap<String, String> nodeStatus = new HashMap<>();
 			nodeStatus.put("id", "" + v.getId());
 			// init regional priority is node priority
-			nodeStatus.put("region", "" + v.getPriority());
+			nodeStatus.put("color", "" + v.getPriority());
 			nodeStatus.put("effect", Effect.NEUTRAL.toString());
 			// the below two attr is wait to be set
 			nodeStatus.put("strategy", null);
@@ -406,21 +404,14 @@ public class PriorityPromotion implements Algorithm {
 		return steps;
 	}
 
-	public void setEffect() {
-		this.effect = true;
-	}
 
-	public Collection<String> getAttributes() {
-		// set common attributes
-		this.setEffect();
-		if (this.effect) {
-			this.attributes.add("true");
-		} else {
-			this.attributes.add("false");
-		}
+	// todo: to be generalized
+	public Map<String, Collection<String>> getAttributes() {
+		List<String> color = new ArrayList<>();
 
-		// set customized attributes
-		this.attributes.add("region");
+		color.add("even");
+		color.add("odd");
+		this.attributes.put("color", color);
 
 		return this.attributes;
 	}

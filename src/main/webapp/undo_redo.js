@@ -16,7 +16,7 @@ var ur = cy.undoRedo({
 // });
 
 document.addEventListener("keydown", function (e) {
-    if(e.which === 46) {
+    if(e.which === 46 || e.which === 8) {
         var selecteds = cy.$(":selected");
         if (selecteds.length > 0)
             ur.do("remove", selecteds);

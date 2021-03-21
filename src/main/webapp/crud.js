@@ -4,6 +4,7 @@ baseURL = "http://localhost:8080/rest"
 // owner:       cy.$(`#${node}`).data().type
 // priority:    cy.$(`#${node}`).style().label
 // out:         cy.$("#node0").neighborhood("node").forEach( e => console.log(e.data().id))
+let steps;
 
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
@@ -20,10 +21,23 @@ function tempFunc(){
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
+                // save steps
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
+
+                // display steps
+                let elem = document.getElementById("steps_display");
+                elem.innerHTML = "";
+                for (let key in steps) {
+                    elem.innerHTML += "<li class=\"list-group-item\" type=\"button\" id=\"step \"" + key + " onclick=\"jump_to()\">" +
+                        "STEP " + key + ". " +
+                        steps[key].msg +
+                        "</li>";
+                }
             }
         };
+
+        // send http POST request
         req.open("POST", baseURL + "/vertex", true);
         req.setRequestHeader("Content-type", "text/plain");
         req.send(gameString);
@@ -74,7 +88,7 @@ function getGameString(nodesCy){
 
 
 let algorithm;
-let alg_customized_attributes;
+let vis_attributes;
 
 /**
  * Set the algorithm to be run;
@@ -84,8 +98,13 @@ let alg_customized_attributes;
  */
 function set_algorithm(choice) {
     algorithm = choice;
+
     // todo: post algorithm choice to server
+
+    // get visualization attributes
     get_attributes(algorithm);
+
+    // todo: allow user to choose color for attributes
 }
 
 /**
@@ -100,11 +119,8 @@ function get_attributes(algorithm) {
     req.onreadystatechange = function(){
         if (this.readyState === 4 && this.status === 200) {
             // the list of attributes
-            // the first element has two values: "true" or "false"
-            // indicating whether the user would like to use common attribute "effect"
-            // the rest elements are names of customized attributes
-            alg_customized_attributes = JSON.parse(this.responseText);
-            console.log(alg_customized_attributes);
+            vis_attributes = JSON.parse(this.responseText);
+            console.log(vis_attributes);
         }
     };
 

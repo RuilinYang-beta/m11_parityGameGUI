@@ -20,6 +20,6 @@ public interface Algorithm {
 
     // get list of attributes related to this algorithm
     // temp method
-    Collection<String> getAttributes();
+    Map<String, Collection<String>> getAttributes();
 
 }

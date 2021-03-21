@@ -163,15 +163,16 @@ a.article:hover {
 }
 
 #sidebarCollapse {
-    color: #fff;
-    background-color: lightsteelblue;
-    border-color: lightsteelblue;
+    background-color: #6d7fcc;
+    border-color: #6d7fcc;
+    color: white;
 }
 
-#sidebarCollapse:hover {
-    color: #fff;
-    background-color: steelblue;
-    border-color: steelblue;
+#sidebarCollapse:hover,
+#sidebarCollapse:focus {
+    background-color: white;
+    border-color: black;
+    color: #6d7fcc;
 }
 
 
@@ -242,14 +243,87 @@ a.article:hover {
     z-index: 1;
 }
 
+/* ---------------------------------------------------
+    PANEL AREA
+----------------------------------------------------- */
+
 #panel {
-    width: calc(100% - 112px);
+    width: 975px;
     height: 600px;
     position: absolute;
     top: 0px;
     left: 0px;
-
     border: 1px solid steelblue;
-
     z-index: 0;
+}
+
+#add_node {
+    width: 35px;
+    height: 20px;
+    position: absolute;
+    top:300px;
+    left: 8px;
+
+    z-index: 1;
+}
+
+#dropdownMenuButton {
+    background-color: #6d7fcc;
+    color: white;
+}
+
+#dropdownMenuButton:hover,
+#dropdownMenuButton:focus {
+    background-color: white;
+    color: #6d7fcc;
+}
+
+#add_even_odd {
+    width: 35px;
+    position: absolute;
+    min-width: 3.7rem;
+    padding: .5rem 0;
+}
+
+#add_even {
+    width: 35px;
+    height: 30px;
+    padding: .1rem 0.5rem;
+}
+
+#add_odd {
+    width: 35px;
+    height: 30px;
+    padding: .1rem 0.5rem;
+}
+
+#speed_controller {
+    top: 22px;
+    left: 68px;
+    position: absolute;
+}
+
+/* ---------------------------------------------------
+    STEP AREA
+----------------------------------------------------- */
+#steps {
+    height: 600px;
+    position: absolute;
+    left: 974px;
+    width: 326px;
+    z-index: 5;
+    border: 1px solid steelblue;
+    top: 0px;
+    overflow: scroll;
+}
+
+/*.list-group-item {*/
+/*    background-color: #6d7fcc;*/
+/*    color: white;*/
+/*}*/
+
+.list-group-item:hover,
+.list-group-item:focus {
+    background-color: lightgrey;
+    /*color: #6d7fcc;*/
 }

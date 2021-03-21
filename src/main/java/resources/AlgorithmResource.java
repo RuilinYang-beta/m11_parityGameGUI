@@ -17,7 +17,7 @@ public class AlgorithmResource {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)   // the computed steps
-    public Collection<String> getAttributes(String algorithm){
+    public Map<String, Collection<String>> getAttributes(String algorithm){
         // temp use for priority promotion
         // todo: to be generalized
         return new PriorityPromotion().getAttributes();
