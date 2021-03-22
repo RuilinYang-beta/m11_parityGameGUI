@@ -224,7 +224,7 @@ public class DFI implements Algorithm{
     }
 
     // TODO: not finished yet
-    public Collection<String> getAttributes() {
+    public Map<String, Collection<String>> getAttributes() {
         return null;
     }
 }
