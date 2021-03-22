@@ -13,6 +13,13 @@ let steps;
 // `cy.nodes()` returns a generator
 // `cy.json()` give you all the stuffs
 
+
+// `cy.nodes()` have access to the style().label (priority) of a node
+// `cy.json().elements.nodes` can quickly access id/type of a node but not style
+
+// `cy.nodes()` returns a generator
+// `cy.json()` give you all the stuffs
+
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
  * into a string of .pg file format and send to server.
@@ -159,7 +166,6 @@ function get_attributes(algorithm) {
 /**
  * Helper function of getGameString()
  */
-
 function getIndex(wanted, array) {
     let idx = array.findIndex(e => e === wanted);
     if (idx === -1) {
