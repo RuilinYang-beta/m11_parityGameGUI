@@ -26,8 +26,8 @@ function addEven(){
 
     // id counter ++
     i = i + 1;
-
-    cy.layout({name: 'cola', colasetting}).run();
+    if (auto_organizing)
+        cy.layout({name: 'cola', colasetting}).run();
 }
 
 function addOdd(){
@@ -56,8 +56,10 @@ function addOdd(){
 
     // id counter ++
     i = i + 1;
+    if (auto_organizing)
+        cy.layout({name: 'cola', colasetting}).run();
 
-    cy.layout({name: 'cola', colasetting}).run();
+
 }
 
 

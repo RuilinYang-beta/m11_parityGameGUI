@@ -11,12 +11,10 @@ import java.util.*;
 
 @Path("/vertex")
 public class GameResource {
-
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)   // the computed steps
     public Collection<Step> parseGame(String gameString){
-
         // todo: to be generalized
         return Solver.process(gameString, false);
     }
