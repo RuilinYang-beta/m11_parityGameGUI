@@ -6,12 +6,18 @@ baseURL = "http://localhost:8080/rest"
 // out:         cy.$("#node0").neighborhood("node").forEach( e => console.log(e.data().id))
 let steps;
 
+
+// `cy.nodes()` have access to the style().label (priority) of a node
+// `cy.json().elements.nodes` can quickly access id/type of a node but not style
+
+// `cy.nodes()` returns a generator
+// `cy.json()` give you all the stuffs
+
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
- * into a .pg file format and send to server.
+ * into a string of .pg file format and send to server.
  */
-function tempFunc(){
-    // only send relevant data to server!
+function post(){
     let nodes = cy.json().elements.nodes;
 
     if (typeof nodes !== undefined) {
@@ -22,6 +28,7 @@ function tempFunc(){
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
                 // save steps
+                console.log("i'm in");
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
 
@@ -40,23 +47,27 @@ function tempFunc(){
         // send http POST request
         req.open("POST", baseURL + "/vertex", true);
         req.setRequestHeader("Content-type", "text/plain");
+        console.log(gameString);
         req.send(gameString);
 
     } else {
         console.log("add node first!");
     }
-
-
 }
 
+
 /**
- * Turn the current nodes on the graph into a string representation.
- * @param nodesCy
+ * Turn the current graph into a string representation, depending on the usage of the gameString,
+ * the id of each node might need to change. If it is for posting to server, no change needed;
+ * if it is for save to a file at client side, the ids will change to fill any hole. For example,
+ * if the ids of the nodes are [77,78,83,101], the exported file will have ids [0,1,2,3].
  * @returns {string}
  */
-function getGameString(nodesCy){
+function getGameString(nodesCy, forPost=true){
 
     let gameString = [];
+    let ids = nodesCy.filter(e => e.data().type === "odd" || e.data().type === "even")
+                     .map(e => parseInt(e.data().id.match(/\d+/g)));
 
     // populate nodesJSON
     for (let i = 0; i < nodesCy.length; i++){
@@ -69,16 +80,32 @@ function getGameString(nodesCy){
         let focusId = focus.data().id;
 
         // id
-        nodeString += focusId.slice(4) + " ";
+        let id = parseInt(focusId.match(/\d+/g));
+        if (!forPost) {
+            id = getIndex(id, ids);
+        }
+        nodeString += id + " ";
         // priority
         nodeString += focus.style().label + " ";
         // owner
         nodeString += (focus.data().type === "even") ? "0 " : "1 ";
-        // outs
-        nodeString += focus.neighborhood("edge").filter(e => e.data().source === focusId).map(e => e.data().target.slice(4)).join(",") + ";";
+        // outs, a list of number string
+        let outs = focus.neighborhood("edge")
+                        .filter(e => e.data().source === focusId)
+                        .map(e => parseInt(e.data().target.match(/\d+/g)));
+        if (!forPost) {
+            outs = outs.map(e => getIndex(e, ids));
+        }
+        nodeString += outs.join(",") + ";";
 
+        // ids.push(id);
         gameString.push(nodeString);
     }
+
+    // sort gameString by id, in some cases the order of the id will be messed up
+    gameString = gameString.sort((a, b) => {
+        return +(a.split(" ")[0]) - +(b.split(" ")[0])
+    });
 
     gameString.unshift("parity " + gameString.length + ";");
     gameString = gameString.join("\n");
@@ -127,4 +154,16 @@ function get_attributes(algorithm) {
     req.open("POST", baseURL + "/algorithm", true);
     req.setRequestHeader("Content-type", "text/plain");
     req.send(algorithm);
+}
+
+/**
+ * Helper function of getGameString()
+ */
+
+function getIndex(wanted, array) {
+    let idx = array.findIndex(e => e === wanted);
+    if (idx === -1) {
+        throw "it's not in the array!"
+    }
+    return idx;
 }

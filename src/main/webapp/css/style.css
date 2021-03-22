@@ -327,3 +327,33 @@ a.article:hover {
     background-color: lightgrey;
     /*color: #6d7fcc;*/
 }
+
+#ownership {
+    width: 60px;
+    height: 40px;
+    position: absolute;
+    top: 25px;
+    left: 8px;
+    z-index: 999;
+}
+#ownershipButton {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    padding: .35rem .25rem;
+    background-color: #6d7fcc;
+    color: white;
+    border-color: #6c757d;
+    border-radius: .25rem;
+    z-index:999;
+}
+
+#ownershipButton:hover {
+    background-color: white;
+    color: #6d7fcc;
+    cursor: pointer;
+}

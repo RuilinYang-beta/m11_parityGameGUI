@@ -5,7 +5,8 @@ function addEven(){
     cy.add({
             data: {
                 id: 'pnode' + i,
-                type: "compound"
+                type: "compound",
+                selectable: false
             }
         }
     );
@@ -34,7 +35,8 @@ function addOdd(){
     cy.add({
             data: {
                 id: 'pnode' + i,
-                type: "compound"
+                type: "compound",
+                selectable: false
             }
         }
     );
@@ -87,7 +89,8 @@ panel.on("dragfree", "#a_drag", function(evt) {
     cy.add({
         data: {
             id: "pnode" + i,
-            type: "compound"
+            type: "compound",
+            selectable: false
         }
     });
 
@@ -132,7 +135,8 @@ panel.on("dragfree", "#b_drag", function(evt) {
     cy.add({
         data: {
             id: "pnode" + i,
-            type: "compound"
+            type: "compound",
+            selectable: false
         },
     });
 
