@@ -1,6 +1,7 @@
 package control;
 
 import algorithms.Algorithm;
+import algorithms.DFI;
 import algorithms.PriorityPromotion;
 import model.Game;
 import model.Step;
@@ -41,9 +42,9 @@ public class Solver {
             return null;
         }
 
-        // todo: to be generalized
+        // todo: to be generalized --> factory pattern
         // now we have the vertices, solve the parity game with the freezing-fixed-point-iteration algorithm
-        Algorithm algorithm = new PriorityPromotion();
+        Algorithm algorithm = new DFI();
         algorithm.solve(game);
 
         // temp
@@ -172,7 +173,7 @@ public class Solver {
 //        process(testGameString, false);
 
         // ===== option 2: test using a file path =====
-        File f = new File("src/games/test020.pg");
+        File f = new File("src/games/dummy.pg");
         if (f.isDirectory()) {
             File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
 

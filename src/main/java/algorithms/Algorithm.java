@@ -15,7 +15,6 @@ public interface Algorithm {
 
     String getStrategy(Vertex v);
 
-    // temp method
     Collection<Step> getSteps();
 
     // get list of attributes related to this algorithm
