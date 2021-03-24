@@ -36,7 +36,8 @@ function addOdd(){
             data: {
                 id: 'pnode' + i,
                 type: "compound",
-                selectable: false
+                selectable: false,
+
             }
         }
     );
@@ -46,10 +47,14 @@ function addOdd(){
             data: {
                 id: 'node' + i,
                 type: 'odd',
-                parent: 'pnode' + i
+                parent: 'pnode' + i,
+
             }
-        }
+        },
+
+
     );
+
 
     // add listener for setting priority
     addPriorityListener(i);

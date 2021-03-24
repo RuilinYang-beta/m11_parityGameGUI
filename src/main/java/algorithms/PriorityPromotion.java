@@ -31,7 +31,7 @@ public class PriorityPromotion implements Algorithm {
     private boolean solved = false;
 
     // attributes of the algorithm
-	private Map<String, Collection<String>> attributes = new HashMap<String, Collection<String>>();
+	private Collection<Attribute> attributes = new ArrayList<>();
 
 
 
@@ -411,12 +411,13 @@ public class PriorityPromotion implements Algorithm {
 
 
 	// todo: to be generalized
-	public Map<String, Collection<String>> getAttributes() {
-		List<String> color = new ArrayList<>();
+	public Collection<Attribute> getAttributes() {
+		List<String> colorValues = new ArrayList<>();
+		colorValues.add("even");
+		colorValues.add("odd");
 
-		color.add("even");
-		color.add("odd");
-		this.attributes.put("color", color);
+		Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+		this.attributes.add(color);
 
 		return this.attributes;
 	}

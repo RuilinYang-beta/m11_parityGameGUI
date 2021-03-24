@@ -97,6 +97,14 @@ let cy = cytoscape({
                 "text-valign": "center",
             }
         },
+
+        // default opacity of compound node
+        {
+            selector: 'node[type="compound"]',
+            style: {
+                "opacity": 0.65
+            }
+        },
     ],
 });
 

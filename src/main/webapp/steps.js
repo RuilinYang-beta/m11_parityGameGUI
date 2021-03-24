@@ -17,6 +17,13 @@ let selected_attr_colors = {
     }
 };
 
+let effect_to_opacity = {
+    "highlight": 1,
+    "shade": 0.25,
+    "neutralize": 0.65,
+    "neutral": 0.65
+}
+
 /**
  * Displays the next step of the algorithm.
  * **/
@@ -27,50 +34,8 @@ function step_forward() {
     }
     step_ptr += 1;
     let step = steps[step_ptr]["update"];
+    update_style(step);
 
-    // push current states of the nodes to stack
-    // let prev_step = [];
-    // step.forEach(function (item) {
-    //     // collect colors of compound nodes
-    //     let curr = cy.$('#node' + item.id).parent();
-    //     let compound_colors = {};
-    //     while (curr != null) {
-    //         compound_colors.add(curr.style('background-color'));
-    //         curr = curr.parent();
-    //     }
-    //
-    //     // push current states of the nodes to stack
-    //     prev_step.push({
-    //         opacity: cy.$('#node' + item.id).style('opacity'),
-    //         id: 'node' + item.id,
-    //         compound_colors: compound_colors
-    //     });
-    // });
-    // stack.push(prev_step);
-
-    // update status of the nodes
-    for (let key in step) {
-        let node = step[key];
-        // set style of the parent node objects
-        let curr = cy.$('#node' + node.id).parent();
-        let i = 0;
-        // todo: ensure that parent nodes and selected attributes are consistent
-        // iterate the selected attributes and set style according to the updated value.
-        while (curr.length != 0) {
-            console.log(curr);
-            // get corresponding style
-            let attribute = selected_vis_attr[i];
-
-            let updated_value = node[attribute];
-            let color = selected_attr_colors[attribute][updated_value];
-            console.log(color);
-            // set style
-            curr.style("background-color", ""+color);
-            // next parent node object
-            curr = curr.parent();
-            i++;
-        }
-    }
 }
 
 function step_backward() {
@@ -79,18 +44,47 @@ function step_backward() {
         return ;
     }
     step_ptr -= 1;
+    let step = steps[step_ptr]["game"];
+    update_style(step);
 
+}
+
+function update_style(step) {
     // pop previous states of the nodes from stack
-    let prev_step = stack.pop();
+    for (let key in step) {
+        let node = step[key];
+        // set style of the parent node objects
+        let curr = cy.$('#node' + node.id).parent();
+        let i = 0;
+        // get the effect values
+        let opacity = effect_to_opacity[node.effect];
+        while (curr.length !== 0) {
+            console.log(curr);
+            // get corresponding style
+            let attribute = selected_vis_attr[i];
 
-    // restore previous states of the nodes
-    prev_step.forEach(function (item) {
-        console.log(item);
-        cy.$("#pnode" + item.id).style({
-            "background-color": item.color,
-            "opacity": item.highlight
-        });
-    });
+            let updated_value = node[attribute];
+            let color = selected_attr_colors[attribute][updated_value];
+            // Restore default style if the effect is neutralize.
+            if (node.effect == "neutral") {
+                // set style
+                curr.style({
+                    "background-color": null,
+                    "opacity": null
+                });
+            }
+            // Otherwise, set the style.
+            else {
+                curr.style({
+                    "background-color": ""+color,
+                    "opacity": opacity
+                });
+            }
+            // next parent node object
+            curr = curr.parent();
+            i++;
+        }
+    }
 }
 
 function jump_to() {

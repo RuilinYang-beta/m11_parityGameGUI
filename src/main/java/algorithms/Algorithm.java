@@ -19,6 +19,6 @@ public interface Algorithm {
 
     // get list of attributes related to this algorithm
     // temp method
-    Map<String, Collection<String>> getAttributes();
+    Collection<Attribute> getAttributes();
 
 }
