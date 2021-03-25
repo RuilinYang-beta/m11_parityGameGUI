@@ -28,6 +28,7 @@ let effect_to_opacity = {
  * Displays the next step of the algorithm.
  * **/
 function step_forward() {
+
     // point to the desired step
     if (step_ptr >= steps.length - 1) {
         return ;
@@ -40,6 +41,7 @@ function step_forward() {
 
 function step_backward() {
     // point to the desired step
+
     if (step_ptr <= 0) {
         return ;
     }
@@ -87,6 +89,26 @@ function update_style(step) {
     }
 }
 
-function jump_to() {
+function jump_to(i){
+    let value = i.substring(5);
+    step_ptr = parseInt(value, 10);
+    let step = steps[step_ptr]["game"];
+    update_style(step);
 
+    selectChannel(step_ptr);
+}
+
+function updateSlider(value) {
+    step_ptr = parseInt(value, 10);
+    let step = steps[step_ptr]["game"];
+    update_style(step);
+}
+
+function selectChannel(stepNumber) {
+    let listItems = document.getElementById("steps_display").getElementsByTagName("li");
+    var length = listItems.length;
+
+    for (let j = 0; j < length; j++) {
+        listItems[j].className = "" + (j == stepNumber ? "list-group-item selected" : "list-group-item");
+    }
 }

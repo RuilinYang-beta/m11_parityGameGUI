@@ -425,3 +425,7 @@ input:checked + #auto_slider:before {
     border-radius: 50%;
 }
 
+.selected {
+    color: blue;
+    border-left: 4px solid blue;
+}
