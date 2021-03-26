@@ -51,17 +51,6 @@
                     <li>
                         <a href="#" onclick="exportSolution()">Export Solution</a>
                     </li>
-<!--                    <li>-->
-<!--                        <a href="#add_node" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Add Node</a>-->
-<!--                        <ul class="collapse list-unstyled" id="add_node">-->
-<!--                            <li>-->
-<!--                                <a id="addEven" onclick="addEven()" class="dropdown-item" href="#">Even</a>-->
-<!--                            </li>-->
-<!--                            <li>-->
-<!--                                <a id="addOdd"  onclick="addOdd()" class="dropdown-item" href="#">Odd</a>-->
-<!--                            </li>-->
-<!--                        </ul>-->
-<!--                    </li>-->
                 </ul>
             </li>
 
@@ -82,28 +71,16 @@
                             </li>
                         </ul>
                     </li>
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#attributes_modal">Attributes</a>
+                    </li>
                 </ul>
-            </li>
-
-            <li class="active">
-                <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">rr</a>
-            </li>
-
-
-            <li>
-                <a href="#">About</a>
-            <li>
-            <li>
-                <a href="#">Portfolio</a>
-            </li>
-            <li>
-                <a href="#">Contact</a>
             </li>
         </ul>
 
         <ul class="list-unstyled CTAs">
             <li>
-                <a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a>
+                <a href="#" class="article"></a>
             </li>
         </ul>
     </nav>
@@ -161,7 +138,7 @@
             <!--panel-->
             <div id="panel">
                 <!--add node by button-->
-                <div class="dropdown" id="add_node">
+                <div class="dropdown" data-toggle="tooltip" data-placement="right" title="add node" id="add_node">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         add
                     </button>
@@ -170,13 +147,12 @@
                         <a class="dropdown-item" id="add_odd" href="#" onclick="addOdd()">odd</a>
                     </div>
                 </div>
-                <div id="ownership">
-                    <button id="ownershipButton" class="btn btn-secondary" type="button" onclick="toggle_ownership()">owner</button>
+                <div id="ownership" data-toggle="tooltip" data-placement="right" title="toggle ownership">
+                    <button class="btn btn-secondary" type="button" id="ownershipButton" onclick="toggle_ownership()">owner</button>
                 </div>
-
                 <div id="auto_organize">
                     <!-- Rounded switch -->
-                    <label class="switch" >
+                    <label class="switch" data-toggle="tooltip" data-placement="right" title="off/on auto-organize">
                         <input type="checkbox" id="auto_organize_switch" onclick="auto_organize()" checked>
                         <span id="auto_slider" class="slider round"></span>
                     </label>
@@ -191,6 +167,143 @@
             </div>
         </div>
 
+    </div>
+    <!-- Modal for Attributes  -->
+    <div class="modal fade" id="attributes_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Select Attributes</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="search_attributes" onkeyup="search_attributes()" placeholder="Search for attributes.." title="Type in an attribute name">
+                    <div id="attributes_container">
+                        <ul class="list-group" id="attributes_list">
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                            <li>
+                                Alfreds Futterkiste
+                            </li>
+                        </ul>
+<!--                        <table id="myTable">-->
+<!--                            <tr class="header">-->
+<!--                                <th style="width:60%;">Attributes</th>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Alfreds Futterkiste</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Berglunds snabbkop</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Island Trading</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Koniglich Essen</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Laughing Bacchus Winecellars</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Magazzini Alimentari Riuniti</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>North/South</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Paris specialites</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Alfreds Futterkiste</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Berglunds snabbkop</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Island Trading</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Koniglich Essen</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Laughing Bacchus Winecellars</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Magazzini Alimentari Riuniti</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>North/South</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Paris specialites</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Alfreds Futterkiste</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Berglunds snabbkop</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Island Trading</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Koniglich Essen</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Laughing Bacchus Winecellars</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Magazzini Alimentari Riuniti</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>North/South</td>-->
+<!--                            </tr>-->
+<!--                            <tr>-->
+<!--                                <td>Paris specialites</td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -237,6 +350,7 @@
 <script src="export.js"></script>
 <script src="ownership.js"></script>
 <script src="auto_organize.js"></script>
+<script src="select_attributes.js"></script>
 
 </body>
 

@@ -120,7 +120,6 @@ function getGameString(nodesCy, forPost=true){
     return gameString;
 }
 
-
 let algorithm;
 let vis_attributes;
 

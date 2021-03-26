@@ -46,11 +46,10 @@ function step_backward() {
     step_ptr -= 1;
     let step = steps[step_ptr]["game"];
     update_style(step);
-
 }
 
 function update_style(step) {
-    // pop previous states of the nodes from stack
+    // todo: do we need to do the stack? I think we do.
     for (let key in step) {
         let node = step[key];
         // set style of the parent node objects
