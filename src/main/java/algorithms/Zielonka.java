@@ -14,68 +14,38 @@ public class Zielonka implements Algorithm {
 
     // for recording the current status of the whole game
     private final GameStatus gameStatus = new GameStatus();
+    // for returning to the client
+    private final List<Step> steps = new ArrayList<>();
     private boolean solved = false;
 
-    public void solve(Game pg){
-//        init(pg);
-
-        Result res = zielonka(pg);
-
-        System.out.println(res);
-        // parse result and write to gamestatus
-        var winEven = res.getWin().getOrDefault(0, new HashSet<>());
-        var winOdd = res.getWin().getOrDefault(1, new HashSet<>());
-        var strEven = res.getStrategy().getOrDefault(0, new HashMap());
-        var strOdd = res.getStrategy().getOrDefault(1, new HashMap<>());
-
-        for (Vertex v : pg.getVertices()){
-            HashMap<String, String> nodeStatus = new HashMap<>();
-            nodeStatus.put("id", "" + v.getId());
-            nodeStatus.put("winner", winEven.contains(v)? "0" : "1");
-
-            if (strEven.containsKey(v)){
-                String strategy = "" + strEven.get(v);
-                nodeStatus.put("strategy", strategy);
-            } else {
-                String strategy = "" + strOdd.getOrDefault(v, null);
-                nodeStatus.put("strategy", strategy);
-            }
-
-
-            gameStatus.put(v.getId(), nodeStatus);
-        }
-
+    public void solve(Game pg) {
+        init(pg);
+        zielonka(pg);
         solved = true;
     }
 
-//
-//    /**
-//     * Initialize <GameStatus> for all nodes, initialize regionMap.
-//     */
-//    private void init(Game pg) {
-//        Collection<Vertex> vertices = pg.getVertices();
-//
-//        for (Vertex v : vertices) {
-//            // init <GameStatus> object, the attribute of nodeStatus differs per algorithm
-//            HashMap<String, String> nodeStatus = new HashMap<>();
-//            nodeStatus.put("id", "" + v.getId());
-//            // init regional priority is node priority
-//            nodeStatus.put("color", "" + v.getPriority());
-//            nodeStatus.put("region", "" + v.getPriority());
-//            // init color is its priority's color
-//            nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
-//            // init visual effect is neutral, when neutral, color & region attribute doesn't matter
-//            nodeStatus.put("effect", Effect.NEUTRAL.toString());
-//            // the below two attr is wait to be set
-//            nodeStatus.put("strategy", null);
-//            nodeStatus.put("winner", null);
-//            // node i is at index i of gameStatus
-//            gameStatus.put(v.getId(), nodeStatus);
-//
-//            // init vertex-region map
-//            regionMap.put(v, v.getPriority());
-//        }
-//    }
+
+    /**
+     * Initialize <GameStatus> for all nodes, initialize regionMap.
+     */
+    private void init(Game pg) {
+        Collection<Vertex> vertices = pg.getVertices();
+
+        for (Vertex v : vertices) {
+            // init <GameStatus> object, the attribute of nodeStatus differs per algorithm
+            HashMap<String, String> nodeStatus = new HashMap<>();
+            nodeStatus.put("id", "" + v.getId());
+            // init color is its priority's color
+            nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
+            // init visual effect is neutral, when neutral, color & region attribute doesn't matter
+            nodeStatus.put("effect", Effect.NEUTRAL.toString());
+            // the below two attr is wait to be set
+            nodeStatus.put("strategy", null);
+            nodeStatus.put("winner", null);
+            // node i is at index i of gameStatus
+            gameStatus.put(v.getId(), nodeStatus);
+        }
+    }
 
 
     /**
@@ -138,6 +108,9 @@ public class Zielonka implements Algorithm {
         Collection<Vertex> A = attrA.getAttractor();
         Map<Vertex, Vertex> Sa = attrA.getStrategy();
 
+        // step: shade A
+        triggerStep(A, Sa, p, Effect.SHADE);
+
         // recursion
         Result resZielonka = zielonka(Utility.getSubgame(G, A));
         int oppo = 1 - player;
@@ -192,8 +165,84 @@ public class Zielonka implements Algorithm {
         }
 
         Result res = new Result(win, str);
+        // step: highlight those with strategy / winner
+        triggerStep(G, res);
         return res;
     }
+
+    /**
+     * This step is triggered when recursively computing attractors.
+     */
+    private void triggerStep(Collection<Vertex> A, Map<Vertex, Vertex> Sa, int p, Effect effect) {
+        // based on the update vertices, modify gameStatus
+        for (Vertex v : A) {
+            int id = v.getId();
+            gameStatus.get(id).put("color", (p % 2 == 0)? "even" : "odd");
+            gameStatus.get(id).put("effect", effect.toString());
+            if (Sa.containsKey(v)) {
+                gameStatus.get(id).put("strategy", Sa.get(v).toString());
+            }
+        }
+        // deep copy gameStatus, get a subset of it as updateStatus
+        GameStatus gameStatusCopy = gameStatus.getDeepCopy();
+        GameStatus updateStatus = new GameStatus();
+        for (Vertex v : A) {
+            int id = v.getId();
+            // updateStatus share the same set of data with gameStatusCopy
+            // they won't be changed later
+            updateStatus.put(id, gameStatusCopy.get(id));
+        }
+        // construct a step and add it to steps
+        steps.add(new Step(gameStatusCopy, updateStatus, "Attractor at priority " + p + " removed"));
+    }
+
+    /**
+     * This step is triggered when winning region and strategy is computed.
+     */
+    private void triggerStep(Game G, Result res) {
+        // should overwrite the entire gameStatus
+        init(G);
+        // modify gameStatus,
+        HashSet<Vertex> updated = new HashSet<>();
+        var winEven = res.getWin().getOrDefault(0, new HashSet<>());
+        var winOdd = res.getWin().getOrDefault(1, new HashSet<>());
+        HashMap<Vertex, Vertex> strEven = res.getStrategy().getOrDefault(0, new HashMap());
+        HashMap<Vertex, Vertex> strOdd = res.getStrategy().getOrDefault(1, new HashMap<>());
+        for (Vertex v : winEven) {
+            int id = v.getId();
+            gameStatus.get(id).put("color", "even");
+            gameStatus.get(id).put("effect", Effect.HIGHLIGHT.toString());
+            gameStatus.get(id).put("winner", "0");
+            updated.add(v);
+        }
+        for (Vertex v : winOdd) {
+            int id = v.getId();
+            gameStatus.get(id).put("color", "odd");
+            gameStatus.get(id).put("effect", Effect.HIGHLIGHT.toString());
+            gameStatus.get(id).put("winner", "1");
+            updated.add(v);
+        }
+        for (Vertex v : strEven.keySet()){
+            gameStatus.get(v.getId()).put("strategy", strEven.get(v).toString());
+            updated.add(v);
+        }
+        for (Vertex v : strOdd.keySet()){
+            gameStatus.get(v.getId()).put("strategy", strOdd.get(v).toString());
+            updated.add(v);
+        }
+        // deep copy gameStatus, get a subset of it as updateStatus
+        GameStatus gameStatusCopy = gameStatus.getDeepCopy();
+        GameStatus updateStatus = new GameStatus();
+        for (Vertex v : updated) {
+            int id = v.getId();
+            // updateStatus share the same set of data with gameStatusCopy
+            // they won't be changed later
+            updateStatus.put(id, gameStatusCopy.get(id));
+        }
+        // construct a step and add it to steps
+        steps.add(new Step(gameStatusCopy, updateStatus, "updated winning region & strategy"));
+    }
+
 
     public String getWinner(Vertex v) {
         assert(solved);
@@ -205,8 +254,9 @@ public class Zielonka implements Algorithm {
         return gameStatus.get(v.getId()).get("strategy");
     }
 
-    public Collection<Step> getSteps(){
-        return null;
+    public Collection<Step> getSteps() {
+        assert(solved);
+        return steps;
     }
 
     // get list of attributes related to this algorithm

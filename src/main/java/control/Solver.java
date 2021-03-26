@@ -59,7 +59,7 @@ public class Solver {
             System.out.println("" + v + " -> " + algorithm.getStrategy(v));
         }
 
-
+        System.out.println(algorithm.getSteps());
         return algorithm.getSteps();
 
 //        try {

@@ -6,6 +6,7 @@ import modelGame.Vertex;
 import java.util.*;
 import java.util.stream.Collectors;
 
+// TODO: move some methods in PriorityPromotion.java to here
 /**
  * A class for common methods across different algorithms.
  */
