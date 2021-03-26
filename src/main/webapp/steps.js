@@ -17,6 +17,9 @@ let selected_attr_colors = {
     }
 };
 
+/**
+ * dictionary to translate effect attribute to opacity in graph
+ * **/
 let effect_to_opacity = {
     "highlight": 1,
     "shade": 0.25,
@@ -25,7 +28,7 @@ let effect_to_opacity = {
 }
 
 /**
- * Displays the next step of the algorithm.
+ * display the next step of the algorithm
  * **/
 function step_forward() {
 
@@ -36,20 +39,28 @@ function step_forward() {
     step_ptr += 1;
     let step = steps[step_ptr]["update"];
     update_style(step);
-
+    document.getElementById("slider").value = step_ptr + "";
+    selectChannel(step_ptr);
 }
 
+/**
+ * display the previous step of the algorithm
+ * **/
 function step_backward() {
     // point to the desired step
 
-    if (step_ptr <= 0) {
-        return ;
-    }
+    if (step_ptr <= 0) return ;
+
     step_ptr -= 1;
     let step = steps[step_ptr]["game"];
     update_style(step);
+    document.getElementById("slider").value = step_ptr + "";
+    selectChannel(step_ptr);
 }
 
+/**
+ * helper function to update style of nodes/edges according to the step
+ * **/
 function update_style(step) {
     // todo: do we need to do the stack? I think we do.
     for (let key in step) {
@@ -88,26 +99,50 @@ function update_style(step) {
     }
 }
 
+/**
+ * click and jump to step in the right steps_display panel
+ * **/
 function jump_to(i){
     let value = i.substring(5);
     step_ptr = parseInt(value, 10);
     let step = steps[step_ptr]["game"];
     update_style(step);
-
+    document.getElementById("slider").value = step_ptr + "";
+    // search the selected list in the right steps_display panel and highlight it.
     selectChannel(step_ptr);
 }
 
 function updateSlider(value) {
+    if (steps == null) return;
     step_ptr = parseInt(value, 10);
     let step = steps[step_ptr]["game"];
     update_style(step);
+    // highlight the selected step in the right steps_display panel
+    selectChannel(step_ptr);
 }
 
+/**
+ * helper function that selects the step list in the right steps_display panel according to step
+ * **/
 function selectChannel(stepNumber) {
     let listItems = document.getElementById("steps_display").getElementsByTagName("li");
     var length = listItems.length;
-
+    // search the selected list in the right steps_display panel and highlight it.
     for (let j = 0; j < length; j++) {
         listItems[j].className = "" + (j == stepNumber ? "list-group-item selected" : "list-group-item");
     }
+}
+
+/**
+ * clear/reset
+ * everything
+ * **/
+function clear_all() {
+    steps = null;
+    step_ptr = 0;
+    document.getElementById("slider").value = "0";
+    cy.$("node").remove();
+    i = 0;
+    let elem = document.getElementById("steps_display");
+    elem.innerHTML = "";
 }

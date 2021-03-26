@@ -320,6 +320,7 @@ a.article:hover {
 .list-group-item:hover,
 .list-group-item:focus {
     background-color: lightgrey;
+    cursor: hand;
 }
 
 /* ---------------------------------------------------
@@ -433,8 +434,8 @@ input:checked + #auto_slider:before {
     box-sizing: border-box;
 }
 
-#myInput {
-    background-image: url('/css/searchicon.png');
+#search_attributes {
+    background-image: url('/images/searchicon.jpg');
     background-position: 10px 10px;
     background-repeat: no-repeat;
     width: 100%;
@@ -449,11 +450,13 @@ input:checked + #auto_slider:before {
     width: 100%;
     border: 1px solid #ddd;
     font-size: 18px;
+    padding-left: 0;
 }
 
 #attributes_list li {
     text-align: left;
     padding: 12px;
+
 }
 
 #attributes_list ul {
@@ -464,12 +467,62 @@ input:checked + #auto_slider:before {
     background-color: #f1f1f1;
 }
 
+.modal-body {
+    height: auto;
+}
+
 #attributes_container {
-    height: 100px;
+    height: 170px;
     overflow: scroll;
+    border-bottom: 1px solid #ddd;
 }
 
 .selected {
     color: #6d7fcc;
     border-left: 4px solid #6d7fcc;
+}
+.float-right{
+    position: relative;
+    right: 80px;
+    top: 8px;
+}
+
+#selected_attr_container {
+    position: relative;
+    top: 25px;
+}
+
+/*cancel icon css (in the selected_attr_container)*/
+.close {
+    position: absolute;
+    right: 32px;
+    width: 32px;
+    height: 32px;
+    opacity: 0.3;
+}
+.close:hover {
+    opacity: 1;
+}
+.close:before, .close:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+}
+.close:before {
+    transform: rotate(45deg);
+}
+.close:after {
+    transform: rotate(-45deg);
+}
+
+#selected_attr_container .dropdown-toggle::after {
+    content:none;
+}
+
+
+#selected_attr_list a {
+    background-color: white;
 }

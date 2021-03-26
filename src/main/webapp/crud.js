@@ -153,6 +153,7 @@ function get_attributes(algorithm) {
         if (this.readyState === 4 && this.status === 200) {
             // the list of attributes
             vis_attributes = JSON.parse(this.responseText);
+
             console.log(vis_attributes);
         }
     };
