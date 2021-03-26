@@ -48,6 +48,35 @@ public class Zielonka implements Algorithm {
         solved = true;
     }
 
+//
+//    /**
+//     * Initialize <GameStatus> for all nodes, initialize regionMap.
+//     */
+//    private void init(Game pg) {
+//        Collection<Vertex> vertices = pg.getVertices();
+//
+//        for (Vertex v : vertices) {
+//            // init <GameStatus> object, the attribute of nodeStatus differs per algorithm
+//            HashMap<String, String> nodeStatus = new HashMap<>();
+//            nodeStatus.put("id", "" + v.getId());
+//            // init regional priority is node priority
+//            nodeStatus.put("color", "" + v.getPriority());
+//            nodeStatus.put("region", "" + v.getPriority());
+//            // init color is its priority's color
+//            nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
+//            // init visual effect is neutral, when neutral, color & region attribute doesn't matter
+//            nodeStatus.put("effect", Effect.NEUTRAL.toString());
+//            // the below two attr is wait to be set
+//            nodeStatus.put("strategy", null);
+//            nodeStatus.put("winner", null);
+//            // node i is at index i of gameStatus
+//            gameStatus.put(v.getId(), nodeStatus);
+//
+//            // init vertex-region map
+//            regionMap.put(v, v.getPriority());
+//        }
+//    }
+
 
     /**
      * W: Winner, a hashmap of 2 elements, 0:winning_v_of_even, 1:winning_v_of_odd.
@@ -126,11 +155,21 @@ public class Zielonka implements Algorithm {
         Collection<Vertex> B = attrB.getAttractor();
         Map<Vertex, Vertex> Sb = attrB.getStrategy();
 
-        // TODO: how to see if two lists contains the same elements?
         if (B.containsAll(winOppo) && B.size() == winOppo.size()){
             winPlayer.addAll(A);
             strPlayer.putAll(Sa);
-            // TODO: for every player's z, randomly choose an strategy so that stays in winning region
+            // for every player's z, randomly choose an strategy so that stays in winning region
+            for (Vertex v : Z){
+                if (v.getOwner() == player) {
+                    for (Vertex u : G.getOutMap().get(v)) {
+                        if (winPlayer.contains(u)) {
+                            strPlayer.put(v, u);
+                            break;
+                        }
+                    }
+                }
+            }
+
         } else {
             resZielonka = zielonka(Utility.getSubgame(G, B));
             // overwrite parsing result
