@@ -1,9 +1,7 @@
 package resources;
 
 import control.Solver;
-import model.GameStatus;
-import model.Step;
-import model.Vertex;
+import modelStep.Step;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

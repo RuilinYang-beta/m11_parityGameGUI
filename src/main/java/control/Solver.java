@@ -1,11 +1,11 @@
 package control;
 
 import algorithms.Algorithm;
-import algorithms.DFI;
 import algorithms.PriorityPromotion;
-import model.Game;
-import model.Step;
-import model.Vertex;
+import algorithms.Zielonka;
+import modelGame.Game;
+import modelStep.Step;
+import modelGame.Vertex;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import parser.PGLexer;
@@ -45,7 +45,8 @@ public class Solver {
         // todo: to be generalized --> factory pattern
         // now we have the vertices, solve the parity game with the freezing-fixed-point-iteration algorithm
 //        Algorithm algorithm = new DFI();
-        Algorithm algorithm = new PriorityPromotion();
+//        Algorithm algorithm = new PriorityPromotion();
+        Algorithm algorithm = new Zielonka();
         algorithm.solve(game);
 
         // temp
@@ -174,7 +175,7 @@ public class Solver {
 //        process(testGameString, false);
 
         // ===== option 2: test using a file path =====
-        File f = new File("src/games/dummy.pg");
+        File f = new File("src/games/test020.pg");
         if (f.isDirectory()) {
             File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
 

@@ -1,10 +1,6 @@
 package resources;
 
-import algorithms.Attribute;
-import control.Solver;
-import model.GameStatus;
-import model.Step;
-import model.Vertex;
+import modelStep.Attribute;
 
 import algorithms.PriorityPromotion;
 

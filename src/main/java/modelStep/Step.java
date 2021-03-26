@@ -1,4 +1,6 @@
-package model;
+package modelStep;
+
+import modelStep.GameStatus;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
