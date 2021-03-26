@@ -38,13 +38,13 @@ function post(){
                 console.log("i'm in");
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
-
+                document.getElementById("slider").setAttribute("max", steps.length - 1 + "");
                 // display steps
                 let elem = document.getElementById("steps_display");
                 elem.innerHTML = "";
                 for (let key in steps) {
-                    elem.innerHTML += "<li class=\"list-group-item\" type=\"button\" id=\"step \"" + key + " onclick=\"jump_to()\">" +
-                        "STEP " + key + ". " +
+                    elem.innerHTML += "<li class=\"list-group-item\" type=\"button\" id=\"step " + key + "\" onclick=\"jump_to(this.id)\">" +
+                        "STEP " + key + ": " +
                         steps[key].msg +
                         "</li>";
                 }

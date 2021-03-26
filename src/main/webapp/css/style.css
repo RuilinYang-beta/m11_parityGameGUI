@@ -468,3 +468,8 @@ input:checked + #auto_slider:before {
     height: 100px;
     overflow: scroll;
 }
+
+.selected {
+    color: #6d7fcc;
+    border-left: 4px solid #6d7fcc;
+}
