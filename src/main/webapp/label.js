@@ -11,7 +11,7 @@
 function addPriorityListener(i) {
     cy.$(`#pnode${i}, #node${i}`).on('select', function (){
         $("#inputPriority").focus();
-        // if the node already has priority, set it as the value of #inputPriority field
+
         let selected = cy.$(':selected');
 
         // if the selected is parent node, update to point to child node
@@ -20,10 +20,13 @@ function addPriorityListener(i) {
             selected = cy.$(`#node${i}`);
         }
 
+        // if the node already has priority, set it as the value of #inputPriority field
         if (selected.style().label !== "") {
             $("#inputPriority").val(parseInt(selected.style().label));
         }
     });
+
+    // clear the value of the input field when the node is unselected
     cy.$(`#pnode${i}, #node${i}`).on('unselect', function (){
         $('#inputPriority').val('');
     });

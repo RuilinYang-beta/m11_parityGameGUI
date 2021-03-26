@@ -1,9 +1,10 @@
 package algorithms;
 
-import model.Game;
-import model.GameStatus;
-import model.Step;
-import model.Vertex;
+import modelGame.*;
+import modelStep.Attribute;
+import modelStep.Effect;
+import modelStep.GameStatus;
+import modelStep.Step;
 
 import java.util.*;
 

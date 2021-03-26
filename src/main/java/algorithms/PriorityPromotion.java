@@ -1,10 +1,10 @@
 package algorithms;
 
-import model.Game;
-import model.GameStatus;
-
-import model.Step;
-import model.Vertex;
+import modelGame.*;
+import modelStep.Attribute;
+import modelStep.Effect;
+import modelStep.GameStatus;
+import modelStep.Step;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -393,7 +393,6 @@ public class PriorityPromotion implements Algorithm {
 		}
 		return p;
 	}
-
 	public String getWinner(Vertex v) {
 	    assert(solved);
 	    return gameStatus.get(v.getId()).get("winner");
