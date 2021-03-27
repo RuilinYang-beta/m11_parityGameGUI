@@ -1,19 +1,16 @@
-package model;
+package modelStep;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 /**
  * This class tend to save some typing of HashMap<Integer, HashMap<String, String>>。
  * It's intended to be a generic template to describe the overall status / the update of the game.
  */
-//public class GameStatus extends ArrayList<HashMap<String, String>>{
 public class GameStatus extends HashMap<Integer, HashMap<String, String>>{
 
     public GameStatus(){

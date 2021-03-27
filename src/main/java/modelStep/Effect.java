@@ -1,4 +1,4 @@
-package algorithms;
+package modelStep;
 
 public enum Effect {
     HIGHLIGHT {

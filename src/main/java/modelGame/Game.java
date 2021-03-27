@@ -1,4 +1,4 @@
-package model;
+package modelGame;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -14,6 +14,15 @@ public class Game {
         this.inMap = computeInMap(out);
     }
 
+    public Game(Collection<Vertex> vs, Map<Vertex, List<Vertex>> out, Map<Vertex, List<Vertex>> in) {
+        this.vertices = vs;
+        this.outMap = out;
+        this.inMap = in;
+    }
+
+    /**
+     * Given an outMap, compute the inMap of the game.
+     */
     private Map<Vertex, List<Vertex>> computeInMap(Map<Vertex, List<Vertex>> out){
         Map<Vertex, List<Vertex>> inMap = new HashMap<>();
 

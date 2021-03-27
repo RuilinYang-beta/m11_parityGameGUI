@@ -1,11 +1,11 @@
 package algorithms;
 
-import model.Game;
-import model.Step;
-import model.Vertex;
+import modelStep.Attribute;
+import modelGame.Game;
+import modelStep.Step;
+import modelGame.Vertex;
 
 import java.util.Collection;
-import java.util.Map;
 
 public interface Algorithm {
 

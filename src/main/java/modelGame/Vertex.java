@@ -1,4 +1,4 @@
-package model;
+package modelGame;
 
 public class Vertex {
     private int id;
