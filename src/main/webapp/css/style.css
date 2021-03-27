@@ -382,7 +382,9 @@ a.article:hover {
     height: 0;
 }
 
-/* The slider */
+/* ---------------------------------------------------
+    SLIDER
+----------------------------------------------------- */
 #auto_slider {
     position: absolute;
     cursor: pointer;
@@ -499,6 +501,7 @@ input:checked + #auto_slider:before {
     width: 32px;
     height: 32px;
     opacity: 0.3;
+    top: 9px;
 }
 .close:hover {
     opacity: 1;
@@ -518,11 +521,46 @@ input:checked + #auto_slider:before {
     transform: rotate(-45deg);
 }
 
+/*attributes list*/
 #selected_attr_container .dropdown-toggle::after {
     content:none;
 }
 
+#selected_attr_list {
+    padding-bottom: 35px;
+}
 
-#selected_attr_list a {
-    background-color: white;
+.attr_color_picker {
+    top: 15px;
+    right: 30px;
+    position: absolute;
+}
+
+/*arrows*/
+.arrow {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    width: 10px;
+}
+
+.arrow_container {
+    top: auto;
+    position: absolute;
+}
+
+.right {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.down {
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+
+.attr_name_container {
+    left: 30px;
+    position: relative;
 }

@@ -34,16 +34,17 @@ function handleChange(checkbox, attribute_name) {
     if(checkbox.checked == true){
         let elem = document.getElementById("selected_attr_list");
         elem.innerHTML += "                            <li id=\""+ attribute_name +"_list\">\n" +
-            "                                <div class=\"list-group-item dropdown-toggle\" id=\"selected_" + attribute_name + "\"" +
+            "                                <div class=\"list-group-item dropdown-toggle selected_attribute\" id=\"selected_" + attribute_name + "\"" +
             "                                   href=\"#"+ attribute_name +"_values\"\n" +
-            "                                   data-toggle=\"collapse\" aria-expanded=\"false\">" + attribute_name +"\n" +
-            "                                    <a class=\"close\" onclick=\"remove_attribute(this.parentNode.id)\"></a>\n" +
+            "                                   data-toggle=\"collapse\" aria-expanded=\"false\" onclick=\"toggle_arrow(this)\">" +
+            "                                   <div class=\"arrow_container\"><i class=\"arrow right\"></i></div><div class=\"attr_name_container\">" + attribute_name + "</div>\n" +
+            "                                   <a class=\"close\" onclick=\"remove_attribute(this.parentNode.id)\"></a>\n" +
             "                                </div>\n" +
             "\n" +
             "                                <ul class=\"collapse list-unstyled\" id=\""+ attribute_name +"_values\">\n" +
-            "                                    <li class=\"list-group-item\"><a>1......</a></li>\n" +
-            "                                    <li class=\"list-group-item\"><a>2......</a></li>\n" +
-            "                                    <li class=\"list-group-item\"><a>3......</a></li>\n" +
+            "                                    <li class=\"list-group-item\">1......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
+            "                                    <li class=\"list-group-item\">2......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
+            "                                    <li class=\"list-group-item\">3......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
             "                                </ul>\n" +
             "                            </li>";
 
