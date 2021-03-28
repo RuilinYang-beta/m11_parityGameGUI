@@ -29,26 +29,52 @@ function remove_attribute(parent_id) {
 
 }
 
-function handleChange(checkbox, attribute_name) {
+let selected_vis_attr = [];
+let maximum_selected_attr = 3;
+function handleChange(checkbox, attribute_id, attribute_name) {
+    if (selected_vis_attr.length == 3) {
+        checkbox.checked = false;
 
+        // disable all checkboxes
+        let attributes_list = document.getElementById("attributes_list");
+        let checkbox_list = attributes_list.getElementsByTagName("input");
+
+        for (let i = 0; i < checkbox_list.length; i++) {
+            checkbox_list[i].disabled = true;
+        }
+
+    }
+    let index = parseInt(attribute_id.substring(10), 10);
     if(checkbox.checked == true){
-        let elem = document.getElementById("selected_attr_list");
-        elem.innerHTML += "                            <li id=\""+ attribute_name +"_list\">\n" +
-            "                                <div class=\"list-group-item dropdown-toggle selected_attribute\" id=\"selected_" + attribute_name + "\"" +
-            "                                   href=\"#"+ attribute_name +"_values\"\n" +
+        // add the attribute object to selected_vis_attr
+        selected_vis_attr.push(vis_attributes[index]);
+
+
+        // modify html
+        let selected_attr_list = document.getElementById("selected_attr_list");
+        selected_attr_list.innerHTML += "                            <li id=\"attribute_"+ index +"_list\">\n" +
+            "                                <div class=\"list-group-item dropdown-toggle selected_attribute\" id=\"selected_attribute_" + index + "\"" +
+            "                                   href=\"#attribute_"+ index +"_values\"\n" +
             "                                   data-toggle=\"collapse\" aria-expanded=\"false\" onclick=\"toggle_arrow(this)\">" +
             "                                   <div class=\"arrow_container\"><i class=\"arrow right\"></i></div><div class=\"attr_name_container\">" + attribute_name + "</div>\n" +
             "                                   <a class=\"close\" onclick=\"remove_attribute(this.parentNode.id)\"></a>\n" +
             "                                </div>\n" +
             "\n" +
-            "                                <ul class=\"collapse list-unstyled\" id=\""+ attribute_name +"_values\">\n" +
-            "                                    <li class=\"list-group-item\">1......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
-            "                                    <li class=\"list-group-item\">2......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
-            "                                    <li class=\"list-group-item\">3......<input class=\"attr_color_picker\" type=\"color\"></li>\n" +
+            "                                <ul class=\"collapse list-unstyled\" id=\"attribute_"+ index +"_values\">\n" +
             "                                </ul>\n" +
             "                            </li>";
 
+        // get selected attribute_values
+        let values = vis_attributes[index].values;
+        let selected_attribute_values = document.getElementById("attribute_" + index + "_values");
+        for (let j = 0; j < values.length; j++) {
+            let value = values[j];
+            selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+        }
+
     }else{
-        document.getElementById(attribute_name + "_list").remove();
+        // remove the index-th selected attribute_list.
+        document.getElementById("attribute_" + index + "_list").remove();
     }
 }

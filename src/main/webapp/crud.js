@@ -14,12 +14,6 @@ let steps;
 // `cy.json()` give you all the stuffs
 
 
-// `cy.nodes()` have access to the style().label (priority) of a node
-// `cy.json().elements.nodes` can quickly access id/type of a node but not style
-
-// `cy.nodes()` returns a generator
-// `cy.json()` give you all the stuffs
-
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
  * into a string of .pg file format and send to server.
@@ -35,7 +29,6 @@ function post(){
         req.onreadystatechange = function(){
             if (this.readyState === 4 && this.status === 200) {
                 // save steps
-                console.log("i'm in");
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
                 document.getElementById("slider").setAttribute("max", steps.length - 1 + "");
@@ -152,7 +145,36 @@ function get_attributes(algorithm) {
     req.onreadystatechange = function(){
         if (this.readyState === 4 && this.status === 200) {
             // the list of attributes
-            vis_attributes = JSON.parse(this.responseText);
+            // vis_attributes = JSON.parse(this.responseText);
+            vis_attributes = [
+                {
+                    name: "aaa",
+                    type: "aaa",
+                    values: ["aaa1", "aaa2"]
+                },
+                {
+                    name: "bbb",
+                    type: "bbb",
+                    values: ["bbb1", "bbb2"]
+                },
+                {
+                    name: "ccc",
+                    type: "ccc",
+                    values: ["ccc1", "ccc2"]
+                },
+                {
+                    name: "ddd",
+                    type: "ddd",
+                    values: ["ddd1", "ddd2"]
+                }
+            ];
+            // add attributes to the selection modal
+            let attributes_list = document.getElementById("attributes_list");
+            for (let index = 0; index < vis_attributes.length; index++) {
+                let attribute = vis_attributes[index];
+                attributes_list.innerHTML += "<li>" + attribute.name + "<input class=\"float-right\" type=\"checkbox\" " +
+                                            "id=\"attribute_" + index +"\" onchange=\"handleChange(this, this.id, this.parentNode.textContent)\"></li>";
+            }
 
             console.log(vis_attributes);
         }

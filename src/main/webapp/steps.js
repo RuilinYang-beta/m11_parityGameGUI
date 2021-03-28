@@ -8,7 +8,7 @@ let max_num_attr = 3;
 
 // todo: temporary selected visualization attributes
 // todo: choose attributes first then choose color assignment
-let selected_vis_attr = ["color"];
+// let selected_vis_attr = ["color"];
 // todo: temporary color assignment
 let selected_attr_colors = {
     "color": {
