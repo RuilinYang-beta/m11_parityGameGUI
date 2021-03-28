@@ -78,14 +78,14 @@ let cy = cytoscape({
         {
             selector: 'node[type="even"]',
             style: {
-                'background-color': '#ffffff'
+                'background-color': 'lightsteelblue'
             },
         },
         {
             selector: 'node[type="odd"]',
             style: {
                 'shape': 'pentagon',
-                'background-color': '#ffffff',
+                'background-color': 'lightsteelblue',
             }
         },
 
@@ -95,6 +95,9 @@ let cy = cytoscape({
             style: {
                 "text-halign": "center",
                 "text-valign": "center",
+                "border-style": "solid",
+                "border-color": "steelblue",
+                "border-opacity": 1,
             }
         },
 

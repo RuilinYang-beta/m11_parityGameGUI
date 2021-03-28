@@ -45,8 +45,8 @@ public class Solver {
         // todo: to be generalized --> factory pattern
         // now we have the vertices, solve the parity game with the freezing-fixed-point-iteration algorithm
 //        Algorithm algorithm = new DFI();
-//        Algorithm algorithm = new PriorityPromotion();
-        Algorithm algorithm = new Zielonka();
+        Algorithm algorithm = new PriorityPromotion();
+//        Algorithm algorithm = new Zielonka();
         algorithm.solve(game);
 
         // temp

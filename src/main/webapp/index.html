@@ -72,7 +72,7 @@
                         </ul>
                     </li>
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#attributes_modal">Attributes</a>
+                        <a href="#" data-toggle="modal" data-target="#attributes_modal" onclick="clear_selected_attributes()">Attributes</a>
                     </li>
                 </ul>
             </li>
@@ -167,8 +167,8 @@
                 </ul>
             </div>
         </div>
-
     </div>
+
     <!-- Modal for Attributes  -->
     <div class="modal fade" id="attributes_modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -181,10 +181,7 @@
                     <input type="text" id="search_attributes" onkeyup="search_attributes()" placeholder="Search for attributes.." title="Type in an attribute name">
                     <div id="attributes_container">
                         <ul id="attributes_list">
-<!--                            <li>checkbox1<input class="float-right" type="checkbox" id="checkbox1" onchange="handleChange(this, this.parentNode.textContent)"></li>-->
-<!--                            <li>checkbox2<input class="float-right" type="checkbox" id="checkbox2" onchange="handleChange(this, this.parentNode.textContent)"></li>-->
-<!--                            <li>checkbox3<input class="float-right" type="checkbox" id="checkbox3" onchange="handleChange(this, this.parentNode.textContent)"></li>-->
-<!--                            <li>checkbox4<input class="float-right" type="checkbox" id="checkbox4" onchange="handleChange(this, this.parentNode.textContent)"></li>-->
+
                         </ul>
                     </div>
 
@@ -197,7 +194,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-primary" onclick="save_selected_attributes()">Save</button>
                 </div>
             </div>
         </div>
@@ -242,12 +239,12 @@
 <script src="label.js"></script>
 <script src="cytoscape.js"></script>
 <script src="crud.js"></script>
-<script src="steps.js"></script>
 <script src="import.js"></script>
 <script src="export.js"></script>
 <script src="ownership.js"></script>
 <script src="auto_organize.js"></script>
 <script src="select_attributes.js"></script>
+<script src="steps.js"></script>
 <script src="modal_effect.js"></script>
 
 </body>

@@ -145,29 +145,8 @@ function get_attributes(algorithm) {
     req.onreadystatechange = function(){
         if (this.readyState === 4 && this.status === 200) {
             // the list of attributes
-            // vis_attributes = JSON.parse(this.responseText);
-            vis_attributes = [
-                {
-                    name: "aaa",
-                    type: "aaa",
-                    values: ["aaa1", "aaa2"]
-                },
-                {
-                    name: "bbb",
-                    type: "bbb",
-                    values: ["bbb1", "bbb2"]
-                },
-                {
-                    name: "ccc",
-                    type: "ccc",
-                    values: ["ccc1", "ccc2"]
-                },
-                {
-                    name: "ddd",
-                    type: "ddd",
-                    values: ["ddd1", "ddd2"]
-                }
-            ];
+            vis_attributes = JSON.parse(this.responseText);
+
             // add attributes to the selection modal
             let attributes_list = document.getElementById("attributes_list");
             for (let index = 0; index < vis_attributes.length; index++) {

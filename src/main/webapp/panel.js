@@ -5,14 +5,14 @@ let panel = cytoscape({
         {
             selector: 'node[type="even"]',
             style: {
-                'background-color': '#eeeeee'
+                'background-color': 'lightsteelblue'
             },
         },
         {
             selector: 'node[type="odd"]',
             style: {
                 'shape': 'pentagon',
-                'background-color': '#eeeeee',
+                'background-color': 'lightsteelblue',
             }
         },
         {
