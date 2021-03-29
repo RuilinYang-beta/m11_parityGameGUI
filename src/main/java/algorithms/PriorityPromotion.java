@@ -90,7 +90,6 @@ public class PriorityPromotion implements Algorithm {
 			HashMap<String, String> nodeStatus = new HashMap<>();
 			nodeStatus.put("id", "" + v.getId());
 			// init regional priority is node priority
-			nodeStatus.put("color", "" + v.getPriority());
 			nodeStatus.put("region", "" + v.getPriority());
 			// init color is its priority's color
 			nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");

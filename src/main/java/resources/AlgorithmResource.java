@@ -2,7 +2,7 @@ package resources;
 
 import modelStep.Attribute;
 
-import algorithms.PriorityPromotion;
+import algorithms.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +17,7 @@ public class AlgorithmResource {
     public Collection<Attribute> getAttributes(String algorithm){
         // temp use for priority promotion
         // todo: to be generalized
-        return new PriorityPromotion().getAttributes();
+//        return new PriorityPromotion().getAttributes();
+        return new DFI().getAttributes();
     }
 }

@@ -7,6 +7,7 @@ import modelStep.GameStatus;
 import modelStep.Step;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DFI implements Algorithm{
     /**
@@ -23,6 +24,8 @@ public class DFI implements Algorithm{
     // for returning to the client
     private final List<Step> steps = new ArrayList<>();
     private boolean solved = false;
+    // attributes of the algorithm
+    private Collection<Attribute> attributes = new ArrayList<>();
 
     /**
      * Given a parity game as a collection of vertices, solve the game.
@@ -140,6 +143,24 @@ public class DFI implements Algorithm{
             // node i is at index i of gameStatus, to accommodate id staring from any number
             gameStatus.put(v.getId(), nodeStatus);
         }
+
+        // init attribute here
+//        // color
+//        Collection<String> colorValues = new ArrayList<>();
+//        colorValues.add("even");
+//        colorValues.add("odd");
+//        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+//        this.attributes.add(color);
+//        // freeze, how many distinct value of priority are there?
+//        Collection<String> fLevels = vertices.stream().map(e -> "" + e.getPriority()).collect(Collectors.toSet());
+//        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text, colorValues);
+//        this.attributes.add(freeze);
+//        // distract
+//        Collection<String> dLevels = new ArrayList<>();
+//        colorValues.add("0");
+//        colorValues.add("1");
+//        Attribute distract = new Attribute("distract", Attribute.AttributeType.text, colorValues);
+//        this.attributes.add(distract);
     }
 
 
@@ -224,8 +245,25 @@ public class DFI implements Algorithm{
         return steps;
     }
 
-    // TODO: not finished yet
+    // todo: to be generalized
     public Collection<Attribute> getAttributes() {
-        return null;
+        // color
+        Collection<String> colorValues = new ArrayList<>();
+        colorValues.add("even");
+        colorValues.add("odd");
+        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+        this.attributes.add(color);
+        // freeze, don't care about distinct value because it will be displayed as text
+         Collection<String> fLevels = new ArrayList<>();
+        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text, fLevels);
+        this.attributes.add(freeze);
+        // distract
+        Collection<String> dLevels = new ArrayList<>();
+        colorValues.add("0");
+        colorValues.add("1");
+        Attribute distract = new Attribute("distract", Attribute.AttributeType.text, dLevels);
+        this.attributes.add(distract);
+
+        return this.attributes;
     }
 }
