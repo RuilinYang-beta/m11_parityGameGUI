@@ -260,9 +260,17 @@ public class Zielonka implements Algorithm {
     }
 
     // get list of attributes related to this algorithm
-    // temp method
-    public Collection<Attribute> getAttributes() {
-        return null;
+    public static Collection<Attribute> getAttributes() {
+        Collection<Attribute> attributes = new ArrayList<>();
+
+        List<String> colorValues = new ArrayList<>();
+        colorValues.add("even");
+        colorValues.add("odd");
+
+        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+        attributes.add(color);
+
+        return attributes;
     }
 
 }

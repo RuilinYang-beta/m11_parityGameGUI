@@ -13,11 +13,8 @@ public class AlgorithmResource {
 
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.APPLICATION_JSON)   // the computed steps
-    public Collection<Attribute> getAttributes(String algorithm){
-        // temp use for priority promotion
-        // todo: to be generalized
-//        return new PriorityPromotion().getAttributes();
-        return new DFI().getAttributes();
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Attribute> getAttributes(String algorithmName){
+        return AlgorithmFactory.getAttribute(algorithmName);
     }
 }

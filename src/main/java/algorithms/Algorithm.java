@@ -18,7 +18,6 @@ public interface Algorithm {
     Collection<Step> getSteps();
 
     // get list of attributes related to this algorithm
-    // temp method
-    Collection<Attribute> getAttributes();
+    static Collection<Attribute> getAttributes(){return null;}
 
 }

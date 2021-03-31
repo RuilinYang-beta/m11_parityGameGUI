@@ -22,8 +22,6 @@ function post(){
     let nodes = cy.json().elements.nodes;
 
     if (typeof nodes !== undefined) {
-        let gameString = getGameString(cy.nodes());
-
         // http POST
         let req = new XMLHttpRequest();
         req.onreadystatechange = function(){
@@ -44,12 +42,18 @@ function post(){
             }
         };
 
+        // prepare the data to send
+        let algorithm = $('.highlight')[0].innerHTML;
+        let gameString = getGameString(cy.nodes());
+        let data = {};
+        data["algorithm"] = algorithm;
+        data["game"] = gameString;
+        console.log(JSON.stringify(data));
+
         // send http POST request
         req.open("POST", baseURL + "/vertex", true);
-        req.setRequestHeader("Content-type", "text/plain");
-        console.log(gameString);
-        req.send(gameString);
-
+        req.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
+        req.send(JSON.stringify(data));
     } else {
         console.log("add node first!");
     }
@@ -125,7 +129,7 @@ let vis_attributes;
 function set_algorithm(choice) {
     algorithm = choice;
 
-    // todo: post algorithm choice to server
+    // todo: post algorithm choice to server --> this will be done when the game is posted
 
     // get visualization attributes
     get_attributes(algorithm);

@@ -97,6 +97,18 @@ a:focus {
     background: #fff;
 }
 
+/* when an algorithm is selected it is highlighted */
+#sidebar ul li a.algorithm:focus {
+    color: #7386D5;
+    background: #fff;
+}
+
+/* the highlight effect won't fade when sidebar collapse and expand */
+.highlight {
+    color: #7386D5;
+    background: #fff;
+}
+
 #sidebar ul li.active>a,
 a[aria-expanded="true"] {
     color: #fff;

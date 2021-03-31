@@ -24,8 +24,6 @@ public class DFI implements Algorithm{
     // for returning to the client
     private final List<Step> steps = new ArrayList<>();
     private boolean solved = false;
-    // attributes of the algorithm
-    private Collection<Attribute> attributes = new ArrayList<>();
 
     /**
      * Given a parity game as a collection of vertices, solve the game.
@@ -245,25 +243,21 @@ public class DFI implements Algorithm{
         return steps;
     }
 
-    // todo: to be generalized
-    public Collection<Attribute> getAttributes() {
+    public static Collection<Attribute> getAttributes() {
+        Collection<Attribute> attributes = new ArrayList<>();
         // color
-        Collection<String> colorValues = new ArrayList<>();
-        colorValues.add("even");
-        colorValues.add("odd");
+        Collection<String> colorValues = new ArrayList<>(Arrays.asList("even", "odd"));
         Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
-        this.attributes.add(color);
+        attributes.add(color);
         // freeze, don't care about distinct value because it will be displayed as text
          Collection<String> fLevels = new ArrayList<>();
         Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text, fLevels);
-        this.attributes.add(freeze);
+        attributes.add(freeze);
         // distract
-        Collection<String> dLevels = new ArrayList<>();
-        colorValues.add("0");
-        colorValues.add("1");
+        Collection<String> dLevels = new ArrayList<>(Arrays.asList("0", "1"));
         Attribute distract = new Attribute("distract", Attribute.AttributeType.text, dLevels);
-        this.attributes.add(distract);
+        attributes.add(distract);
 
-        return this.attributes;
+        return attributes;
     }
 }

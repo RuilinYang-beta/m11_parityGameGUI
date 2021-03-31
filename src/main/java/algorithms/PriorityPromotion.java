@@ -30,11 +30,6 @@ public class PriorityPromotion implements Algorithm {
 
     private boolean solved = false;
 
-    // attributes of the algorithm
-	private Collection<Attribute> attributes = new ArrayList<>();
-
-
-
 	public void solve(Game pg){
 		init(pg);
 
@@ -408,15 +403,16 @@ public class PriorityPromotion implements Algorithm {
 	}
 
 
-	// todo: to be generalized
-	public Collection<Attribute> getAttributes() {
+	public static Collection<Attribute> getAttributes() {
+		Collection<Attribute> attributes = new ArrayList<>();
+
 		List<String> colorValues = new ArrayList<>();
 		colorValues.add("even");
 		colorValues.add("odd");
 
 		Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
-		this.attributes.add(color);
+		attributes.add(color);
 
-		return this.attributes;
+		return attributes;
 	}
 }

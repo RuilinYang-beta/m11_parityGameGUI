@@ -25,7 +25,7 @@ public class Solver {
     /**
      * Pares a gameString to a Game object, feed it to an algorithm, and write the output
      */
-    public static Collection<Step> process(String gameString, boolean isFilename) {
+    public static Collection<Step> process(String gameString, Algorithm algorithm, boolean isFilename) {
         Game game;
 
         // first parse the file (given on input)
@@ -41,11 +41,7 @@ public class Solver {
             return null;
         }
 
-        // todo: to be generalized --> factory pattern
-        // now we have the vertices, solve the parity game with the freezing-fixed-point-iteration algorithm
-        Algorithm algorithm = new DFI();
-//        Algorithm algorithm = new PriorityPromotion();
-//        Algorithm algorithm = new Zielonka();
+        // now we have the vertices, solve the parity game with the given algorithm
         algorithm.solve(game);
 
         // temp
@@ -58,7 +54,6 @@ public class Solver {
             System.out.println("" + v + " -> " + algorithm.getStrategy(v));
         }
 
-        System.out.println(algorithm.getSteps());
         return algorithm.getSteps();
 
 //        try {
@@ -180,11 +175,11 @@ public class Solver {
 
             if (files != null) {
                 for (File file : files) {
-                    process(file.getPath(), true);
+                    process(file.getPath(), new DFI(), true);
                 }
             }
         } else {
-            process(f.getPath(), true);
+            process(f.getPath(), new DFI(),true);
         }
     }
 }
