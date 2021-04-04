@@ -33,7 +33,7 @@ let panel = cytoscape({
             style: {
                 'label': 'odd'
             }
-        }
+        },
     ],
     layout: {name: 'preset'},
 });

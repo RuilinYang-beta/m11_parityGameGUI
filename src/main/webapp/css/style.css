@@ -222,15 +222,39 @@ a.article:hover {
 
 #start_end {
     position: absolute;
-    top: 110px;
+    top: 48px;
     left: 20px;
 }
 
 #forward_backward {
     position: absolute;
-    top: 110px;
+    top: 48px;
     left: 350px;
-    width: 1000px;
+    width: 593px;
+}
+
+#clear_steps {
+    position: absolute;
+    top: 55px;
+    left: 1070px;
+
+}
+
+#clear_stepsButton {
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .35rem .25rem;
+    background-color: #6d7fcc;
+    color: white;
+    border-color: #6c757d;
+    border-radius: .25rem;
+}
+
+#clear_stepsButton:hover {
+    background-color: white;
+    color: #6d7fcc;
+    cursor: pointer;
 }
 
 /* ---------------------------------------------------
@@ -238,9 +262,7 @@ a.article:hover {
 ----------------------------------------------------- */
 
 #graph_area {
-    position: absolute;
-    top: 77px;
-    left: 56px;
+    left: 60px;
 }
 
 #cy {
@@ -351,10 +373,6 @@ a.article:hover {
     text-align: center;
     vertical-align: middle;
     border: 1px solid transparent;
-    border-top-color: transparent;
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
     padding: .35rem .25rem;
     background-color: #6d7fcc;
     color: white;
@@ -397,6 +415,11 @@ a.article:hover {
 /* ---------------------------------------------------
     SLIDER
 ----------------------------------------------------- */
+#slider {
+    top: 7px;
+    max-width: 72%;
+}
+
 #auto_slider {
     position: absolute;
     cursor: pointer;

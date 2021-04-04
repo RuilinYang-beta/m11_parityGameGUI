@@ -108,6 +108,8 @@ let cy = cytoscape({
                 "opacity": 0.65
             }
         },
+
+        // .style("line-color", "red");
     ],
 });
 

@@ -4,7 +4,7 @@
 // index of the current step
 let step_ptr = 0;
 
-// todo: differentiate text and color
+// todo: to differentiate text and color
 
 /**
  * dictionary to translate effect attribute to opacity in graph
@@ -14,6 +14,13 @@ let effect_to_opacity = {
     "shade": 0.25,
     "neutral": 0.65
 }
+/**
+ * dictionary to translate strategy attribute to line-color of edges in graph
+ * **/
+let strategy_to_color = {
+    "even": "red",
+    "odd": "blue"
+};
 
 /**
  * display the next step of the algorithm
@@ -52,9 +59,35 @@ function update_style(step) {
     // todo: do we need to do the stack? I think we do.
     for (let key in step) {
         let node = step[key];
+
+        // set style of strategy edge
+        let strategy = node.strategy;
+        let owner = cy.$("#node_" + node.id).data("type");
+        let edges = cy.edges("[source = \"node_" + node.id + "\"]");
+        if (strategy != null) {
+            for (let i = 0; i < edges.length; i ++) {
+                let edge = edges[i];
+                if (edge.data("target") === "node_" + strategy) {
+                    edge.style({
+                        "line-color": strategy_to_color[owner]
+                    });
+                } else {
+                    edge.style({
+                        "line-color": null
+                    });
+                }
+            }
+        } else {
+            for (let i = 0; i < edges.length; i ++) {
+                let edge = edges[i];
+                edge.style({
+                    "line-color": null
+                });
+            }
+        }
+
         // set style of the parent node objects
         let curr = cy.$('#node_' + node.id).parent();
-
         let j = 0;
         // get the effect values
         let opacity = effect_to_opacity[node.effect];
@@ -130,6 +163,14 @@ function clear_all() {
     document.getElementById("slider").value = "0";
     cy.$("node").remove();
     node_id = 0;
+    let elem = document.getElementById("steps_display");
+    elem.innerHTML = "";
+}
+
+function clear_steps() {
+    steps = null;
+    step_ptr = 0;
+    document.getElementById("slider").value = "0";
     let elem = document.getElementById("steps_display");
     elem.innerHTML = "";
 }
