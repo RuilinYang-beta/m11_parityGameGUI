@@ -472,7 +472,6 @@ input:checked + #auto_slider:before {
 }
 
 #search_attributes {
-    background-image: url('/images/searchicon.jpg');
     background-position: 10px 10px;
     background-repeat: no-repeat;
     width: 100%;

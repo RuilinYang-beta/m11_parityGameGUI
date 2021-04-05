@@ -23,13 +23,6 @@ public class Attribute {
             public String toString() {
                 return "text";
             }
-        },
-
-        both {
-            @Override
-            public String toString() {
-                return "both";
-            }
         }
     }
 

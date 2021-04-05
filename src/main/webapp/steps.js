@@ -42,7 +42,6 @@ function step_forward() {
  * **/
 function step_backward() {
     // point to the desired step
-
     if (step_ptr <= 0) return ;
 
     step_ptr -= 1;
@@ -56,7 +55,6 @@ function step_backward() {
  * helper function to update style of nodes/edges according to the step
  * **/
 function update_style(step) {
-    // todo: do we need to do the stack? I think we do.
     for (let key in step) {
         let node = step[key];
 
@@ -96,7 +94,6 @@ function update_style(step) {
             let attribute = selected_vis_attr[j];
             let updated_value = node[attribute["name"]];
             let color = selected_attr_colors[attribute["name"]][updated_value];
-            console.log(color);
             // Restore default style if the effect is neutralize.
             if (node.effect === "neutral") {
                 // set style

@@ -128,13 +128,15 @@ let vis_attributes;
  */
 function set_algorithm(choice) {
     algorithm = choice;
-
-    // todo: post algorithm choice to server --> this will be done when the game is posted
-
-    // get visualization attributes
+    // reset attribute area
+    document.getElementById("attributes_list").innerHTML = "";
+    document.getElementById("selected_attr_list").innerHTML = "";
+    // reset related variables
+    vis_attributes = [];
+    selected_vis_attr = {};
+    selected_attr_colors = {};
+    // get visualized attributes
     get_attributes(algorithm);
-
-    // todo: allow user to choose color for attributes
 }
 
 /**
@@ -158,8 +160,6 @@ function get_attributes(algorithm) {
                 attributes_list.innerHTML += "<li>" + attribute.name + "<input class=\"float-right\" type=\"checkbox\" " +
                                             "id=\"attribute_" + index +"\" onchange=\"handleChange(this, this.id, this.parentNode.textContent)\"></li>";
             }
-
-            console.log(vis_attributes);
         }
     };
 

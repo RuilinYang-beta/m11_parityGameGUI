@@ -96,7 +96,6 @@ function handleChange(checkbox, attribute_id, attribute_name) {
     if(checkbox.checked === true){
         // add the attribute object to selected_vis_attr
         selected_vis_attr[index] = vis_attributes[index];
-        console.log(selected_vis_attr);
 
         // add the selected attribute to selected_attr_list in HTML
         let selected_attr_list = document.getElementById("selected_attr_list");
@@ -174,33 +173,27 @@ function save_selected_attributes() {
         let attribute_name = attribute["name"];
         selected_attr_colors[attribute_name] = {};
         let attribute_values = document.getElementById("attribute_" + j + "_values");
-        console.log(attribute_values);
 
         // iterate the values
         let values = attribute_values.getElementsByTagName("li");
-        console.log(values);
         let colors = attribute_values.getElementsByTagName("input");
-        console.log(colors);
         for (let k = 0; k < attribute["values"].length; k ++) {
             let value = values[k].textContent;
-            console.log(value);
             let color = colors[k].value;
-            console.log(value);
             selected_attr_colors[attribute_name][value] = color;
         }
     }
-
-    console.log(selected_attr_colors);
 }
 
 /**
 * When the user click on "Attributes" to open the modal,
 * clear the previously added compound nodes.
 */
-function clear_selected_attributes() {
-    let nodes = cy.$("node");
-    for (let j = 0; j < nodes.length; j ++) {
-        let node = nodes[j];
-        node.ancestors().remove();
-    }
-}
+// todo: fix this
+// function clear_selected_attributes() {
+//     let nodes = cy.$("node");
+//     for (let j = 0; j < nodes.length; j ++) {
+//         let node = nodes[j];
+//         node.ancestors().remove();
+//     }
+// }
