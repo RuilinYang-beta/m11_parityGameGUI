@@ -158,6 +158,10 @@ function save_selected_attributes() {
                     }
                 }
             );
+
+            // add listener for setting priority of the innermost node
+            addPriorityListener(node_id + "_p_" + j);
+
             // add the newly created compound node to current
             current.move({
                 parent: node_id + "_p_" + j
