@@ -115,10 +115,17 @@ function handleChange(checkbox, attribute_id, attribute_name) {
         // save attribute type as a class of <input> elements
         let values = vis_attributes[index].values;
         let selected_attribute_values = document.getElementById("attribute_" + index + "_values");
+        let type = vis_attributes[index].type;
         for (let j = 0; j < values.length; j++) {
             let value = values[j];
-            selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                "<input class=\"attr_color_picker " + vis_attributes[index].type + "\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+            if (type === "color") {
+                selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                    "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+            }
+            // if the attribute_type is text
+            else if (type === "text") {
+                selected_attribute_values.innerHTML += "<li class=\"list-group-item\">"+ value +"</li>";
+            }
         }
 
     }else{
@@ -197,10 +204,10 @@ function save_selected_attributes() {
 * When the user click on "Attributes" to open the modal,
 * clear the previously added compound nodes.
 */
-function clear_selected_attributes() {
-    let nodes = cy.$("node");
-    for (let j = 0; j < nodes.length; j ++) {
-        let node = nodes[j];
-        node.ancestors().remove();
-    }
-}
+// function clear_selected_attributes() {
+//     let nodes = cy.$("node");
+//     for (let j = 0; j < nodes.length; j ++) {
+//         let node = nodes[j];
+//         node.ancestors().remove();
+//     }
+// }

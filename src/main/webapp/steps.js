@@ -94,9 +94,11 @@ function update_style(step) {
         while (curr.length !== 0) {
             // get corresponding style
             let attribute = selected_vis_attr[j];
+            console.log(selected_vis_attr);
+            console.log(attribute);
             let updated_value = node[attribute["name"]];
-            let color = selected_attr_colors[attribute["name"]][updated_value];
-            console.log(color);
+            let type = attribute.type;
+
             // Restore default style if the effect is neutralize.
             if (node.effect === "neutral") {
                 // set style
@@ -105,13 +107,22 @@ function update_style(step) {
                     "opacity": null
                 });
             }
-            // Otherwise, set the style.
-            else {
+            if (type === "color") {
+                let color = selected_attr_colors[attribute["name"]][updated_value];
+                console.log(color);
+                // set the style.
                 curr.style({
                     "background-color": "" + color,
                     "opacity": opacity
                 });
+
             }
+            else if (type === "text") {
+                console.log("value == " + updated_value);
+                curr.classes('multiline-manual');
+                curr.data("label", "pp\npp\n" + updated_value);
+            }
+
             // next parent node object
             curr = curr.parent();
             j ++;

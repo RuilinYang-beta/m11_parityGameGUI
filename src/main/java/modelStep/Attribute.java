@@ -25,12 +25,6 @@ public class Attribute {
             }
         },
 
-        both {
-            @Override
-            public String toString() {
-                return "both";
-            }
-        }
     }
 
     public Attribute() {
