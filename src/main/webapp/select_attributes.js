@@ -186,8 +186,11 @@ function save_selected_attributes() {
         let colors = attribute_values.getElementsByTagName("input");
         for (let k = 0; k < attribute["values"].length; k ++) {
             let value = values[k].textContent;
-            let color = colors[k].value;
-            selected_attr_colors[attribute_name][value] = color;
+            // check attribute type
+            if (attribute["type"] === "color") {
+                let color = colors[k].value;
+                selected_attr_colors[attribute_name][value] = color;
+            }
         }
     }
 }

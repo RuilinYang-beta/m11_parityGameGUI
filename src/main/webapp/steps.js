@@ -86,10 +86,10 @@ function update_style(step) {
 
         // set style of the parent node objects
         let curr = cy.$('#node_' + node.id).parent();
-        let j = 0;
         // get the effect values
         let opacity = effect_to_opacity[node.effect];
-        while (curr.length !== 0) {
+        // while (curr.length !== 0) {
+        for (let j in selected_vis_attr) {
             // get corresponding style
             let attribute = selected_vis_attr[j];
             console.log(selected_vis_attr);
@@ -98,7 +98,7 @@ function update_style(step) {
             let color = selected_attr_colors[attribute["name"]][updated_value];
             let type = attribute.type;
 
-            // Restore default style if the effect is neutralize.
+            // restore default style if the effect is neutral.
             if (node.effect === "neutral") {
                 // set style
                 curr.style({
@@ -106,6 +106,8 @@ function update_style(step) {
                     "opacity": null
                 });
             }
+
+            // set style according to the type of the attribute
             if (type === "color") {
                 let color = selected_attr_colors[attribute["name"]][updated_value];
                 console.log(color);
@@ -142,6 +144,9 @@ function jump_to(i){
     selectChannel(step_ptr);
 }
 
+/**
+ * update position of the slider
+ * **/
 function updateSlider(value) {
     if (steps == null) return;
     step_ptr = parseInt(value, 10);
