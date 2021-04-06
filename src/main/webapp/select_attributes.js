@@ -135,6 +135,17 @@ function handleChange(checkbox, attribute_id, attribute_name) {
  */
 let selected_attr_colors = {};
 function save_selected_attributes() {
+    let evens = cy.$('node[type="even"]');
+    let odds = cy.$('node[type="odd"]');
+
+    evens.move({
+        parent: null
+    });
+    odds.move({
+        parent: null
+    })
+    let compounds = cy.$('node[type="compound"]');
+    compounds.remove();
     // map compound node to attribute
     let nodes = cy.$("node");
     for (let j = 0; j < nodes.length; j ++) {
@@ -191,7 +202,9 @@ function save_selected_attributes() {
         }
     }
 
-    console.log(selected_attr_colors);
+    let step = steps[step_ptr]["game"];
+    update_style(step);
+    
 }
 
 /**
