@@ -159,28 +159,53 @@ function save_selected_attributes() {
 
         // add nested compound nodes to the current node
         let current = node;
+        let have_text = false;
+
         for (let j in selected_vis_attr) {
-            // create a compound node
+
+            let attribute = selected_vis_attr[j];
+
+            let type = attribute.type;
+            if (type === "text") {
+                have_text = true;
+            }
+            if (type === "color") {
+                // create a compound node
+                cy.add({
+                        data: {
+                            id: node_id + "_p_" + j,
+                            type: "compound",
+                            parent: ''
+                        }
+                    }
+                );
+                // add the newly created compound node to current
+                current.move({
+                    parent: node_id + "_p_" + j
+                });
+                // shift current
+                current = current.parent();
+            }
+        }
+
+        if (have_text) {
             cy.add({
                     data: {
-                        id: node_id + "_p_" + j,
+                        id: node_id + "_p_" + "text",
                         type: "compound",
                         parent: ''
                     }
                 }
             );
-
-            // add the newly created compound node to current
             current.move({
-                parent: node_id + "_p_" + j
+                parent: node_id + "_p_" + "text"
             });
-
-            // shift current
-            current = current.parent();
         }
+
     }
 
     // save colors for each value and each attribute
+    console.log(selected_vis_attr);
     for (let j in selected_vis_attr) {
         let attribute = selected_vis_attr[j]
         let attribute_name = attribute["name"];
@@ -195,26 +220,27 @@ function save_selected_attributes() {
         console.log(colors);
         for (let k = 0; k < attribute["values"].length; k ++) {
             let value = values[k].textContent;
-            console.log(value);
-            let color = colors[k].value;
-            console.log(value);
-            selected_attr_colors[attribute_name][value] = color;
+            // check attribute type
+            if (attribute["type"] === "color") {
+                let color = colors[k].value;
+                selected_attr_colors[attribute_name][value] = color;
+                console.log(color);
+            }
         }
     }
-
     let step = steps[step_ptr]["game"];
     update_style(step);
-    
 }
 
 /**
 * When the user click on "Attributes" to open the modal,
 * clear the previously added compound nodes.
 */
-function clear_selected_attributes() {
-    let nodes = cy.$("node");
-    for (let j = 0; j < nodes.length; j ++) {
-        let node = nodes[j];
-        node.ancestors().remove();
-    }
-}
+// todo: fix it.
+// function clear_selected_attributes() {
+//     let nodes = cy.$("node");
+//     for (let j = 0; j < nodes.length; j ++) {
+//         let node = nodes[j];
+//         node.ancestors().remove();
+//     }
+// }

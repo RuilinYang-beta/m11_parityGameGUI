@@ -56,6 +56,7 @@ function update_style(step) {
         let strategy = node.strategy;
         let owner = cy.$("#node_" + node.id).data("type");
         let edges = cy.edges("[source = \"node_" + node.id + "\"]");
+
         if (strategy != null) {
             for (let i = 0; i < edges.length; i ++) {
                 let edge = edges[i];
@@ -91,7 +92,6 @@ function update_style(step) {
             // get corresponding style
             let attribute = selected_vis_attr[j];
             let updated_value = node[attribute["name"]];
-            let color = selected_attr_colors[attribute["name"]][updated_value];
             let type = attribute.type;
 
             // restore default style if the effect is neutral.
@@ -105,6 +105,7 @@ function update_style(step) {
 
             // set style according to the type of the attribute
             if (type === "color") {
+                let color = selected_attr_colors[attribute["name"]][updated_value];
                 // set the style.
                 curr.style({
                     "background-color": "" + color,
@@ -115,13 +116,40 @@ function update_style(step) {
                 curr = next;
             }
         }
-
+        let have_text = false;
         // update text attributes
         let label_content = "";
-        curr = cy.$('#node_' + node.id);
-        while (curr != null) {
-            if (curr.parent().length == 0) break;
-            curr = curr.parent();
+        for (let j in selected_vis_attr) {
+            // get corresponding style
+            let attribute = selected_vis_attr[j];
+            let updated_value = node[attribute["name"]];
+            let type = attribute.type;
+
+            if (type === "text") {
+                have_text = true;
+                console.log(updated_value);
+                if (typeof updated_value == "undefined" || updated_value == "null") {
+                    continue;
+                }
+                else {
+                    label_content += attribute["name"] + ": " + updated_value + "\n";
+                }
+            }
+        }
+
+        if (have_text) {
+            curr = cy.$('#node_' + node.id);
+            while (curr != null) {
+                if (curr.parent().length == 0) break;
+                curr = curr.parent();
+            }
+            var style = {
+                "label": label_content,
+                "text-wrap": "wrap",
+                "text-valign": "left",
+                "text-halign": "left"
+            }
+            curr.style(style);
         }
 
         for (let j in selected_vis_attr) {
