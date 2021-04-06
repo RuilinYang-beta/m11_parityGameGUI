@@ -1,41 +1,66 @@
 /* add label */
 
 /* priority */
+// the element #inputPriorityGroup need to be a text input field that only takes digits
+$(document).ready(function() {
+    $("#inputPriorityGroup").inputFilter(function(value) {
+        return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+    });
+});
+
+(function($) {
+    $.fn.inputFilter = function(inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+        });
+    };
+}(jQuery));
+
 /**
  * When a node is created (by button, by drag-drop, by import file),
- * a listener is attached to the node (and its parent node),
- * such that when the node/parent node is selected, a hidden number input field has focus;
- * and when the node/parent is unselected, the hidden number field clears its value.
- * @param i: the number part of the id of the selected node and its parent
+ * a listener is attached to the node such that when the node is selected,
+ * a hidden input field gets focus. Depending on whether it's a single selection or
+ * group selection, different input field gets triggered. When the node is unselected,
+ * the hidden field clears its value.
+ * @param id: the id of a node
  */
-function addPriorityListener(i) {
-    cy.$(`#pnode${i}, #node${i}`).on('select', function (){
-        $("#inputPriority").focus();
-
-        let selected = cy.$(':selected');
-
-        // if the selected is parent node, update to point to child node
-        if (selected.data().type === "compound") {
-            let i = parseInt(cy.$(':selected').data().id.match(/\d+/g)[0]);
-            selected = cy.$(`#node${i}`);
+function addPriorityListener(id) {
+    cy.$(`#${id}`).on('select', function(e1) {
+        let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
+        if (intended.length === 1) {  // single selection
+            if (!$("#inputPrioritySingle").is(':focus')){
+                $("#inputPrioritySingle").focus();
+            }
+            let intendedNode = intended[0];
+            if (intendedNode.style().label !== "") {
+                $("#inputPrioritySingle").val(parseInt(intendedNode.style().label));
+            }
+        } else {  // group selection
+            if (!$("#inputPriorityGroup").is(':focus')){
+                $("#inputPriorityGroup").focus();
+            }
         }
-
-        // if the node already has priority, set it as the value of #inputPriority field
-        if (selected.style().label !== "") {
-            $("#inputPriority").val(parseInt(selected.style().label));
-        }
-    });
+    })
 
     // clear the value of the input field when the node is unselected
-    cy.$(`#pnode${i}, #node${i}`).on('unselect', function (){
-        $('#inputPriority').val('');
+    cy.$(`#${id}`).on('unselect', function (){
+        $('#inputPrioritySingle').val('');
+        $('#inputPriorityGroup').val('');
     });
 }
 
-// whenever the hidden input field experienced a keyup,
-// update the priority of the selected node / its child node
-$('#inputPriority').keyup(function () {
-    let priority = $('#inputPriority').val();
+// handle single node selection
+$('#inputPrioritySingle').keyup(function () {
+    let priority = $('#inputPrioritySingle').val();
     let style = {
         "label": priority,
         "text-wrap": "wrap",
@@ -44,21 +69,46 @@ $('#inputPriority').keyup(function () {
     }
 
     let selected = cy.$(':selected');
-    // if the parent of the compound node is selected, update to point to child node
-    if (selected.data().type === "compound") {
-        let i = parseInt(cy.$(':selected').data().id.match(/\d+/g)[0]);
-        selected = cy.$(`#node${i}`);
-    }
     selected.style(style);
 });
 
-// function set_priority() {
-//     let priority = $('#priority').val();
-//     var style = {
-//         "label": priority,
-//         "text-wrap": "wrap",
-//         "text-valign": "center",
-//         "text-halign": "center"
-//     }
-//     cy.$(':selected').style(style);
-// }
+// handle group node selection
+$('#inputPriorityGroup').keyup(function (evt) {
+    let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
+
+    if (evt.code === 'ArrowUp' || evt.code === 'ArrowDown' ||
+        evt.key === "ArrowUp" || evt.key === "ArrowDown") {   // group increment/decrement
+        intended.forEach(function(element){
+            let pri = parseInt(element.style().label);
+            if (isNaN(pri)){
+                pri = 0;
+            }
+            if (evt.code === 'ArrowUp' || evt.key === "ArrowUp" ){
+                pri = pri + 1;
+            } else {
+                pri = pri - 1;
+            }
+            let style = {
+                "label": pri,
+                "text-wrap": "wrap",
+                "text-valign": "center",
+                "text-halign": "center"
+            }
+            element.style(style);
+        });
+    } else if (evt.code === 'Control' || evt.key === 'Control') {
+        // do nothing
+    } else {  // set group priority in one go
+        let priority = $('#inputPriorityGroup').val();
+
+        intended.forEach(function(element){
+            let style = {
+                "label": priority,
+                "text-wrap": "wrap",
+                "text-valign": "center",
+                "text-halign": "center"
+            }
+            element.style(style);
+        });
+    }
+});

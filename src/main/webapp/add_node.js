@@ -22,7 +22,7 @@ function addEven(){
     );
 
     // add listener for setting priority
-    addPriorityListener(node_id);
+    addPriorityListener('node_' + node_id);
 
     // id counter ++
     node_id ++;
@@ -54,7 +54,7 @@ function addOdd(){
 
 
     // add listener for setting priority
-    addPriorityListener(node_id);
+    addPriorityListener('node_' + node_id);
 
     // id counter ++
     node_id ++;
@@ -103,7 +103,7 @@ panel.on("dragfree", "#a_drag", function(evt) {
     });
 
     // add listener for setting priority
-    addPriorityListener(node_id);
+    addPriorityListener('node_' + node_id);
 
     // set position of the node
     let top = $("#cy").position().top;
@@ -149,7 +149,7 @@ panel.on("dragfree", "#b_drag", function(evt) {
     });
 
     // add listener for setting priority
-    addPriorityListener(node_id);
+    addPriorityListener('node_' + node_id);
 
     // set position of the node
     let top = $("#cy").position().top;

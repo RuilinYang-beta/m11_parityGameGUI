@@ -17,7 +17,7 @@ $(document).ready(function () {
             ul.removeChild(ul.firstChild);
         }
         // the highlight of selected algorithm
-        $('.algorithm').removeClass('highlight')
+        $('.algorithm').removeClass('highlight');
         $(this).addClass('highlight');
         // post algorithm name to get its attributes
         set_algorithm(this.innerHTML);
