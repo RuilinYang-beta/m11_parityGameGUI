@@ -10,13 +10,31 @@
  */
 // new version
 function addPriorityListener(id) {
-    cy.$(`#${id}`).on('select', function(evt) {
-        // handle key up/down
+    cy.$(`#${id}`).on('select', function(e1) {
+        console.log("being selected");
+        console.log(e1.target);
 
+        if (!$("#inputPriority").is(':focus')){
+            $("#inputPriority").focus();
+        }
 
-        // handle digit and backspace
-
+        let selectedArr = cy.$(':selected').map(e => e.data()).filter(e => e.type === "even" || e.type === "odd");
+        // single selection
+        if (selectedArr.length === 1) {
+            let selected = cy.$(':selected');
+            // update the value of input field as the priority of the node
+            if (selected.style().label !== "") {
+                $("#inputPriority").val(parseInt(selected.style().label));
+            }
+        }
+        // group selection
     })
+
+    // clear the value of the input field when the node is unselected
+    cy.$(`#${id}`).on('unselect', function (){
+        console.log("in unselect");
+        $('#inputPriority').val('');
+    });
 }
 
 
@@ -71,20 +89,82 @@ function addPriorityListener(id) {
 
 // whenever the hidden input field experienced a keyup,
 // update the priority of the selected node / its child node
-$('#inputPriority').keyup(function () {
-    let priority = $('#inputPriority').val();
-    let style = {
-        "label": priority,
-        "text-wrap": "wrap",
-        "text-valign": "center",
-        "text-halign": "center"
+$('#inputPriority').keyup(function (evt) {
+    // // single selection
+    // let priority = $('#inputPriority').val();
+    // let style = {
+    //     "label": priority,
+    //     "text-wrap": "wrap",
+    //     "text-valign": "center",
+    //     "text-halign": "center"
+    // }
+    // let selected = cy.$(':selected');   // TODO: should filter to only change even/odd node
+    // selected.style(style);
+
+    // group selection
+    console.log(evt.code);
+    console.log(evt.key);
+    if (evt.code === 'ArrowUp' || evt.code === 'ArrowDown' ||
+        evt.key === "ArrowUp" || evt.key === "ArrowDown") {   // group increment/decrement
+        // each selected node should incre/decre priority by 1
+        let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
+
+        intended.forEach(function(element){
+            let pri = parseInt(element.style().label);
+            if (evt.code === 'ArrowUp' || evt.key === "ArrowUp" ){
+                pri = pri + 1;
+            } else {
+                pri = pri - 1;
+            }
+            let style = {
+                "label": pri,
+                "text-wrap": "wrap",
+                "text-valign": "center",
+                "text-halign": "center"
+            }
+            element.style(style);
+        });
+    } else if (evt.code === 'Control' || evt.key === 'Control') {
+        // do nothing
+    } else {  // set group priority in one go
+        let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
+        let priority = $('#inputPriority').val();
+
+        intended.forEach(function(element){
+            let style = {
+                "label": priority,
+                "text-wrap": "wrap",
+                "text-valign": "center",
+                "text-halign": "center"
+            }
+            element.style(style);
+        });
     }
 
-    let selected = cy.$(':selected');   // TODO: should filter to only change even/odd node
-    // if the parent of the compound node is selected, update to point to child node
-    if (selected.data().type === "compound") {
-        let i = parseInt(cy.$(':selected').data().id.match(/\d+/g)[0]);
-        selected = cy.$(`#node${i}`);
-    }
-    selected.style(style);
+
+});
+
+
+// Restricts input for the set of matched elements to the given inputFilter function.
+(function($) {
+    $.fn.inputFilter = function(inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+        });
+    };
+}(jQuery));
+
+$(document).ready(function() {
+    $("#inputPriority").inputFilter(function(value) {
+        return /^\d*$/.test(value);    // Allow digits only, using a RegExp
+    });
 });
