@@ -150,6 +150,18 @@ function handleChange(checkbox, attribute_id, attribute_name) {
  */
 let selected_attr_colors = {};
 function save_selected_attributes() {
+    let evens = cy.$('node[type="even"]');
+    let odds = cy.$('node[type="odd"]');
+
+    evens.move({
+        parent: null
+    });
+    odds.move({
+        parent: null
+    })
+    let compounds = cy.$('node[type="compound"]');
+    compounds.remove();
+
     // map compound node to attribute
     let nodes = cy.$("node");
     for (let j = 0; j < nodes.length; j ++) {
@@ -163,9 +175,15 @@ function save_selected_attributes() {
 
         // add nested compound nodes to the current node
         let current = node;
+        let have_text = false;
+
         for (let j in selected_vis_attr) {
             let attribute = selected_vis_attr[j];
+
             let type = attribute.type;
+            if (type === "text") {
+                have_text = true;
+            }
             if (type === "color") {
                 // create a compound node
                 cy.add({
@@ -183,11 +201,26 @@ function save_selected_attributes() {
                 // shift current
                 current = current.parent();
             }
-
         }
+
+        if (have_text) {
+            cy.add({
+                    data: {
+                        id: node_id + "_p_" + "text",
+                        type: "compound",
+                        parent: ''
+                    }
+                }
+            );
+            current.move({
+                parent: node_id + "_p_" + "text"
+            });
+        }
+
     }
 
     // save colors for each value and each attribute
+    console.log(selected_vis_attr);
     for (let j in selected_vis_attr) {
         let attribute = selected_vis_attr[j]
         let attribute_name = attribute["name"];
@@ -203,9 +236,12 @@ function save_selected_attributes() {
             if (attribute["type"] === "color") {
                 let color = colors[k].value;
                 selected_attr_colors[attribute_name][value] = color;
+                console.log(color);
             }
         }
     }
+    let step = steps[step_ptr]["game"];
+    update_style(step);
 }
 
 /**
