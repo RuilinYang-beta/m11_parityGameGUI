@@ -14,13 +14,6 @@ let effect_to_opacity = {
     "shade": 0.25,
     "neutral": 0.65
 }
-/**
- * dictionary to translate strategy attribute to line-color of edges in graph
- * **/
-let strategy_to_color = {
-    "even": "red",
-    "odd": "blue"
-};
 
 /**
  * display the next step of the algorithm
@@ -92,8 +85,6 @@ function update_style(step) {
         for (let j in selected_vis_attr) {
             // get corresponding style
             let attribute = selected_vis_attr[j];
-            console.log(selected_vis_attr);
-            console.log(attribute);
             let updated_value = node[attribute["name"]];
             let color = selected_attr_colors[attribute["name"]][updated_value];
             let type = attribute.type;
@@ -126,7 +117,6 @@ function update_style(step) {
 
             // next parent node object
             curr = curr.parent();
-            j ++;
         }
     }
 }

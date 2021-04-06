@@ -112,14 +112,23 @@ function handleChange(checkbox, attribute_id, attribute_name) {
 
         // add the values of the selected attribute to selected_attr_list in HTML
         // save attribute type as a class of <input> elements
+        let name = vis_attributes[index].name;
         let values = vis_attributes[index].values;
         let selected_attribute_values = document.getElementById("attribute_" + index + "_values");
         let type = vis_attributes[index].type;
         for (let j = 0; j < values.length; j++) {
             let value = values[j];
             if (type === "color") {
-                selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                    "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+                if (name === "color" && value === "even") {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#ff0000\"></li>";
+                } else if (name === "color" && value === "odd") {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#0000ff\"></li>";
+                } else {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+                }
             }
             // if the attribute_type is text
             else if (type === "text") {
