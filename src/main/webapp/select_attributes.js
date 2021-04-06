@@ -145,11 +145,9 @@ function handleChange(checkbox, attribute_id, attribute_name) {
 }
 
 /**
- * When the user click on "Save" of the modal,
- * save the setting of selected attributes.
+ * clear all parent nodes
  */
-let selected_attr_colors = {};
-function save_selected_attributes() {
+function clear_compounds() {
     let evens = cy.$('node[type="even"]');
     let odds = cy.$('node[type="odd"]');
 
@@ -158,9 +156,18 @@ function save_selected_attributes() {
     });
     odds.move({
         parent: null
-    })
+    });
     let compounds = cy.$('node[type="compound"]');
     compounds.remove();
+}
+
+/**
+ * When the user click on "Save" of the modal,
+ * save the setting of selected attributes.
+ */
+let selected_attr_colors = {};
+function save_selected_attributes() {
+    clear_compounds();
 
     // map compound node to attribute
     let nodes = cy.$("node");

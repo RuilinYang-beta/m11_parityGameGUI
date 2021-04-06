@@ -211,10 +211,7 @@ function clear_steps() {
     document.getElementById("slider").value = "0";
     let elem = document.getElementById("steps_display");
     elem.innerHTML = "";
-    cy.nodes().move({
-        parent: ""
-    });
-
-
+    clear_compounds();
     cy.edges().style('line-color', null);
+    cy.edges().style('target-arrow-color', null);
 }
