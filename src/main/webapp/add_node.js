@@ -1,12 +1,14 @@
 /* add node by button*/
 let node_id = 0;
+
 function addEven(){
-    // // initialize region
+
+    // initialize region
     // cy.add({
     //         data: {
-    //             id: 'pnode' + i,
+    //             id: node_id + "_p_" + 2,
     //             type: "compound",
-    //             selectable: false
+    //
     //         }
     //     }
     // );
@@ -16,7 +18,7 @@ function addEven(){
             data: {
                 id: 'node_' + node_id,
                 type: 'even',
-                parent: ''
+                parent: ""
             }
         }
     );
@@ -31,23 +33,24 @@ function addEven(){
 }
 
 function addOdd(){
-    // // initialize region
+
+    // initialize region
     // cy.add({
     //         data: {
-    //             id: 'pnode' + i,
+    //             id: node_id + "_p_" + 2,
     //             type: "compound",
-    //             selectable: false,
     //
     //         }
     //     }
     // );
+
 
     // add node
     cy.add({
             data: {
                 id: 'node_' + node_id,
                 type: 'odd',
-                parent: ''
+                parent: ""
             }
         },
     );
@@ -84,23 +87,15 @@ panel.on("drag", "#a_drag", function(evt) {
     evt.target.style().opacity = 0.4;
 });
 panel.on("dragfree", "#a_drag", function(evt) {
-    // // initialize region
-    // cy.add({
-    //     data: {
-    //         id: "pnode" + node_id,
-    //         type: "compound",
-    //         selectable: false
-    //     }
-    // });
-
     // add node
     cy.add({
-        data: {
-            id: 'node_' + node_id,
-            type: 'even',
-            parent: ''
-        },
-    });
+            data: {
+                id: 'node_' + node_id,
+                type: 'even',
+                parent: ""
+            }
+        }
+    );
 
     // add listener for setting priority
     addPriorityListener('node_' + node_id);
@@ -130,23 +125,16 @@ panel.on("drag", "#b_drag", function(evt) {
     evt.target.style().opacity = 0.4;
 });
 panel.on("dragfree", "#b_drag", function(evt) {
-    // // initialize region
-    // cy.add({
-    //     data: {
-    //         id: "pnode" + node_id,
-    //         type: "compound",
-    //         selectable: false
-    //     },
-    // });
 
     // add node
     cy.add({
-        data: {
-            id: 'node_' + node_id,
-            type: 'odd',
-            parent: ''
-        },
-    });
+            data: {
+                id: 'node_' + node_id,
+                type: 'odd',
+                parent: ""
+            }
+        }
+    );
 
     // add listener for setting priority
     addPriorityListener('node_' + node_id);
