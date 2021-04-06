@@ -13,10 +13,11 @@ let steps;
 // `cy.nodes()` returns a generator
 // `cy.json()` give you all the stuffs
 
-
+/* post to get steps */
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
- * into a string of .pg file format and send to server.
+ * into a string of .pg file format and send to server; the response steps is stored and the message
+ * of each step is displayed.
  */
 function post(){
     let nodes = cy.json().elements.nodes;
@@ -45,6 +46,11 @@ function post(){
         // prepare the data to send
         let algorithm = $('.highlight')[0].innerHTML;
         let gameString = getGameString(cy.nodes());
+        // abort if the game is illegal
+        if (gameString === ""){
+            alert("Illegal parity game. Every node should have at least 1 successor.");
+            return ;
+        }
         let data = {};
         data["algorithm"] = algorithm;
         data["game"] = gameString;
@@ -59,15 +65,23 @@ function post(){
     }
 }
 
-
 /**
  * Turn the current graph into a string representation, depending on the usage of the gameString,
  * the id of each node might need to change. If it is for posting to server, no change needed;
  * if it is for save to a file at client side, the ids will change to fill any hole. For example,
  * if the ids of the nodes are [77,78,83,101], the exported file will have ids [0,1,2,3].
- * @returns {string}
+ * @param nodesCy: nodes on the graph
+ * @param forPost: if true, then the returned gameString is for posting to backend,
+ * nodes can keep their id as they are in the graph; if false, then it's for export,
+ * nodes ids will start from 0 and will be consecutive.
+ * @returns {string}: the string repr of the game; if the game is illegal (there exist a node
+ * with no successor, then return empty string.
  */
 function getGameString(nodesCy, forPost=true){
+
+    if (!isLegalGame(nodesCy)){
+        return "";
+    }
 
     let gameString = [];
     let ids = nodesCy.filter(e => e.data().type === "odd" || e.data().type === "even")
@@ -117,6 +131,33 @@ function getGameString(nodesCy, forPost=true){
     return gameString;
 }
 
+/**
+ * Check if current game is legal, that means, every node should have at least a successor.
+ * @param nodesCy
+ * @returns {boolean}: true if the game is legal.
+ */
+function isLegalGame(nodesCy){
+    let nodes = nodesCy.filter(e => e.data().type === "odd" || e.data().type === "even");
+    for (let node of nodes) {
+        let numSuccessor = node.neighborhood("edge").filter(e => e.data().source === node.data().id).length;
+        if (numSuccessor === 0) {
+            // there exist a node with no successor
+            return false;
+        }
+    }
+    return true;
+}
+
+// Helper function of getGameString() when exporting
+function getIndex(wanted, array) {
+    let idx = array.findIndex(e => e === wanted);
+    if (idx === -1) {
+        throw "it's not in the array!"
+    }
+    return idx;
+}
+
+/* post to get steps */
 let algorithm;
 let vis_attributes;
 
@@ -171,13 +212,4 @@ function get_attributes(algorithm) {
     req.send(algorithm);
 }
 
-/**
- * Helper function of getGameString()
- */
-function getIndex(wanted, array) {
-    let idx = array.findIndex(e => e === wanted);
-    if (idx === -1) {
-        throw "it's not in the array!"
-    }
-    return idx;
-}
+
