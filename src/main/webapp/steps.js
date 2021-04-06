@@ -151,31 +151,6 @@ function update_style(step) {
             }
             curr.style(style);
         }
-
-        for (let j in selected_vis_attr) {
-            // get corresponding style
-            let attribute = selected_vis_attr[j];
-            let updated_value = node[attribute["name"]];
-            let type = attribute.type;
-
-            if (type === "text") {
-                console.log(updated_value);
-                if (typeof updated_value == "undefined" || updated_value == "null") {
-                    continue;
-                }
-                else {
-                    label_content += attribute["name"] + ": " + updated_value + "\n";
-                }
-            }
-        }
-        var style = {
-            "label": label_content,
-            "text-wrap": "wrap",
-            "text-valign": "left",
-            "text-halign": "left"
-        }
-        curr.style(style);
-
     }
 }
 

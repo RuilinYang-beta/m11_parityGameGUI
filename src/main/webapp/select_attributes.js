@@ -96,7 +96,6 @@ function handleChange(checkbox, attribute_id, attribute_name) {
     if(checkbox.checked === true){
         // add the attribute object to selected_vis_attr
         selected_vis_attr[index] = vis_attributes[index];
-        console.log(selected_vis_attr);
 
         // add the selected attribute to selected_attr_list in HTML
         let selected_attr_list = document.getElementById("selected_attr_list");
@@ -113,12 +112,28 @@ function handleChange(checkbox, attribute_id, attribute_name) {
 
         // add the values of the selected attribute to selected_attr_list in HTML
         // save attribute type as a class of <input> elements
+        let name = vis_attributes[index].name;
         let values = vis_attributes[index].values;
         let selected_attribute_values = document.getElementById("attribute_" + index + "_values");
+        let type = vis_attributes[index].type;
         for (let j = 0; j < values.length; j++) {
             let value = values[j];
-            selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                "<input class=\"attr_color_picker " + vis_attributes[index].type + "\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+            if (type === "color") {
+                if (name === "color" && value === "even") {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#ff0000\"></li>";
+                } else if (name === "color" && value === "odd") {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#0000ff\"></li>";
+                } else {
+                    selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+                }
+            }
+            // if the attribute_type is text
+            else if (type === "text") {
+                selected_attribute_values.innerHTML += "<li class=\"list-group-item\">"+ value +"</li>";
+            }
         }
 
     }else{
@@ -146,6 +161,7 @@ function save_selected_attributes() {
     })
     let compounds = cy.$('node[type="compound"]');
     compounds.remove();
+
     // map compound node to attribute
     let nodes = cy.$("node");
     for (let j = 0; j < nodes.length; j ++) {
@@ -162,7 +178,6 @@ function save_selected_attributes() {
         let have_text = false;
 
         for (let j in selected_vis_attr) {
-
             let attribute = selected_vis_attr[j];
 
             let type = attribute.type;
@@ -211,13 +226,10 @@ function save_selected_attributes() {
         let attribute_name = attribute["name"];
         selected_attr_colors[attribute_name] = {};
         let attribute_values = document.getElementById("attribute_" + j + "_values");
-        console.log(attribute_values);
 
         // iterate the values
         let values = attribute_values.getElementsByTagName("li");
-        console.log(values);
         let colors = attribute_values.getElementsByTagName("input");
-        console.log(colors);
         for (let k = 0; k < attribute["values"].length; k ++) {
             let value = values[k].textContent;
             // check attribute type
@@ -236,7 +248,7 @@ function save_selected_attributes() {
 * When the user click on "Attributes" to open the modal,
 * clear the previously added compound nodes.
 */
-// todo: fix it.
+// todo: fix this
 // function clear_selected_attributes() {
 //     let nodes = cy.$("node");
 //     for (let j = 0; j < nodes.length; j ++) {
