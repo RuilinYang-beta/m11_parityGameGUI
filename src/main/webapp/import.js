@@ -14,7 +14,6 @@ function readSingleFile(e) {
     currentFile = null;
     let file = e.target.files[0];
     if (!file) {
-        console.log("not file");
         return;
     }
     if (!file.name.endsWith(".pg")){
@@ -22,12 +21,15 @@ function readSingleFile(e) {
         return;
     }
     currentFile = file.name.split(".")[0];
-    var reader = new FileReader();
+    let reader = new FileReader();
     reader.readAsText(file);
     reader.onload = function(e) {
         console.log(reader.result.trim());
         addGraphFromString(reader.result.trim());
     };
+
+    // clear value to enable import the same file again
+    $("#import_file")[0].value = "";
 }
 
 
