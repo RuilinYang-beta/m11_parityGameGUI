@@ -30,6 +30,7 @@ function step_forward() {
     selectChannel(step_ptr);
 }
 
+
 /**
  * display the previous step of the algorithm
  * **/
@@ -60,11 +61,13 @@ function update_style(step) {
                 let edge = edges[i];
                 if (edge.data("target") === "node_" + strategy) {
                     edge.style({
-                        "line-color": strategy_to_color[owner]
+                        "line-color": selected_attr_colors["color"][owner],
+                        'target-arrow-color': selected_attr_colors["color"][owner]
                     });
                 } else {
                     edge.style({
-                        "line-color": null
+                        "line-color": null,
+                        'target-arrow-color': null
                     });
                 }
             }
@@ -72,7 +75,8 @@ function update_style(step) {
             for (let i = 0; i < edges.length; i ++) {
                 let edge = edges[i];
                 edge.style({
-                    "line-color": null
+                    "line-color": null,
+                    'target-arrow-color': null
                 });
             }
         }
@@ -81,7 +85,33 @@ function update_style(step) {
         let curr = cy.$('#node_' + node.id).parent();
         // get the effect values
         let opacity = effect_to_opacity[node.effect];
-        // while (curr.length !== 0) {
+
+        // update text attributes
+        let label_content = "";
+        for (let j in selected_vis_attr) {
+            // get corresponding style
+            let attribute = selected_vis_attr[j];
+            let updated_value = node[attribute["name"]];
+            let type = attribute.type;
+
+            if (type === "text") {
+                console.log(updated_value);
+                if (typeof updated_value == "undefined" || updated_value == "null") {
+                    continue;
+                }
+                else {
+                    label_content += attribute["name"] + ": " + updated_value + "\n\n\n";
+                }
+            }
+        }
+        var style = {
+            "label": label_content,
+            "text-wrap": "wrap",
+            // "text-valign": "top-left",
+            // "text-halign": "top-left"
+        }
+        curr.style(style);
+        // update color attributes
         for (let j in selected_vis_attr) {
             // get corresponding style
             let attribute = selected_vis_attr[j];
@@ -100,23 +130,16 @@ function update_style(step) {
 
             // set style according to the type of the attribute
             if (type === "color") {
-                let color = selected_attr_colors[attribute["name"]][updated_value];
-                console.log(color);
                 // set the style.
                 curr.style({
                     "background-color": "" + color,
                     "opacity": opacity
                 });
-
-            }
-            else if (type === "text") {
-                console.log("value == " + updated_value);
-                curr.classes('multiline-manual');
-                curr.data("label", "pp\npp\n" + updated_value);
+                // next parent node object
+                let next = curr.parent();
+                curr = next;
             }
 
-            // next parent node object
-            curr = curr.parent();
         }
     }
 }
@@ -178,4 +201,10 @@ function clear_steps() {
     document.getElementById("slider").value = "0";
     let elem = document.getElementById("steps_display");
     elem.innerHTML = "";
+    cy.nodes().move({
+        parent: ""
+    });
+
+
+    cy.edges().style('line-color', null);
 }

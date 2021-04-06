@@ -127,10 +127,13 @@ let vis_attributes;
  * @returns {string}
  */
 function set_algorithm(choice) {
+    clear_steps();
     algorithm = choice;
     // reset attribute area
+
     document.getElementById("attributes_list").innerHTML = "";
     document.getElementById("selected_attr_list").innerHTML = "";
+
     // reset related variables
     vis_attributes = [];
     selected_vis_attr = {};

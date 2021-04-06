@@ -164,22 +164,26 @@ function save_selected_attributes() {
         // add nested compound nodes to the current node
         let current = node;
         for (let j in selected_vis_attr) {
-            // create a compound node
-            cy.add({
-                    data: {
-                        id: node_id + "_p_" + j,
-                        type: "compound",
-                        parent: ''
+            let attribute = selected_vis_attr[j];
+            let type = attribute.type;
+            if (type === "color") {
+                // create a compound node
+                cy.add({
+                        data: {
+                            id: node_id + "_p_" + j,
+                            type: "compound",
+                            parent: ''
+                        }
                     }
-                }
-            );
-            // add the newly created compound node to current
-            current.move({
-                parent: node_id + "_p_" + j
-            });
+                );
+                // add the newly created compound node to current
+                current.move({
+                    parent: node_id + "_p_" + j
+                });
+                // shift current
+                current = current.parent();
+            }
 
-            // shift current
-            current = current.parent();
         }
     }
 
