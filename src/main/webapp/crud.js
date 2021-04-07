@@ -42,8 +42,7 @@ function post(){
                 }
             }
             if (this.readyState === 4 && this.status !== 200) {
-                console.log("you are here!");
-                console.log(this.status);
+                alert(`Server returned error code ${this.status}.\nPlease check if the game is valid and/or the server console message.`);
             }
         };
 
@@ -148,10 +147,10 @@ function isLegalGame(nodesCy){
         if (numSuccessor === 0) {
             return false;
         }
-        // // priority sanity check
-        // if (node.style().label === "" || isNaN(parseInt(node.style().label))) {
-        //     return false;
-        // }
+        // priority sanity check
+        if (node.style().label === "" || isNaN(parseInt(node.style().label))) {
+            return false;
+        }
     }
     return true;
 }
