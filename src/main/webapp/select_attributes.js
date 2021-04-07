@@ -175,9 +175,9 @@ function clear_compounds() {
  * save the setting of selected attributes.
  */
 let selected_attr_colors = {};
-function save_selected_attributes(elem) {
+function save_selected_attributes() {
     // disable apply button
-    elem.setAttribute("disabled", "true");
+    document.getElementById("apply_attribute_setting").disabled = true;
 
     // clear current grpah setting
     clear_compounds();

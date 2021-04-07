@@ -129,18 +129,15 @@
             <!--panel-->
             <div id="panel">
                 <!--add node by button-->
-                <div class="dropdown" data-toggle="tooltip" data-placement="right" title="add node" id="add_node">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        add
-                    </button>
-                        <div class="dropdown-menu" id="add_even_odd" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" id="add_even" href="#" onclick="addEven()">even</a>
-                        <a class="dropdown-item" id="add_odd" href="#" onclick="addOdd()">odd</a>
-                    </div>
+
+                <div id="attr_inPanel" >
+                    <button id="attrButton" data-toggle="modal" data-target="#attributes_modal" type="button">Attribute</button>
                 </div>
+
                 <div id="ownership" data-toggle="tooltip" data-placement="right" title="toggle ownership">
                     <button class="btn btn-secondary" type="button" id="ownershipButton" onclick="toggle_ownership()">owner</button>
                 </div>
+
                 <div id="auto_organize">
                     <!-- Rounded switch -->
                     <label class="switch" data-toggle="tooltip" data-placement="right" title="off/on auto-organize">
@@ -183,7 +180,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="apply_attribute_setting" onclick="save_selected_attributes(this)">Apply</button>
+                    <button type="button" class="btn btn-primary" id="apply_attribute_setting" onclick="save_selected_attributes()">Apply</button>
                 </div>
             </div>
         </div>

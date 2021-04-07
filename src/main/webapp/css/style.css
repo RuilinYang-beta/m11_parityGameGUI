@@ -309,6 +309,19 @@ a.article:hover {
 
     z-index: 1;
 }
+/* ---------------------------------------------------
+    STEP AREA
+----------------------------------------------------- */
+#steps {
+    height: 600px;
+    position: absolute;
+    left: 974px;
+    width: 326px;
+    z-index: 5;
+    border: 1px solid steelblue;
+    top: 0px;
+    overflow: scroll;
+}
 
 /* ---------------------------------------------------
     PANEL AREA
@@ -324,70 +337,38 @@ a.article:hover {
     z-index: 0;
 }
 
-#add_node {
-    width: 35px;
-    height: 20px;
-    position: absolute;
-    top:300px;
-    left: 8px;
-
-    z-index: 1;
-}
-
-#dropdownMenuButton {
-    background-color: #6d7fcc;
-    color: white;
-}
-
-#dropdownMenuButton:hover,
-#dropdownMenuButton:focus {
-    background-color: white;
-    color: #6d7fcc;
-}
-
-#add_even_odd {
-    width: 35px;
-    position: absolute;
-    min-width: 3.7rem;
-    padding: .5rem 0;
-}
-
-#add_even {
-    width: 35px;
-    height: 30px;
-    padding: .1rem 0.5rem;
-}
-
-#add_odd {
-    width: 35px;
-    height: 30px;
-    padding: .1rem 0.5rem;
-}
-
-#speed_controller {
-    top: 22px;
-    left: 68px;
-    position: absolute;
-}
 
 /* ---------------------------------------------------
-    STEP AREA
+    Attribute Button IN PANEL AREA
 ----------------------------------------------------- */
-#steps {
-    height: 600px;
+
+#attr_inPanel {
+    width: 72px;
+    height: 50px;
     position: absolute;
-    left: 974px;
-    width: 326px;
-    z-index: 5;
-    border: 1px solid steelblue;
-    top: 0px;
-    overflow: scroll;
+    top: 25px;
+    left: 1px;
+    z-index: 999;
+
 }
 
-.list-group-item:hover,
-.list-group-item:focus {
-    background-color: lightgrey;
-    cursor: hand;
+#attrButton {
+    width: 72px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .4rem 0rem;
+    background-color: #6d7fcc;
+    color: white;
+    border-color: #6c757d;
+    border-radius: .25rem;
+    z-index:999;
+}
+
+#attrButton:hover,
+#attrButton:focus {
+    background-color: white;
+    color: #6d7fcc;
 }
 
 /* ---------------------------------------------------
@@ -398,8 +379,9 @@ a.article:hover {
     width: 60px;
     height: 40px;
     position: absolute;
-    top: 25px;
+    top:300px;
     left: 8px;
+
     z-index: 999;
 }
 #ownershipButton {
