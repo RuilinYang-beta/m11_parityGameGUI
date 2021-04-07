@@ -96,7 +96,7 @@ panel.on("dragfree", "#a_drag", function(evt) {
             }
         }
     );
-
+    cy.$('#node_' + node_id).style("label", 0);
     // add listener for setting priority
     addPriorityListener('node_' + node_id);
 
@@ -135,7 +135,7 @@ panel.on("dragfree", "#b_drag", function(evt) {
             }
         }
     );
-
+    cy.$('#node_' + node_id).style("label", 0);
     // add listener for setting priority
     addPriorityListener('node_' + node_id);
 
