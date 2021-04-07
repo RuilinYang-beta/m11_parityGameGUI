@@ -216,7 +216,7 @@ a.article:hover {
 
 #step_controller {
     top: -90px;
-    left: 100px;
+    left: 120px;
     position: relative;
 }
 
@@ -229,18 +229,11 @@ a.article:hover {
 #forward_backward {
     position: absolute;
     top: 48px;
-    left: 350px;
+    left: 335px;
     width: 593px;
 }
 
-#clear_steps {
-    position: absolute;
-    top: 55px;
-    left: 1070px;
-
-}
-
-#clear_stepsButton {
+#run_Button {
     text-align: center;
     vertical-align: middle;
     border: 1px solid transparent;
@@ -251,11 +244,50 @@ a.article:hover {
     border-radius: .25rem;
 }
 
-#clear_stepsButton:hover {
+#run_Button:hover {
     background-color: white;
     color: #6d7fcc;
     cursor: pointer;
 }
+
+#stop_Button {
+    position: relative;
+    left: 10px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .35rem .25rem;
+    background-color: #6d7fcc;
+    color: white;
+    border-color: #6c757d;
+    border-radius: .25rem;
+}
+
+#stop_Button:hover {
+    background-color: white;
+    color: #6d7fcc;
+    cursor: pointer;
+}
+
+#clear_allButton {
+    position: relative;
+    left: 60px;
+    text-align: center;
+    vertical-align: middle;
+    border: 1px solid transparent;
+    padding: .35rem .25rem;
+    background-color: red;
+    color: white;
+    border-color: #6c757d;
+    border-radius: .25rem;
+}
+#clear_allButton:hover {
+    background-color: white;
+    color: #6d7fcc;
+    cursor: pointer;
+}
+
+
 
 /* ---------------------------------------------------
     GRAPH AREA
@@ -263,6 +295,7 @@ a.article:hover {
 
 #graph_area {
     left: 60px;
+    top: -30px;
 }
 
 #cy {

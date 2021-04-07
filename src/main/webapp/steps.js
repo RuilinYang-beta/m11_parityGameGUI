@@ -28,11 +28,11 @@ function step_forward() {
     if (step_ptr >= steps.length - 1) {
         return ;
     }
-    step_ptr += 1;
-    let step = steps[step_ptr]["update"];
+    let step = steps[step_ptr]["game"];
     update_style(step);
     document.getElementById("slider").value = step_ptr + "";
     selectChannel(step_ptr);
+    step_ptr += 1;
 }
 
 
@@ -135,11 +135,7 @@ function update_style(step) {
 
             if (type === "text") {
                 have_text = true;
-                console.log(updated_value);
-                if (typeof updated_value == "undefined" || updated_value == "null") {
-                    continue;
-                }
-                else {
+                if (updated_value && updated_value != "null") {
                     label_content += attribute["name"] + ": " + updated_value + "\n";
                 }
             }
@@ -204,19 +200,18 @@ function selectChannel(stepNumber) {
  * everything
  * **/
 function clear_all() {
-    steps = null;
-    step_ptr = 0;
-    document.getElementById("slider").value = "0";
+    clear_steps()
     cy.$("node").remove();
     node_id = 0;
-    let elem = document.getElementById("steps_display");
-    elem.innerHTML = "";
 }
 
 /**
  * "onclick" event handler for "reset" button
  */
 function clear_steps() {
+    // clear selected_attr_colors setting
+    selected_attr_colors = {};
+
     // clear step setting
     steps = null;
     step_ptr = 0;
@@ -225,6 +220,25 @@ function clear_steps() {
 
     // clear graph setting
     clear_compounds();
+    let elem = document.getElementById("steps_display");
+    elem.innerHTML = "";
     cy.edges().style('line-color', null);
     cy.edges().style('target-arrow-color', null);
+}
+
+/**
+ * clear all parent nodes
+ */
+function clear_compounds() {
+    let evens = cy.$('node[type="even"]');
+    let odds = cy.$('node[type="odd"]');
+
+    evens.move({
+        parent: null
+    });
+    odds.move({
+        parent: null
+    });
+    let compounds = cy.$('node[type="compound"]');
+    compounds.remove();
 }

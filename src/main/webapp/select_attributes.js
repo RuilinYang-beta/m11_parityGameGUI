@@ -169,6 +169,7 @@ function clear_compounds() {
     compounds.remove();
 }
 
+
 /**
  * When the user click on "Save" of the modal,
  * save the setting of selected attributes.
@@ -253,13 +254,11 @@ function save_selected_attributes(elem) {
             if (attribute["type"] === "color") {
                 let color = colors[k].value;
                 selected_attr_colors[attribute_name][value] = color;
-                console.log(color);
             }
         }
     }
 
-    // refresh the current step
-    if (steps != null) {
+    if (steps) {
         let step = steps[step_ptr]["game"];
         update_style(step);
     }
