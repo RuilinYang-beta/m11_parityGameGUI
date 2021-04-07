@@ -262,11 +262,8 @@ public class Zielonka implements Algorithm {
     // get list of attributes related to this algorithm
     public static Collection<Attribute> getAttributes() {
         Collection<Attribute> attributes = new ArrayList<>();
-
-        List<String> colorValues = new ArrayList<>();
-        colorValues.add("even");
-        colorValues.add("odd");
-
+        // color
+        Collection<String> colorValues = new ArrayList<>(Arrays.asList("even", "odd"));
         Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
         attributes.add(color);
 

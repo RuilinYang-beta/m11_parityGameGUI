@@ -12,39 +12,33 @@ function exportGame(){
     downloadFile(gameString, currentFile + ".pg");
 }
 
-
 function exportSolution(){
     if (steps === undefined || steps === null) {
+        // TODO: make export unclickable if algorithm not ran before
         console.log("post the gameString to server first!");
         return;
     }
 
     let last = steps[steps.length - 1].game;
+    let ids = Object.keys(last);
 
-    // TODO: how to make this safer?
-    let ids = cy.nodes().filter(e => e.data().type === "odd" || e.data().type === "even")
-                        .map(e => parseInt(e.data().id.match(/\d+/g)));
 
     let solString = [];
     jQuery.each(last, function(key, val){
-        // console.log(`${val.id}, ${val.winner}, ${val.strategy}`);
-
         let nodeString = "";
-
-        let id = parseInt(val.id);
+        // id
+        let id = val.id;
         let idForExp = getIndex(id, ids);
         nodeString += idForExp;
-
+        // winner
         let win = val.winner;
         nodeString += " " + win;
-
-        // only some of the nodes have strategy
-        if (val.hasOwnProperty("strategy")) {
-            let strategy = parseInt(val.strategy);
+        // only write strategy if a node has strategy
+        if (val.strategy !== "null") {
+            let strategy = val.strategy;
             let strForExp = getIndex(strategy, ids);
             nodeString += " " + strForExp;
         }
-
         solString.push(nodeString);
     })
 
@@ -58,7 +52,6 @@ function exportSolution(){
     solString = solString.join("\n");
 
     downloadFile(solString, currentFile + ".pgsol");
-
 }
 
 

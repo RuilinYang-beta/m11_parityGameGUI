@@ -67,7 +67,6 @@ $('#inputPrioritySingle').keyup(function () {
         "text-valign": "center",
         "text-halign": "center"
     }
-
     let selected = cy.$(':selected');
     selected.style(style);
 });
