@@ -41,6 +41,10 @@ function post(){
                         "</li>";
                 }
             }
+            if (this.readyState === 4 && this.status !== 200) {
+                console.log("you are here!");
+                console.log(this.status);
+            }
         };
 
         // prepare the data to send
@@ -116,7 +120,6 @@ function getGameString(nodesCy, forPost=true){
         }
         nodeString += outs.join(",") + ";";
 
-        // ids.push(id);
         gameString.push(nodeString);
     }
 
@@ -132,23 +135,28 @@ function getGameString(nodesCy, forPost=true){
 }
 
 /**
- * Check if current game is legal, that means, every node should have at least a successor.
+ * Check if current game is legal, that means, every node should have at least a successor,
+ * and every node should have a priority.
  * @param nodesCy
  * @returns {boolean}: true if the game is legal.
  */
 function isLegalGame(nodesCy){
     let nodes = nodesCy.filter(e => e.data().type === "odd" || e.data().type === "even");
     for (let node of nodes) {
+        // successor sanity check
         let numSuccessor = node.neighborhood("edge").filter(e => e.data().source === node.data().id).length;
         if (numSuccessor === 0) {
-            // there exist a node with no successor
             return false;
         }
+        // // priority sanity check
+        // if (node.style().label === "" || isNaN(parseInt(node.style().label))) {
+        //     return false;
+        // }
     }
     return true;
 }
 
-// Helper function of getGameString() when exporting
+// Helper function of getGameString(), only used when exporting
 function getIndex(wanted, array) {
     let idx = array.findIndex(e => e === wanted);
     if (idx === -1) {
