@@ -39,6 +39,9 @@ function search_attributes() {
  * @param selected_vis_attr: index -> attribute object.
  */
 function remove_attribute(attribute_id) {
+    // enable apply button
+    document.getElementById("apply_attribute_setting").disabled = false;
+
     let index = parseInt(attribute_id.split("_")[2], 10);
 
     // remove the attribute from selected_vis_attr
@@ -73,6 +76,9 @@ function remove_attribute(attribute_id) {
  * @param max_selected_attr: maximum number of selected attributes.
  */
 function handleChange(checkbox, attribute_id, attribute_name) {
+    // enable apply button
+    document.getElementById("apply_attribute_setting").disabled = false;
+
     // if the number of selected attributes is equal to max_selected_attr,
     // and checkbox.checked === true,
     // set checkbox.checked in HTML to false, disable all checkboxes and return
@@ -148,15 +154,17 @@ function handleChange(checkbox, attribute_id, attribute_name) {
  * clear all parent nodes
  */
 function clear_compounds() {
+    // move all parents of even nodes and odd nodes
     let evens = cy.$('node[type="even"]');
     let odds = cy.$('node[type="odd"]');
-
     evens.move({
         parent: null
     });
     odds.move({
         parent: null
     });
+
+    // remove all compound nodes
     let compounds = cy.$('node[type="compound"]');
     compounds.remove();
 }
@@ -166,7 +174,11 @@ function clear_compounds() {
  * save the setting of selected attributes.
  */
 let selected_attr_colors = {};
-function save_selected_attributes() {
+function save_selected_attributes(elem) {
+    // disable apply button
+    elem.setAttribute("disabled", "true");
+
+    // clear current grpah setting
     clear_compounds();
 
     // map compound node to attribute
@@ -178,7 +190,6 @@ function save_selected_attributes() {
             continue ;
         }
         let node_id = node.data("id");
-        console.log(node_id);
 
         // add nested compound nodes to the current node
         let current = node;
@@ -227,7 +238,6 @@ function save_selected_attributes() {
     }
 
     // save colors for each value and each attribute
-    console.log(selected_vis_attr);
     for (let j in selected_vis_attr) {
         let attribute = selected_vis_attr[j]
         let attribute_name = attribute["name"];
@@ -247,8 +257,12 @@ function save_selected_attributes() {
             }
         }
     }
-    let step = steps[step_ptr]["game"];
-    update_style(step);
+
+    // refresh the current step
+    if (steps != null) {
+        let step = steps[step_ptr]["game"];
+        update_style(step);
+    }
 }
 
 /**

@@ -15,6 +15,11 @@ let effect_to_opacity = {
     "neutral": 0.65
 }
 
+let strategy_to_color = {
+    "even": "blue",
+    "odd": "red"
+}
+
 /**
  * display the next step of the algorithm
  * **/
@@ -58,12 +63,15 @@ function update_style(step) {
         let edges = cy.edges("[source = \"node_" + node.id + "\"]");
 
         if (strategy != null) {
+            if (selected_attr_colors["color"] !== null) {
+                strategy_to_color[owner] = selected_attr_colors["color"][owner];
+            }
             for (let i = 0; i < edges.length; i ++) {
                 let edge = edges[i];
                 if (edge.data("target") === "node_" + strategy) {
                     edge.style({
-                        "line-color": selected_attr_colors["color"][owner],
-                        'target-arrow-color': selected_attr_colors["color"][owner]
+                        "line-color": strategy_to_color[owner],
+                        'target-arrow-color': strategy_to_color[owner]
                     });
                 } else {
                     edge.style({
@@ -187,7 +195,7 @@ function selectChannel(stepNumber) {
     var length = listItems.length;
     // search the selected list in the right steps_display panel and highlight it.
     for (let j = 0; j < length; j++) {
-        listItems[j].className = "" + (j == stepNumber ? "list-group-item selected" : "list-group-item");
+        listItems[j].className = "" + (j === stepNumber ? "list-group-item selected" : "list-group-item");
     }
 }
 
@@ -205,12 +213,17 @@ function clear_all() {
     elem.innerHTML = "";
 }
 
+/**
+ * "onclick" event handler for "reset" button
+ */
 function clear_steps() {
+    // clear step setting
     steps = null;
     step_ptr = 0;
+    document.getElementById("steps_display").innerHTML = "";
     document.getElementById("slider").value = "0";
-    let elem = document.getElementById("steps_display");
-    elem.innerHTML = "";
+
+    // clear graph setting
     clear_compounds();
     cy.edges().style('line-color', null);
     cy.edges().style('target-arrow-color', null);

@@ -58,21 +58,21 @@
                         <a href="#select_algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Select Algorithm</a>
                         <ul class="collapse list-unstyled" id="select_algorithm">
                             <li>
-                                <a href="#" class="algorithm">Priority Promotion</a>
+                                <a href="#" class="algorithm" data-toggle="modal" data-target="#attributes_modal">Priority Promotion</a>
                             </li>
                             <li>
-                                <a href="#" class="algorithm">DFI</a>
+                                <a href="#" class="algorithm" data-toggle="modal" data-target="#attributes_modal">DFI</a>
                             </li>
                             <li>
-                                <a href="#" class="algorithm">Zielonka</a>
+                                <a href="#" class="algorithm" data-toggle="modal" data-target="#attributes_modal">Zielonka</a>
                             </li>
                             <li>
-                                <a href="#" class="algorithm">Other</a>
+                                <a href="#" class="algorithm" data-toggle="modal" data-target="#attributes_modal">Other</a>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <a href="#" data-toggle="modal" data-target="#attributes_modal" onclick="clear_selected_attributes()">Attributes</a>
+                        <a href="#" data-toggle="modal" data-target="#attributes_modal">Attributes</a>
                     </li>
                 </ul>
             </li>
@@ -189,7 +189,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="save_selected_attributes()">Save</button>
+                    <button type="button" class="btn btn-primary" id="apply_attribute_setting" onclick="save_selected_attributes(this)">Apply</button>
                 </div>
             </div>
         </div>

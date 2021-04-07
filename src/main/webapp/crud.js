@@ -78,7 +78,6 @@ function post(){
  * with no successor, then return empty string.
  */
 function getGameString(nodesCy, forPost=true){
-
     if (!isLegalGame(nodesCy)){
         return "";
     }
@@ -168,10 +167,10 @@ let vis_attributes;
  * @returns {string}
  */
 function set_algorithm(choice) {
+    // clear all steps
     clear_steps();
-    algorithm = choice;
-    // reset attribute area
 
+    // reset attribute area
     document.getElementById("attributes_list").innerHTML = "";
     document.getElementById("selected_attr_list").innerHTML = "";
 
@@ -179,8 +178,13 @@ function set_algorithm(choice) {
     vis_attributes = [];
     selected_vis_attr = {};
     selected_attr_colors = {};
+
     // get visualized attributes
+    algorithm = choice;
     get_attributes(algorithm);
+
+    // open attribute modal
+    // document.getElementById("attributes_modal").setAttribute("aria-hidden", "false");
 }
 
 /**
