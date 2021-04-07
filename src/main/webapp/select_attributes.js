@@ -144,22 +144,6 @@ function handleChange(checkbox, attribute_id, attribute_name) {
     }
 }
 
-/**
- * clear all parent nodes
- */
-function clear_compounds() {
-    let evens = cy.$('node[type="even"]');
-    let odds = cy.$('node[type="odd"]');
-
-    evens.move({
-        parent: null
-    });
-    odds.move({
-        parent: null
-    });
-    let compounds = cy.$('node[type="compound"]');
-    compounds.remove();
-}
 
 /**
  * When the user click on "Save" of the modal,
@@ -178,7 +162,6 @@ function save_selected_attributes() {
             continue ;
         }
         let node_id = node.data("id");
-        console.log(node_id);
 
         // add nested compound nodes to the current node
         let current = node;
@@ -227,7 +210,6 @@ function save_selected_attributes() {
     }
 
     // save colors for each value and each attribute
-    console.log(selected_vis_attr);
     for (let j in selected_vis_attr) {
         let attribute = selected_vis_attr[j]
         let attribute_name = attribute["name"];
@@ -243,12 +225,13 @@ function save_selected_attributes() {
             if (attribute["type"] === "color") {
                 let color = colors[k].value;
                 selected_attr_colors[attribute_name][value] = color;
-                console.log(color);
             }
         }
     }
-    let step = steps[step_ptr]["game"];
-    update_style(step);
+    if (steps) {
+        let step = steps[step_ptr]["game"];
+        update_style(step);
+    }
 }
 
 /**

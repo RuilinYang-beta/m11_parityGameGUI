@@ -96,13 +96,9 @@
         <div id="step_controller">
             <!--start & end-->
             <div id="start_end">
-                <a href="#" class="col-4">
-                    <img id="start" src="images\play-48dp.svg" alt="play" onclick="post()">
-                </a>
-                <a href="#" class="col-4">
-                    <img src="images\stop-48dp.svg" alt="stop" onclick="clear_all()">
-                </a>
-
+                <button id="run_Button" type="button" onclick="post()">run</button>
+                <button id="stop_Button" type="button" onclick="clear_steps()">stop</button>
+                <button id="clear_allButton" type="button" onclick="clear_all()">clear</button>
             </div>
             <div class="col-3">
                 <!--a hidden field to set priority-->
@@ -122,9 +118,7 @@
                 </a>
             </div>
 
-            <div id="clear_steps">
-                <button id="clear_stepsButton" class="btn btn-info" type="button" onclick="clear_steps()">reset</button>
-            </div>
+
 
         </div>
 

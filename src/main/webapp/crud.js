@@ -20,6 +20,7 @@ let steps;
  * of each step is displayed.
  */
 function post(){
+    save_selected_attributes();
     let nodes = cy.json().elements.nodes;
 
     if (typeof nodes !== undefined) {
@@ -40,6 +41,7 @@ function post(){
                         steps[key].msg +
                         "</li>";
                 }
+                step_forward();
             }
         };
 
@@ -63,6 +65,7 @@ function post(){
     } else {
         console.log("add node first!");
     }
+
 }
 
 /**
