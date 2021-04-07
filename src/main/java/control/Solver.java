@@ -159,27 +159,27 @@ public class Solver {
 
     public static void main(String[] args) {
         // ===== option 1: test using a gameString =====
-//        String testGameString = "parity 5;\n" +
-//                "38 0 1 38,39;\n" +
-//                "39 4 1 42,38;\n" +
-//                "40 4 1 41;\n" +
-//                "41 5 0 38,40;\n" +
-//                "42 6 0 41;";
+        String testGameString = "parity 5;\n" +
+                "38 0 1 38,39;\n" +
+                "39 4 1 42,38;\n" +
+                "40 4 1 41;\n" +
+                "41 5 0 38,40;\n" +
+                "42 6 0 41;";
+
+        process(testGameString, new DFI(), false);
+
+//        // ===== option 2: test using a file path =====
+//        File f = new File("src/games/dummy.pg");
+//        if (f.isDirectory()) {
+//            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
 //
-//        process(testGameString, false);
-
-        // ===== option 2: test using a file path =====
-        File f = new File("src/games/dummy.pg");
-        if (f.isDirectory()) {
-            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
-
-            if (files != null) {
-                for (File file : files) {
-                    process(file.getPath(), new DFI(), true);
-                }
-            }
-        } else {
-            process(f.getPath(), new DFI(),true);
-        }
+//            if (files != null) {
+//                for (File file : files) {
+//                    process(file.getPath(), new DFI(), true);
+//                }
+//            }
+//        } else {
+//            process(f.getPath(), new DFI(),true);
+//        }
     }
 }

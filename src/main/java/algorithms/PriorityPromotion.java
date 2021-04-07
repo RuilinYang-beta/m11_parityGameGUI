@@ -405,14 +405,13 @@ public class PriorityPromotion implements Algorithm {
 
 	public static Collection<Attribute> getAttributes() {
 		Collection<Attribute> attributes = new ArrayList<>();
-
-		List<String> colorValues = new ArrayList<>();
-		colorValues.add("even");
-		colorValues.add("odd");
-
+		// color
+		Collection<String> colorValues = new ArrayList<>(Arrays.asList("even", "odd"));
 		Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
 		attributes.add(color);
-
+		// region
+		Attribute region = new Attribute("region", Attribute.AttributeType.text);
+		attributes.add(region);
 		return attributes;
 	}
 }

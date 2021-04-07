@@ -250,12 +250,10 @@ public class DFI implements Algorithm{
         Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
         attributes.add(color);
         // freeze, don't care about distinct value because it will be displayed as text
-         Collection<String> fLevels = new ArrayList<>();
-        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text, fLevels);
+        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text);
         attributes.add(freeze);
-        // distract
-        Collection<String> dLevels = new ArrayList<>(Arrays.asList("0", "1"));
-        Attribute distract = new Attribute("distract", Attribute.AttributeType.text, dLevels);
+        // distract, here display as text
+        Attribute distract = new Attribute("distract", Attribute.AttributeType.text);
         attributes.add(distract);
 
         return attributes;
