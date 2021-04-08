@@ -53,7 +53,7 @@ function post(){
         let gameString = getGameString(cy.nodes());
         // abort if the game is illegal
         if (gameString === ""){
-            alert("Illegal parity game. Every node should have at least 1 successor.");
+            alert("Illegal parity game. Every node should have a priority and have at least 1 successor and 1 predecessor.");
             return ;
         }
         let data = {};
