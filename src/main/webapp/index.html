@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 4</title>
+    <title>Panda Visualization</title>
 
     <!-- Bootstrap CSS CDN -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
@@ -28,7 +28,7 @@
     <!-- Sidebar  -->
     <nav id="sidebar">
         <div class="sidebar-header">
-            <h3>Oink Visualization</h3>
+            <h3>Panda Visualization</h3>
         </div>
 
         <ul class="list-unstyled components">
@@ -38,6 +38,12 @@
                     <li>
                         <a href="#">Type</a>
                     </li>
+                </ul>
+            </li>
+
+            <li class="active">
+                <a href="#algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Parity Game</a>
+                <ul class="collapse list-unstyled" id="algorithm">
                     <li>
                         <a href="#" onclick="upload()">Import</a>
                         <input type="file" id="import_file" style="display:none"/>
@@ -48,12 +54,6 @@
                     <li>
                         <a href="#" onclick="exportSolution()">Export Solution</a>
                     </li>
-                </ul>
-            </li>
-
-            <li class="active">
-                <a href="#algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Algorithm</a>
-                <ul class="collapse list-unstyled" id="algorithm">
                     <li>
                         <a href="#select_algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Select Algorithm</a>
                         <ul class="collapse list-unstyled" id="select_algorithm">

@@ -369,6 +369,7 @@ a.article:hover {
 #attrButton:focus {
     background-color: white;
     color: #6d7fcc;
+    cursor: pointer;
 }
 
 /* ---------------------------------------------------

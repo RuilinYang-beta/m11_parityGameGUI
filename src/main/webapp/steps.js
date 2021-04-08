@@ -61,7 +61,6 @@ function update_style(step) {
         let strategy = node.strategy;
         let owner = cy.$("#node_" + node.id).data("type");
         let edges = cy.edges("[source = \"node_" + node.id + "\"]");
-
         if (strategy != null) {
             if (selected_attr_colors["color"] !== null) {
                 strategy_to_color[owner] = selected_attr_colors["color"][owner];
@@ -94,7 +93,6 @@ function update_style(step) {
         let curr = cy.$('#node_' + node.id).parent();
         // get the effect values
         let opacity = effect_to_opacity[node.effect];
-
         // update color attributes
         for (let j in selected_vis_attr) {
             // get corresponding style
@@ -109,21 +107,22 @@ function update_style(step) {
                     "background-color": null,
                     "opacity": null
                 });
-            }
-
-            // set style according to the type of the attribute
-            if (type === "color") {
-                let color = selected_attr_colors[attribute["name"]][updated_value];
-                // set the style.
-                curr.style({
-                    "background-color": "" + color,
-                    "opacity": opacity
-                });
-                // next parent node object
-                let next = curr.parent();
-                curr = next;
+            } else {
+                // set style according to the type of the attribute
+                if (type === "color") {
+                    let color = selected_attr_colors[attribute["name"]][updated_value];
+                    // set the style.
+                    curr.style({
+                        "background-color": "" + color,
+                        "opacity": opacity
+                    });
+                    // next parent node object
+                    let next = curr.parent();
+                    curr = next;
+                }
             }
         }
+
         let have_text = false;
         // update text attributes
         let label_content = "";
@@ -141,6 +140,7 @@ function update_style(step) {
             }
         }
 
+        // if text attribute exists
         if (have_text) {
             curr = cy.$('#node_' + node.id);
             while (curr != null) {
