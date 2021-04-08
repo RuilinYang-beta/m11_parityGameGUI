@@ -11,6 +11,7 @@ $("#import_file").change(readSingleFile);
  * From a event read the content of the file.
  */
 function readSingleFile(e) {
+    // clear any existing filename
     currentFile = null;
     let file = e.target.files[0];
     if (!file) {

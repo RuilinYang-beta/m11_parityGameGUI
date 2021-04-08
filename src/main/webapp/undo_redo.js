@@ -22,9 +22,9 @@ document.addEventListener("keydown", function (e) {
             ur.do("remove", selecteds);
     }
     else if (e.ctrlKey && e.target.nodeName === 'BODY')
-        if (e.which === 90)
+        if (e.which === 90) // CTRL + Z
             ur.undo();
-        else if (e.which === 89)
+        else if (e.which === 89)  // CTRL + Y
             ur.redo();
         else if (e.which == 67) // CTRL + C
             cy.clipboard().copy(cy.$(":selected"));
