@@ -1,7 +1,6 @@
 baseURL = "http://localhost:8080/rest"
 
 window.onload = function () {
-    console.log("i'm in");
     // http GET
     let req = new XMLHttpRequest();
 
@@ -13,8 +12,8 @@ window.onload = function () {
             elem.innerHTML = "";
             for (let k = 0; k < algorithms.length; k ++) {
                 elem.innerHTML += "<li>\n" +
-                    "<a href=\"#\" class=\"algorithm\" data-toggle=\"modal\" data-target=\"#attributes_modal\">" + algorithms[k] + "</a>\n" +
-                    "</li>"
+                    "<a href=\"#\" class=\"algorithm\" data-toggle=\"modal\" data-target=\"#attributes_modal\" onclick=\"select_algorithm(this)\">" + algorithms[k] + "</a>\n" +
+                    "</li>";
             }
         } else if (this.readyState === 4 && this.status !== 200 && this.status !== 0) {
             alert(`Server returned error code ${this.status}.`);
