@@ -8,5 +8,9 @@ function toggle_arrow(elem) {
     }
 
     // enable apply
-    document.getElementById("apply_attribute_setting").disabled = false;
+    // document.getElementById("apply_attribute_setting").disabled = false;
 }
+
+function enable_apply() {
+    document.getElementById("apply_attribute_setting").disabled = false;
+};
