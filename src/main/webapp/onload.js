@@ -15,7 +15,7 @@ window.onload = function () {
                     "<a href=\"#\" class=\"algorithm\" data-toggle=\"modal\" data-target=\"#attributes_modal\" onclick=\"select_algorithm(this)\">" + algorithms[k] + "</a>\n" +
                     "</li>";
             }
-        } else if (this.readyState === 4 && this.status !== 200) {
+        } else if (this.readyState === 4 && this.status !== 200 && this.status !== 0) {
             alert(`Server returned error code ${this.status}.`);
         }
     };

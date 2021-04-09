@@ -43,7 +43,7 @@ function post(){
                 }
                 step_forward();
             }
-            if (this.readyState === 4 && this.status !== 200) {
+            if (this.readyState === 4 && this.status !== 200 && this.status !== 0) {
                 alert(`Server returned error code ${this.status}.\nPlease check if the game is valid and/or the server console message.`);
             }
         };
@@ -53,7 +53,7 @@ function post(){
         let gameString = getGameString(cy.nodes());
         // abort if the game is illegal
         if (gameString === ""){
-            alert("Illegal parity game. Every node should have a priority and have at least 1 successor and 1 predecessor.");
+            alert("Illegal parity game.\nEvery node should have a priority and have at least 1 successor and 1 predecessor.");
             return ;
         }
         let data = {};
@@ -66,9 +66,8 @@ function post(){
         req.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
         req.send(JSON.stringify(data));
     } else {
-        console.log("add node first!");
+        alert("Please add game first.")
     }
-
 }
 
 /**
