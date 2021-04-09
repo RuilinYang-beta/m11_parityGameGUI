@@ -8,13 +8,16 @@
 function exportGame(){
     // getGameString is defined in crud.js
     let gameString = getGameString(cy.nodes(), false);
-
+    // abort if illegal
+    if (gameString === ""){
+        alert("Illegal parity game.\nEvery node should have a priority and have at least 1 successor.");
+        return ;
+    }
     downloadFile(gameString, currentFile + ".pg");
 }
 
 function exportSolution(){
     if (steps === undefined || steps === null) {
-        // TODO: make export unclickable if algorithm not ran before
         alert("Please run the algorithm first to get solution.");
         return;
     }
