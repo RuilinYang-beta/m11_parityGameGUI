@@ -157,15 +157,6 @@ function isLegalGame(nodesCy){
     return true;
 }
 
-// Helper function of getGameString(), only used when exporting
-function getIndex(wanted, array) {
-    let idx = array.findIndex(e => e === wanted);
-    if (idx === -1) {
-        throw "it's not in the array!"
-    }
-    return idx;
-}
-
 /* post to get steps */
 let algorithm;
 let vis_attributes;

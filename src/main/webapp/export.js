@@ -15,7 +15,7 @@ function exportGame(){
 function exportSolution(){
     if (steps === undefined || steps === null) {
         // TODO: make export unclickable if algorithm not ran before
-        console.log("post the gameString to server first!");
+        alert("Please run the algorithm first to get solution.");
         return;
     }
 
@@ -28,18 +28,23 @@ function exportSolution(){
         let nodeString = "";
         // id
         let id = val.id;
+        console.log("get id");
         let idForExp = getIndex(id, ids);
         nodeString += idForExp;
         // winner
         let win = val.winner;
         nodeString += " " + win;
         // only write strategy if a node has strategy
-        if (val.strategy !== "null") {
+        console.log(val.strategy);
+        if (val.hasOwnProperty("strategy") && val.strategy !== "null") {
             let strategy = val.strategy;
+            console.log("get strategy");
             let strForExp = getIndex(strategy, ids);
             nodeString += " " + strForExp;
         }
         solString.push(nodeString);
+
+        console.log(solString);
     })
 
 
@@ -52,6 +57,17 @@ function exportSolution(){
     solString = solString.join("\n");
 
     downloadFile(solString, currentFile + ".pgsol");
+}
+
+// Helper function of getGameString(), only used when exporting
+// To make the non-consecutive ids consecutive; and make the ids start from 0.
+function getIndex(wanted, array) {
+    console.log(`wanted: ${wanted}; array: ${array}`);
+    let idx = array.findIndex(e => e === wanted);
+    if (idx === -1) {
+        throw "it's not in the array!"
+    }
+    return idx;
 }
 
 
