@@ -40,14 +40,16 @@ let CopyID = 0;
 function paste() {
     let copyMap = new Map();
     let tobePaste = cy.$(':selected');
-
-    for (let key in tobePaste.jsons()) {
-        let element = tobePaste.jsons()[key];
-        if (element.group == "nodes") {
+    for (let key = 0; key < tobePaste.length; key++) {
+        let element = tobePaste[key];
+        let data = element.data();
+        let label = element.style().label;
+        // copy nodes.
+        if (data.type) {
             node_id++;
             let id = 'node_' + node_id;
-            copyMap.set(element.data.id, id);
-            let type = element.data.type;
+            copyMap.set(data.id + "", id);
+            let type = data.type;
             // add node
             cy.add({
                     data: {
@@ -57,21 +59,23 @@ function paste() {
                     }
                 }
             );
-
+            cy.$('#' + id).style("label", label);
             // add listener for setting priority
             addPriorityListener(id);
         }
     }
 
-    for (let key in tobePaste.jsons()) {
-        let element = tobePaste.jsons()[key];
-        if (element.group == "edges") {
+    for (let key = 0; key < tobePaste.length; key++) {
+        let element = tobePaste[key];
+        let data = element.data();
+        // copy edges.
+        if (data.source) {
             CopyID++;
-            let id = element.data.id + CopyID;
-            let source = copyMap.get(element.data.source);
-            let target = copyMap.get(element.data.target);
-            if (source && target){
-                // add node
+            let id = data.id + CopyID;
+            let source = copyMap.get(data.source);
+            let target = copyMap.get(data.target);
+            if (source && target) {
+                // add edge
                 cy.add({
                         data: {
                             id: id,
@@ -84,7 +88,6 @@ function paste() {
                 // add listener for setting priority
                 addPriorityListener(id);
             }
-
         }
     }
 

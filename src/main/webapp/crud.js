@@ -41,7 +41,7 @@ function post(){
                         steps[key].msg +
                         "</li>";
                 }
-                step_forward();
+
             }
             if (this.readyState === 4 && this.status !== 200 && this.status !== 0) {
                 alert(`Server returned error code ${this.status}.\nPlease check if the game is valid and/or the server console message.`);

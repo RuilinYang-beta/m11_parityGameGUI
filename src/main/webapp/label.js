@@ -89,7 +89,7 @@ $('#inputPriorityGroup').keyup(function (evt) {
             if (isNaN(pri)){
                 pri = 0;
             }
-            if (evt.code === 'ArrowUp' || evt.key === "ArrowUp" ){
+            if (evt.code === 'ArrowUp' || evt.key === "ArrowUp" ) {
                 pri = pri + 1;
             } else {
                 pri = pri - 1;

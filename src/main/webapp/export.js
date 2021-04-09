@@ -9,7 +9,7 @@ function exportGame(){
     // getGameString is defined in crud.js
     let gameString = getGameString(cy.nodes(), false);
     // abort if illegal
-    if (gameString === ""){
+    if (!gameString){
         alert("Illegal parity game.\nEvery node should have a priority and have at least 1 successor.");
         return ;
     }
