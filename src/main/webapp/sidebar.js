@@ -16,6 +16,7 @@ $(document).ready(function () {
         while (ul.firstChild) {
             ul.removeChild(ul.firstChild);
         }
+
         // the highlight of selected algorithm
         $('.algorithm').removeClass('highlight');
         $(this).addClass('highlight');

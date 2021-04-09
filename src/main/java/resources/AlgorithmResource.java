@@ -17,4 +17,18 @@ public class AlgorithmResource {
     public Collection<Attribute> getAttributes(String algorithmName){
         return AlgorithmFactory.getAttribute(algorithmName);
     }
+
+    @Path("/all")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<String> getAlgorithms() {
+        List<String> algorithmList = new ArrayList<>();
+
+        algorithmList.add("Priority Promotion");
+        algorithmList.add("DFI");
+        algorithmList.add("Zielonka");
+        // todo: names of customized algorithm(s) to be added
+
+        return algorithmList;
+    }
 }
