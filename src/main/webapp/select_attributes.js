@@ -133,7 +133,7 @@ function handleChange(checkbox, attribute_id, attribute_name) {
                         "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#0000ff\"></li>";
                 } else {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+                        "<input class=\"attr_color_picker\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
                 }
             }
             // if the attribute_type is text
@@ -263,16 +263,3 @@ function save_selected_attributes() {
         update_style(step);
     }
 }
-
-/**
-* When the user click on "Attributes" to open the modal,
-* clear the previously added compound nodes.
-*/
-// todo: fix this
-// function clear_selected_attributes() {
-//     let nodes = cy.$("node");
-//     for (let j = 0; j < nodes.length; j ++) {
-//         let node = nodes[j];
-//         node.ancestors().remove();
-//     }
-// }
