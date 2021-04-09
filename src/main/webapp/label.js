@@ -34,42 +34,49 @@ $(document).ready(function() {
  * @param id: the id of a node
  */
 function addPriorityListener(id) {
-    cy.$(`#${id}`).on('select', function(e1) {
-        let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
-        if (intended.length === 1) {  // single selection
-            if (!$("#inputPrioritySingle").is(':focus')){
-                $("#inputPrioritySingle").focus();
-            }
-            let intendedNode = intended[0];
-            if (intendedNode.style().label !== "") {
-                $("#inputPrioritySingle").val(parseInt(intendedNode.style().label));
-            }
-        } else {  // group selection
-            if (!$("#inputPriorityGroup").is(':focus')){
-                $("#inputPriorityGroup").focus();
-            }
+    cy.$(`#${id}`).on('select', function() {
+        // let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
+        // if (intended.length === 1) {  // single selection
+        //     if (!$("#inputPrioritySingle").is(':focus')){
+        //         $("#inputPrioritySingle").focus();
+        //     }
+        //     let intendedNode = intended[0];
+        //     if (intendedNode.style().label !== "") {
+        //         $("#inputPrioritySingle").val(parseInt(intendedNode.style().label));
+        //     }
+        // } else {  // group selection
+        //     if (!$("#inputPriorityGroup").is(':focus')){
+        //         $("#inputPriorityGroup").focus();
+        //     }
+        // }
+
+        // all use group
+        if (!$("#inputPriorityGroup").is(':focus')) {
+            $("#inputPriorityGroup").focus();
         }
     })
 
     // clear the value of the input field when the node is unselected
     cy.$(`#${id}`).on('unselect', function (){
-        $('#inputPrioritySingle').val('');
+        // $('#inputPrioritySingle').val('');
         $('#inputPriorityGroup').val('');
     });
 }
 
 // handle single node selection
-$('#inputPrioritySingle').keyup(function () {
-    let priority = $('#inputPrioritySingle').val();
-    let style = {
-        "label": priority,
-        "text-wrap": "wrap",
-        "text-valign": "center",
-        "text-halign": "center"
-    }
-    let selected = cy.$(':selected');
-    selected.style(style);
-});
+// $('#inputPrioritySingle').keyup(function (evt) {
+//     if (isLegalPriority(evt)){
+//         let priority = $('#inputPrioritySingle').val();
+//         let style = {
+//             "label": priority,
+//             "text-wrap": "wrap",
+//             "text-valign": "center",
+//             "text-halign": "center"
+//         }
+//         let selected = cy.$(':selected');
+//         selected.style(style);
+//     }
+// });
 
 // handle group node selection
 $('#inputPriorityGroup').keyup(function (evt) {
@@ -95,9 +102,7 @@ $('#inputPriorityGroup').keyup(function (evt) {
             }
             element.style(style);
         });
-    } else if (evt.code === 'Control' || evt.key === 'Control') {
-        // do nothing
-    } else {  // set group priority in one go
+    } else if (isLegalPriority(evt)) {  // set group priority in one go
         let priority = $('#inputPriorityGroup').val();
 
         intended.forEach(function(element){
@@ -111,3 +116,12 @@ $('#inputPriorityGroup').keyup(function (evt) {
         });
     }
 });
+
+function isLegalPriority(evt) {
+    let cond1 = ['1','2','3','4','5','6','7','8','9','0',
+                 'Backspace'].includes(evt.key);
+    let cond2 = ['Digit1','Digit2','Digit3','Digit4','Digit5',
+                 'Digit6','Digit7','Digit8','Digit9','Digit0',
+                 'Backspace'].includes(evt.code);
+    return cond1 || cond2;
+}

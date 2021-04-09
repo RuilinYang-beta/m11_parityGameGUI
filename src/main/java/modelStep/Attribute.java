@@ -23,7 +23,11 @@ import java.util.Collection;
 @XmlRootElement
 public class Attribute {
     private String name;
+    // type can be either "color" or "text“
     private AttributeType type;
+    // if type is "color",
+    // need to specify all possible values
+    // if type is "text" then it doesn't matter
     private Collection<String> values;
 
     public enum AttributeType {

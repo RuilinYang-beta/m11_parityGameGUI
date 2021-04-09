@@ -8,11 +8,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Step {
 
     // all nodes, all attributes
-    // the attribute is pre-determined per algorithm (so that client knows how to parse it)
     private GameStatus game;
     // some nodes, all attributes
     private GameStatus update;
-    // the message to display to log steps
+    // the message to display along the step
     private String msg;
 
     public Step(){

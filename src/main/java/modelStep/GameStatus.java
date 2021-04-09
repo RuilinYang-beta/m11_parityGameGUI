@@ -9,7 +9,8 @@ import java.util.HashMap;
 
 /**
  * This class tend to save some typing of HashMap<Integer, HashMap<String, String>>。
- * It's intended to be a generic template to describe the overall status / the update of the game.
+ * It's intended to be a generic template to describe the overall status / the update
+ * of the game.
  */
 public class GameStatus extends HashMap<Integer, HashMap<String, String>>{
 

@@ -102,8 +102,10 @@
             </div>
             <div class="col-3">
                 <!--a hidden field to set priority-->
-                <input type="number" id="inputPrioritySingle" style="opacity: 0">
-                <input id="inputPriorityGroup" style="opacity: 0">
+                <input id="inputPriorityGroup" pattern="\d*" style="opacity: 0">
+<!--                <p>place holder</p>-->
+<!--                <input type="number" id="inputPrioritySingle" min="0" step="1" pattern="\d*">-->
+<!--                <input id="inputPriorityGroup" pattern="\d*">-->
             </div>
             <!--slider and stepper-->
             <div id="forward_backward">
