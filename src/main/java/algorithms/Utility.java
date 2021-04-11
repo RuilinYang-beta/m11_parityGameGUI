@@ -28,7 +28,6 @@ public class Utility {
                 result.put(p, new ArrayList<>(Arrays.asList(v)));
             }
         }
-        System.out.println(result);
         return result;
     }
 

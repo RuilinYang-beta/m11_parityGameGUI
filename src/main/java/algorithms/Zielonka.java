@@ -16,12 +16,10 @@ public class Zielonka implements Algorithm {
     private final GameStatus gameStatus = new GameStatus();
     // for returning to the client
     private final List<Step> steps = new ArrayList<>();
-    private boolean solved = false;
 
     public void solve(Game pg) {
         init(pg);
         zielonka(pg);
-        solved = true;
     }
 
 
@@ -142,7 +140,6 @@ public class Zielonka implements Algorithm {
                     }
                 }
             }
-
         } else {
             resZielonka = zielonka(Utility.getSubgame(G, B));
             // overwrite parsing result
@@ -245,17 +242,14 @@ public class Zielonka implements Algorithm {
 
 
     public String getWinner(Vertex v) {
-        assert(solved);
         return gameStatus.get(v.getId()).get("winner");
     }
 
     public String getStrategy(Vertex v){
-        assert(solved);
         return gameStatus.get(v.getId()).get("strategy");
     }
 
     public Collection<Step> getSteps() {
-        assert(solved);
         return steps;
     }
 
@@ -263,8 +257,7 @@ public class Zielonka implements Algorithm {
     public static Collection<Attribute> getAttributes() {
         Collection<Attribute> attributes = new ArrayList<>();
         // color
-        Collection<String> colorValues = new ArrayList<>(Arrays.asList("even", "odd"));
-        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+        Attribute color = new Attribute("color", Attribute.AttributeType.color, new ArrayList<>(Arrays.asList("even", "odd")));
         attributes.add(color);
 
         return attributes;
