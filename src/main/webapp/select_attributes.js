@@ -127,13 +127,13 @@ function handleChange(checkbox, attribute_id, attribute_name) {
             if (type === "color") {
                 if (name === "color" && value === "even") {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#6C6AFF\"></li>";
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#6C6AFF\" onchange=\"enable_apply()\"></li>";
                 } else if (name === "color" && value === "odd") {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#FF9085\"></li>";
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#FF9085\" onchange=\"enable_apply()\"></li>";
                 } else {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\"></li>";
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" onchange=\"enable_apply()\"></li>";
                 }
             }
             // if the attribute_type is text
@@ -263,16 +263,3 @@ function save_selected_attributes() {
         update_style(step);
     }
 }
-
-/**
-* When the user click on "Attributes" to open the modal,
-* clear the previously added compound nodes.
-*/
-// todo: fix this
-// function clear_selected_attributes() {
-//     let nodes = cy.$("node");
-//     for (let j = 0; j < nodes.length; j ++) {
-//         let node = nodes[j];
-//         node.ancestors().remove();
-//     }
-// }

@@ -1,6 +1,5 @@
-/* add node by button*/
 let node_id = 0;
-
+//add node by button
 function addEven(){
 
     // initialize region
@@ -64,8 +63,6 @@ function addOdd(){
     if (auto_organizing)
         cy.layout({name: 'cola', colasetting}).run();
 }
-
-
 /**
  * Add a node with given owner and priority.
  * Make use of the addEven and addOdd function, in addition set the priority in the style of the node.
@@ -102,7 +99,6 @@ panel.on("dragfree", "#a_drag", function(evt) {
 
     // set position of the node
     let top = $("#cy").position().top;
-    console.log(top);
     let left = $("#cy").position().left;
     cy.$("#node_" + node_id).renderedPosition({
             x: evt.target.renderedPosition('x') - left,
