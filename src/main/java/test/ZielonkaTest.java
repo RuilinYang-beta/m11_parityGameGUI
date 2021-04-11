@@ -1,7 +1,6 @@
 package test;
 
 import algorithms.Algorithm;
-import algorithms.PriorityPromotion;
 import algorithms.Zielonka;
 import control.Solver;
 import modelGame.Game;
@@ -13,7 +12,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class PriorityPromotionTest {
+public class ZielonkaTest {
 
     private final String BASE = "src/games";
     private Algorithm algo;
@@ -21,7 +20,7 @@ public class PriorityPromotionTest {
 
     @BeforeEach
     public void init(){
-        algo = new PriorityPromotion();
+        algo = new Zielonka();
         bm = new Benchmark();
     }
 
@@ -105,4 +104,5 @@ public class PriorityPromotionTest {
             assertEquals("" + algo.getStrategy(v), "" + bm.getStrategy(v));
         }
     }
+
 }

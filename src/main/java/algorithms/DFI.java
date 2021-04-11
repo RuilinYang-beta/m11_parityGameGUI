@@ -23,7 +23,6 @@ public class DFI implements Algorithm{
     private final GameStatus gameStatus = new GameStatus();
     // for returning to the client
     private final List<Step> steps = new ArrayList<>();
-    private boolean solved = false;
 
     /**
      * Given a parity game as a collection of vertices, solve the game.
@@ -65,6 +64,12 @@ public class DFI implements Algorithm{
                     }
                 }
 
+                int updatedSize = updated.size();
+                if (updatedSize != 0) {
+                    triggerStep(vertices, updated, "strategy found");
+                }
+
+
                 int pr = vertex.getPriority();
 
                 // check if the vertex should actually be in Z
@@ -90,30 +95,18 @@ public class DFI implements Algorithm{
                         }
                         updated.add(v2);
                     }
-
-//                    triggerStep(vertices, updated);
-//
-//                    // important: break the loop so we can restart from 0 now
-//                    somethingchanged = true;
-//                    break;
-
+                    if (updated.size() != updatedSize) {
+                        triggerStep(vertices, updated, "distractor found; freeze nodes with same winner; thaw & reset nodes with diff winner");
+                    }
                     somethingchanged = true;
-                }
-
-                if (updated.size() != 0) {
-                    triggerStep(vertices, updated);
                 }
 
                 // important: break the loop so we can restart from 0 now
                 if (somethingchanged) {
                     break;
                 }
-
             }
         }
-        solved = true;
-
-        System.out.println("There are " + steps.size() + " steps.");
     }
 
 
@@ -127,53 +120,32 @@ public class DFI implements Algorithm{
         for (Vertex v : vertices) {
             // init <GameStatus> object, the attribute of nodeStatus differs per algorithm
             HashMap<String, String> nodeStatus = new HashMap<>();
+            // regardless of algorithm, all nodes have these 3 attributes
             nodeStatus.put("id", "" + v.getId());
+            nodeStatus.put("strategy", null);
+            nodeStatus.put("winner", (v.getPriority() % 2 == 0)? "0" : "1");
+
             // freeze: specific to DFI
             nodeStatus.put("freeze", null);
             // distract: specific to DFI, initially no node is distraction
             nodeStatus.put("distract", "0");
+
             // init color is its priority's color
             nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
             // init visual effect is highlight
             nodeStatus.put("effect", Effect.HIGHLIGHT.toString());
-            nodeStatus.put("strategy", null);
-            nodeStatus.put("winner", (v.getPriority() % 2 == 0)? "0" : "1");
+
             // node i is at index i of gameStatus, to accommodate id staring from any number
             gameStatus.put(v.getId(), nodeStatus);
         }
 
-        // init attribute here
-//        // color
-//        Collection<String> colorValues = new ArrayList<>();
-//        colorValues.add("even");
-//        colorValues.add("odd");
-//        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
-//        this.attributes.add(color);
-//        // freeze, how many distinct value of priority are there?
-//        Collection<String> fLevels = vertices.stream().map(e -> "" + e.getPriority()).collect(Collectors.toSet());
-//        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text, colorValues);
-//        this.attributes.add(freeze);
-//        // distract
-//        Collection<String> dLevels = new ArrayList<>();
-//        colorValues.add("0");
-//        colorValues.add("1");
-//        Attribute distract = new Attribute("distract", Attribute.AttributeType.text, colorValues);
-//        this.attributes.add(distract);
+        GameStatus gameStatusCopy = gameStatus.getDeepCopy();
+        steps.add(new Step(gameStatusCopy, gameStatusCopy, "init: assume node won by the player of its priority's parity"));
+
     }
 
 
-    protected void triggerStep(List<Vertex> vertices, List<Vertex> updated) {
-        /*
-         * At this point, I would like to add a step to the algorithm; for now.
-         * ideally I would like to have "minor" and "major" steps but I would say
-         * having different "levels" of steps is a nice-to-have but probably best
-         * to start with just steps.
-         */
-
-        /*
-         * Make copies of the sets to put in the step
-         */
-
+    protected void triggerStep(List<Vertex> vertices, List<Vertex> updated, String message) {
         // based on the update vertices, modify gameStatus
         for (Vertex v : updated) {
             int id = v.getId();
@@ -186,8 +158,8 @@ public class DFI implements Algorithm{
             String winner = (v.getPriority() % 2 == 0)? "even" : "odd";
             String winnerReverse = (v.getPriority() % 2 == 0)? "odd" : "even";
             gameStatus.get(id).put("color", (Z.contains(v))? winnerReverse : winner);
-            // effect attribute: if not frozen, hightlight; else, shade
-            gameStatus.get(id).put("effect", (freeze == -1)? Effect.HIGHLIGHT.toString() : Effect.SHADE.toString());
+            // effect attribute: if not frozen and not distract, hightlight; else, shade
+            gameStatus.get(id).put("effect", (freeze == -1 && !Z.contains(v))? Effect.HIGHLIGHT.toString() : Effect.SHADE.toString());
             // strategy attribute
             gameStatus.get(id).put("strategy", "" + ((S.get(v) == null)? null : S.get(v).getId()));
             // winner attribute
@@ -195,9 +167,9 @@ public class DFI implements Algorithm{
             gameStatus.get(id).put("winner", winnerNum);
         }
 
-        // visually freeze the first vertex
-        Vertex first = updated.get(0);
-        gameStatus.get(first.getId()).put("freeze", "" + first.getPriority());
+        // visually freeze the first vertex (why would I do this???)
+//        Vertex first = updated.get(0);
+//        gameStatus.get(first.getId()).put("freeze", "" + first.getPriority());
 
         // deep copy gameStatus, get a subset of it as updateStatus
         GameStatus gameStatusCopy = gameStatus.getDeepCopy();
@@ -208,51 +180,45 @@ public class DFI implements Algorithm{
             // they won't be changed later
             updateStatus.put(id, gameStatusCopy.get(id));
         }
-
-        System.out.println(updateStatus);
         // construct a step and add it to steps
-        steps.add(new Step(gameStatusCopy, updateStatus, ""));
+        steps.add(new Step(gameStatusCopy, updateStatus, message));
     }
 
     /**
      * Retrieve the winner of a vertex: player 0 or player 1.
      */
-//    public int getWinner(Vertex v) {
-//        int r = v.getPriority() % 2;
-//        return Z.contains(v) ? 1-r : r;
-//    }
     public String getWinner(Vertex v) {
-        assert(solved);
-        return gameStatus.get(v.getId()).get("winner");
+        int r = v.getPriority() % 2;
+        return "" + (Z.contains(v) ? 1-r : r);
     }
+//    public String getWinner(Vertex v) {
+//        return gameStatus.get(v.getId()).get("winner");
+//    }
 
     /**
      * If the vertex owner is winning then returns a single vertex, the strategy to win
      * If the vertex owner is losing then returns null, because there is no strategy to win
      */
-//    public Vertex getStrategy(Vertex v) {
-//        return S.get(v);
-//    }
-    public String getStrategy(Vertex v){
-        assert(solved);
-        return gameStatus.get(v.getId()).get("strategy");
+    public String getStrategy(Vertex v) {
+        return (S.containsKey(v) && S.get(v) != null)? "" + S.get(v).getId() : "null";
     }
+//    public String getStrategy(Vertex v){
+//        return gameStatus.get(v.getId()).get("strategy");
+//    }
 
     public Collection<Step> getSteps() {
-        assert(solved);
         return steps;
     }
 
     public static Collection<Attribute> getAttributes() {
         Collection<Attribute> attributes = new ArrayList<>();
         // color
-        Collection<String> colorValues = new ArrayList<>(Arrays.asList("even", "odd"));
-        Attribute color = new Attribute("color", Attribute.AttributeType.color, colorValues);
+        Attribute color = new Attribute("color", Attribute.AttributeType.color, new ArrayList<>(Arrays.asList("even", "odd")));
         attributes.add(color);
         // freeze, don't care about distinct value because it will be displayed as text
         Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text);
         attributes.add(freeze);
-        // distract, here display as text
+        // distract, here display as color
         Attribute distract = new Attribute("distract", Attribute.AttributeType.text);
         attributes.add(distract);
 

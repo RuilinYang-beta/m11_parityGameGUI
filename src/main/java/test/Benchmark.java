@@ -108,7 +108,7 @@ public class Benchmark implements Algorithm {
      */
     public String getStrategy(Vertex v) {
         Vertex s = S.getOrDefault(v, null);
-        return (s == null)? null : "" + s.getId();
+        return (s == null)? "null" : "" + s.getId();
     }
 
     public Collection<Step> getSteps() {

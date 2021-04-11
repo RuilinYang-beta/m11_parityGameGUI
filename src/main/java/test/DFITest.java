@@ -1,8 +1,6 @@
 package test;
 
-import algorithms.Algorithm;
-import algorithms.PriorityPromotion;
-import algorithms.Zielonka;
+import algorithms.*;
 import control.Solver;
 import modelGame.Game;
 import modelGame.Vertex;
@@ -13,7 +11,7 @@ import java.io.IOException;
 
 import static org.junit.Assert.*;
 
-public class PriorityPromotionTest {
+public class DFITest {
 
     private final String BASE = "src/games";
     private Algorithm algo;
@@ -21,7 +19,7 @@ public class PriorityPromotionTest {
 
     @BeforeEach
     public void init(){
-        algo = new PriorityPromotion();
+        algo = new DFI();
         bm = new Benchmark();
     }
 
@@ -101,8 +99,16 @@ public class PriorityPromotionTest {
         bm.solve(pg);
 
         for (Vertex v : pg.getVertices()){
+            System.out.println("winner map");
+            System.out.println("algo: " + v + " -> " + algo.getWinner(v));
+            System.out.println("bm: " + v + " -> " + bm.getWinner(v));
             assertEquals(algo.getWinner(v), bm.getWinner(v));
+
+            System.out.println("strategy map");
+            System.out.println("algo: " + v + " -> " + algo.getWinner(v));
+            System.out.println("bm: " + v + " -> " + bm.getWinner(v));
             assertEquals("" + algo.getStrategy(v), "" + bm.getStrategy(v));
         }
     }
+
 }

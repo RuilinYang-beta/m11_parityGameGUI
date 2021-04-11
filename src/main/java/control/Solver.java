@@ -174,7 +174,7 @@ public class Solver {
 //        process(testGameString, new DFI(), false);
 
         // ===== option 2: test using a file path =====
-        File f = new File("src/games/dummy.pg");
+        File f = new File("src/games/test001.pg");
         if (f.isDirectory()) {
             File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
 
