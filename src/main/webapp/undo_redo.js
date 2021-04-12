@@ -45,7 +45,7 @@ function paste() {
         let data = element.data();
         let label = element.style().label;
         // copy nodes.
-        if (data.type) {
+        if (data.type == "even" || data.type == "odd") {
             node_id++;
             let id = 'node_' + node_id;
             copyMap.set(data.id + "", id);
