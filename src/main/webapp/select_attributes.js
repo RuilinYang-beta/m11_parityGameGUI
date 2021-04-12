@@ -127,10 +127,10 @@ function handleChange(checkbox, attribute_id, attribute_name) {
             if (type === "color") {
                 if (name === "color" && value === "even") {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#ff0000\" onchange=\"enable_apply()\"></li>";
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#6C6AFF\" onchange=\"enable_apply()\"></li>";
                 } else if (name === "color" && value === "odd") {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
-                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#0000ff\" onchange=\"enable_apply()\"></li>";
+                        "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" value = \"#FF9085\" onchange=\"enable_apply()\"></li>";
                 } else {
                     selected_attribute_values.innerHTML += "<li class=\"list-group-item\">" + value +
                         "<input class=\"attr_color_picker\" type=\"color\" id=\"attribute_" + index + "_value_" + j +"\" onchange=\"enable_apply()\"></li>";

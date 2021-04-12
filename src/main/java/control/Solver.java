@@ -12,6 +12,7 @@ import parser.PGParser;
 import parser.PGParser.EdgeContext;
 import parser.PGParser.LineContext;
 import parser.PGParser.RootContext;
+import test.Benchmark;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -61,6 +62,10 @@ public class Solver {
 //        } catch (FileNotFoundException e) {
 //            System.err.println("Cannot open " + gameString + " for writing!");
 //        }
+    }
+
+    public static void solve(Game pg, Algorithm algo){
+
     }
 
 
@@ -158,28 +163,31 @@ public class Solver {
 
 
     public static void main(String[] args) {
-        // ===== option 1: test using a gameString =====
-        String testGameString = "parity 5;\n" +
-                "38 0 1 38,39;\n" +
-                "39 4 1 42,38;\n" +
-                "40 4 1 41;\n" +
-                "41 5 0 38,40;\n" +
-                "42 6 0 41;";
-
-        process(testGameString, new DFI(), false);
-
-//        // ===== option 2: test using a file path =====
-//        File f = new File("src/games/dummy.pg");
-//        if (f.isDirectory()) {
-//            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
+//        // ===== option 1: test using a gameString =====
+//        String testGameString = "parity 5;\n" +
+//                "38 0 1 38,39;\n" +
+//                "39 4 1 42,38;\n" +
+//                "40 4 1 41;\n" +
+//                "41 5 0 38,40;\n" +
+//                "42 6 0 41;";
 //
-//            if (files != null) {
-//                for (File file : files) {
-//                    process(file.getPath(), new DFI(), true);
-//                }
-//            }
-//        } else {
-//            process(f.getPath(), new DFI(),true);
-//        }
+//        process(testGameString, new DFI(), false);
+
+        // ===== option 2: test using a file path =====
+        File f = new File("src/games/test001.pg");
+        if (f.isDirectory()) {
+            File[] files = f.listFiles((dir, name) -> name.endsWith(".pg"));
+
+            if (files != null) {
+                for (File file : files) {
+                    process(file.getPath(), new DFI(), true);
+//                    process(file.getPath(), new Benchmark(), true);
+                }
+            }
+        } else {
+            process(f.getPath(), new DFI(),true);
+//            process(f.getPath(), new Benchmark(), true);
+        }
+
     }
 }
