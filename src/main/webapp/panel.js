@@ -1,4 +1,6 @@
-/* fixed node panel */
+/**
+ * Node panel for drag and drop in the sidebar.
+ * */
 let panel = cytoscape({
     container: document.getElementById("panel"),
     style: [

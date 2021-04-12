@@ -1,7 +1,8 @@
-/* user graph */
+/**
+ *  core graph
+ *  */
 let cy = cytoscape({
     container: document.getElementById("cy"),
-
     style: [
         {
             selector: ':selected',
@@ -11,6 +12,7 @@ let cy = cytoscape({
             }
         },
 
+        // edges
         {
             selector: 'edge',
             style: {
@@ -20,7 +22,7 @@ let cy = cytoscape({
             }
         },
 
-        // some style for the extension
+        // some style for the edge handler extension
         {
             selector: '.eh-handle',
             style: {
@@ -33,14 +35,12 @@ let cy = cytoscape({
                 'border-opacity': 0
             }
         },
-
         {
             selector: '.eh-hover',
             style: {
                 'background-color': 'red'
             }
         },
-
         {
             selector: '.eh-source',
             style: {
@@ -48,7 +48,6 @@ let cy = cytoscape({
                 'border-color': 'red'
             }
         },
-
         {
             selector: '.eh-target',
             style: {
@@ -56,7 +55,6 @@ let cy = cytoscape({
                 'border-color': 'red'
             }
         },
-
         {
             selector: '.eh-preview, .eh-ghost-edge',
             style: {
@@ -66,7 +64,6 @@ let cy = cytoscape({
                 'source-arrow-color': 'red'
             }
         },
-
         {
             selector: '.eh-ghost-edge.eh-preview-active',
             style: {
@@ -108,8 +105,6 @@ let cy = cytoscape({
                 "opacity": 0.65
             }
         },
-
-        // .style("line-color", "red");
     ],
 });
 

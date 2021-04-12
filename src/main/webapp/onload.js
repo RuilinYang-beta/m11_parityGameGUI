@@ -1,5 +1,8 @@
 baseURL = "http://localhost:8080/rest"
 
+/**
+ * Fetch installed algorithms at the start of the program.
+ * */
 window.onload = function () {
     // http GET
     let req = new XMLHttpRequest();

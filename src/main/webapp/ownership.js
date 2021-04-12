@@ -1,5 +1,5 @@
 /**
- * toggle ownership of selected nodes.
+ * Toggle ownership of selected nodes.
  */
 function toggle_ownership() {
     let nodes = cy.$(':selected');
@@ -16,5 +16,4 @@ function toggle_ownership() {
             node.style("shape", "ellipse");
         }
     }
-
 }

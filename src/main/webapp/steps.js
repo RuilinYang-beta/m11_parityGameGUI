@@ -4,8 +4,6 @@
 // index of the current step
 let step_ptr = 0;
 
-// todo: to differentiate text and color
-
 /**
  * dictionary to translate effect attribute to opacity in graph
  * **/
@@ -14,7 +12,9 @@ let effect_to_opacity = {
     "shade": 0.25,
     "neutral": 0.65
 }
-
+/**
+ * dictionary to translate strategy to default color in graph
+ * **/
 let strategy_to_color = {
     "even": "blue",
     "odd": "red"
@@ -25,14 +25,13 @@ let strategy_to_color = {
  * **/
 function step_forward() {
     // point to the desired step
-    if (step_ptr >= steps.length - 1) {
-        return ;
-    }
+    if (step_ptr >= steps.length - 1) return ;
+
+    step_ptr += 1;
     let step = steps[step_ptr]["game"];
     update_style(step);
     document.getElementById("slider").value = step_ptr + "";
     selectChannel(step_ptr);
-    step_ptr += 1;
 }
 
 

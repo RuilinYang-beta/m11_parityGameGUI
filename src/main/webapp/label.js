@@ -1,7 +1,7 @@
-/* add label */
-
-/* priority */
-// the element #inputPriorityGroup need to be a text input field that only takes digits
+/**
+ * set priority
+ * the element #inputPriorityGroup need to be a text input field that only takes digits
+ * */
 $(document).ready(function() {
     $("#inputPriorityGroup").inputFilter(function(value) {
         return /^\d*$/.test(value);    // Allow digits only, using a RegExp
@@ -35,20 +35,6 @@ $(document).ready(function() {
  */
 function addPriorityListener(id) {
     cy.$(`#${id}`).on('select', function() {
-        // let intended = cy.$(':selected').filter(e => e.data().type === "even" || e.data().type === "odd");
-        // if (intended.length === 1) {  // single selection
-        //     if (!$("#inputPrioritySingle").is(':focus')){
-        //         $("#inputPrioritySingle").focus();
-        //     }
-        //     let intendedNode = intended[0];
-        //     if (intendedNode.style().label !== "") {
-        //         $("#inputPrioritySingle").val(parseInt(intendedNode.style().label));
-        //     }
-        // } else {  // group selection
-        //     if (!$("#inputPriorityGroup").is(':focus')){
-        //         $("#inputPriorityGroup").focus();
-        //     }
-        // }
 
         // all use group
         if (!$("#inputPriorityGroup").is(':focus')) {
@@ -62,21 +48,6 @@ function addPriorityListener(id) {
         $('#inputPriorityGroup').val('');
     });
 }
-
-// handle single node selection
-// $('#inputPrioritySingle').keyup(function (evt) {
-//     if (isLegalPriority(evt)){
-//         let priority = $('#inputPrioritySingle').val();
-//         let style = {
-//             "label": priority,
-//             "text-wrap": "wrap",
-//             "text-valign": "center",
-//             "text-halign": "center"
-//         }
-//         let selected = cy.$(':selected');
-//         selected.style(style);
-//     }
-// });
 
 // handle group node selection
 $('#inputPriorityGroup').keyup(function (evt) {

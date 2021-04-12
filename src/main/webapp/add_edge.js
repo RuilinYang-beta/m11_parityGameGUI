@@ -1,4 +1,6 @@
-/* edge handlers */
+/**
+set edge handler extension
+*/
 let defaults = {
     handleNodes: 'node[type="even"], node[type="odd"]', // selector/filter function for whether edges can be made from a given node
 

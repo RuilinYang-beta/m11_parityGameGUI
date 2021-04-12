@@ -8,14 +8,19 @@
 function exportGame(){
     // getGameString is defined in crud.js
     let gameString = getGameString(cy.nodes(), false);
+
     // abort if illegal
     if (!gameString){
         alert("Illegal parity game.\nEvery node should have a priority and have at least 1 successor.");
         return ;
     }
+
     downloadFile(gameString, currentFile + ".pg");
 }
 
+/**
+ * Export solution of the current game with the current algorithm as a text file.
+ */
 function exportSolution(){
     if (steps === undefined || steps === null) {
         alert("Please run the algorithm first to get solution.");
@@ -62,8 +67,10 @@ function exportSolution(){
     downloadFile(solString, currentFile + ".pgsol");
 }
 
-// Helper function of getGameString(), only used when exporting
-// To make the non-consecutive ids consecutive; and make the ids start from 0.
+/**
+ * Helper function of getGameString(), only used for export.
+ * To make the non-consecutive ids consecutive; and make the ids start from 0.
+ * */
 function getIndex(wanted, array) {
     console.log(`wanted: ${wanted}; array: ${array}`);
     let idx = array.findIndex(e => e === wanted);
@@ -73,7 +80,9 @@ function getIndex(wanted, array) {
     return idx;
 }
 
-
+/**
+ * Helper function of exportGame(), only used for export.
+ * */
 function downloadFile(content, filename){
     const a = document.createElement('a');
     const file = new Blob([content], {type: 'text/plain'});

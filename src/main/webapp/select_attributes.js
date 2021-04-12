@@ -151,26 +151,6 @@ function handleChange(checkbox, attribute_id, attribute_name) {
 }
 
 /**
- * clear all parent nodes
- */
-function clear_compounds() {
-    // move all parents of even nodes and odd nodes
-    let evens = cy.$('node[type="even"]');
-    let odds = cy.$('node[type="odd"]');
-    evens.move({
-        parent: null
-    });
-    odds.move({
-        parent: null
-    });
-
-    // remove all compound nodes
-    let compounds = cy.$('node[type="compound"]');
-    compounds.remove();
-}
-
-
-/**
  * When the user click on "Save" of the modal,
  * save the setting of selected attributes.
  */

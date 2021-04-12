@@ -1,28 +1,26 @@
+/**
+ * the base url of the HTTP request
+ * */
 baseURL = "http://localhost:8080/rest"
 
-// id:          cy.$(`#${node}`).data().id     --> trim
-// owner:       cy.$(`#${node}`).data().type
-// priority:    cy.$(`#${node}`).style().label
-// out:         cy.$("#node0").neighborhood("node").forEach( e => console.log(e.data().id))
+/**
+ * the algorithm steps to be displayed
+ * */
 let steps;
 
-
-// `cy.nodes()` have access to the style().label (priority) of a node
-// `cy.json().elements.nodes` can quickly access id/type of a node but not style
-
-// `cy.nodes()` returns a generator
-// `cy.json()` give you all the stuffs
-
-/* post to get steps */
 /**
  * When the play button is clicked, this function is triggered, the current graph is serialized
  * into a string of .pg file format and send to server; the response steps is stored and the message
  * of each step is displayed.
  */
 function post(){
+    // error protection: automatically saves the selected attributes
+    // in case the user forgot to
     save_selected_attributes();
-    let nodes = cy.json().elements.nodes;
 
+    // post the nodes in the current core graph to the backend
+    let nodes = cy.json().elements.nodes;
+    // if the core graph is not empty
     if (typeof nodes !== undefined) {
         // http POST
         let req = new XMLHttpRequest();
@@ -31,8 +29,11 @@ function post(){
                 // save steps
                 steps = JSON.parse(this.responseText);
                 console.log(steps);
+
+                // set slider accordingly
                 document.getElementById("slider").setAttribute("max", steps.length - 1 + "");
-                // display steps
+
+                // display the messages of the steps in the sidebar on the right
                 let elem = document.getElementById("steps_display");
                 elem.innerHTML = "";
                 for (let key in steps) {
@@ -41,8 +42,9 @@ function post(){
                         steps[key].msg +
                         "</li>";
                 }
-
             }
+
+            // warn the user about server error
             if (this.readyState === 4 && this.status !== 200 && this.status !== 0) {
                 alert(`Server returned error code ${this.status}.\nPlease check if the game is valid and/or the server console message.`);
             }
@@ -51,20 +53,24 @@ function post(){
         // prepare the data to send
         let algorithm = $('.highlight')[0].innerHTML;
         let gameString = getGameString(cy.nodes());
+
         // abort if the game is illegal
         if (gameString === ""){
             alert("Illegal parity game.\nEvery node should have a priority and have at least 1 successor and 1 predecessor.");
             return ;
         }
+
+        // organize the data in a json object
         let data = {};
         data["algorithm"] = algorithm;
         data["game"] = gameString;
-        console.log(JSON.stringify(data));
 
         // send http POST request
         req.open("POST", baseURL + "/vertex", true);
         req.setRequestHeader("Content-type", 'application/json; charset=UTF-8');
         req.send(JSON.stringify(data));
+
+    // if the core graph is empty
     } else {
         alert("Please add game first.")
     }
@@ -156,14 +162,20 @@ function isLegalGame(nodesCy){
     return true;
 }
 
-/* post to get steps */
+/**
+ * the name of the current algorithm
+ * */
 let algorithm;
-let vis_attributes;
+
+/**
+ * the list of attributes of the current algorithm
+ * */
+let vis_attributes = [];
 
 /**
  * Set the algorithm to be run;
  * Get the attributes of the algorithm as a list of json object;
- * @param algorithm
+ * @param choice
  * @returns {string}
  */
 function set_algorithm(choice) {
@@ -179,17 +191,13 @@ function set_algorithm(choice) {
     selected_vis_attr = {};
     selected_attr_colors = {};
 
-    // get visualized attributes
+    // get attributes to be visualized
     algorithm = choice;
     get_attributes(algorithm);
-
-    // open attribute modal
-    // document.getElementById("attributes_modal").setAttribute("aria-hidden", "false");
 }
 
 /**
- * Helper Function;
- * Get the attributes of the algorithm as a list of json object;
+ * Get the attributes of the algorithm as a list of json objects;
  * @param algorithm
  * @returns {string}
  */

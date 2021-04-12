@@ -1,6 +1,11 @@
-// a variable storing current file name
+/**
+ * a variable storing current file name
+ * */
 let currentFile = null;
 
+/**
+ * Helper function.
+ * */
 function upload(){
     $("#import_file").click();
 }
@@ -73,21 +78,21 @@ function addGraphFromString(gameString){
 }
 
 
-let testGameString = "parity 9;\n" +
-    "0 0 0 1;\n" +
-    "1 2 1 0,5;\n" +
-    "2 7 0 1,6;\n" +
-    "3 1 1 2,4;\n" +
-    "4 5 0 3,8;\n" +
-    "5 8 0 6;\n" +
-    "6 6 0 7;\n" +
-    "7 2 0 3,8;\n" +
-    "8 3 0 4,7;"
+// let testGameString = "parity 9;\n" +
+//     "0 0 0 1;\n" +
+//     "1 2 1 0,5;\n" +
+//     "2 7 0 1,6;\n" +
+//     "3 1 1 2,4;\n" +
+//     "4 5 0 3,8;\n" +
+//     "5 8 0 6;\n" +
+//     "6 6 0 7;\n" +
+//     "7 2 0 3,8;\n" +
+//     "8 3 0 4,7;"
 
 /**
  * Add the game on page 119/205 of the slides http://tvandijk.nl/pdf/2019softwarescience.pdf
  * to the graph. This acts as a benchmark to compare our visualization with.
  */
-function dummyGraph(){
-    addGraphFromString(testGameString);
-}
+// function dummyGraph(){
+//     addGraphFromString(testGameString);
+// }

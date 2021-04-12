@@ -3,18 +3,6 @@ var ur = cy.undoRedo({
     isDebug: true
 });
 
-// cy.on("afterUndo", function (e, name) {
-//     document.getElementById("undos").innerHTML += "<span style='color: darkred; font-weight: bold'>Undo: </span> " + name  +"</br>";
-// });
-//
-// cy.on("afterRedo", function (e, name) {
-//     document.getElementById("undos").innerHTML += "<span style='color: darkblue; font-weight: bold'>Redo: </span>" + name  +"</br>";
-// });
-//
-// cy.on("afterDo", function (e, name) {
-//     document.getElementById("undos").innerHTML += "<span style='color: darkmagenta; font-weight: bold'>Do: </span>" + name  +"</br>";
-// });
-
 document.addEventListener("keydown", function (e) {
     if(e.which === 46) {
         var selecteds = cy.$(":selected");
