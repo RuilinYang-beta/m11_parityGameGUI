@@ -1,6 +1,6 @@
 package algorithms;
 
-import modelStep.Attribute;
+import modelStep.Label;
 import modelGame.Game;
 import modelStep.Step;
 import modelGame.Vertex;
@@ -18,6 +18,6 @@ public interface Algorithm {
     Collection<Step> getSteps();
 
     // get list of attributes related to this algorithm
-    static Collection<Attribute> getAttributes(){return null;}
+    static Collection<Label> getAttributes(){return null;}
 
 }

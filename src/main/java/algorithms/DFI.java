@@ -1,13 +1,12 @@
 package algorithms;
 
 import modelGame.*;
-import modelStep.Attribute;
+import modelStep.Label;
 import modelStep.Effect;
 import modelStep.GameStatus;
 import modelStep.Step;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class DFI implements Algorithm{
     /**
@@ -210,16 +209,16 @@ public class DFI implements Algorithm{
         return steps;
     }
 
-    public static Collection<Attribute> getAttributes() {
-        Collection<Attribute> attributes = new ArrayList<>();
+    public static Collection<Label> getLabels() {
+        Collection<Label> attributes = new ArrayList<>();
         // color
-        Attribute color = new Attribute("color", Attribute.AttributeType.color, new ArrayList<>(Arrays.asList("even", "odd")));
+        Label color = new Label("color", Label.LabelType.color, new ArrayList<>(Arrays.asList("even", "odd")));
         attributes.add(color);
         // freeze, don't care about distinct value because it will be displayed as text
-        Attribute freeze = new Attribute("freeze", Attribute.AttributeType.text);
+        Label freeze = new Label("freeze", Label.LabelType.text);
         attributes.add(freeze);
         // distract, here display as color
-        Attribute distract = new Attribute("distract", Attribute.AttributeType.text);
+        Label distract = new Label("distract", Label.LabelType.text);
         attributes.add(distract);
 
         return attributes;

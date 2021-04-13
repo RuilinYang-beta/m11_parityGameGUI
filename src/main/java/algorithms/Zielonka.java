@@ -2,7 +2,7 @@ package algorithms;
 
 import modelGame.Game;
 import modelGame.Vertex;
-import modelStep.Attribute;
+import modelStep.Label;
 import modelStep.Effect;
 import modelStep.GameStatus;
 import modelStep.Step;
@@ -254,10 +254,10 @@ public class Zielonka implements Algorithm {
     }
 
     // get list of attributes related to this algorithm
-    public static Collection<Attribute> getAttributes() {
-        Collection<Attribute> attributes = new ArrayList<>();
+    public static Collection<Label> getLabels() {
+        Collection<Label> attributes = new ArrayList<>();
         // color
-        Attribute color = new Attribute("color", Attribute.AttributeType.color, new ArrayList<>(Arrays.asList("even", "odd")));
+        Label color = new Label("color", Label.LabelType.color, new ArrayList<>(Arrays.asList("even", "odd")));
         attributes.add(color);
 
         return attributes;

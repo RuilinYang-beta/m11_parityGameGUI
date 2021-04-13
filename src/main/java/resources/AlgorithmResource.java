@@ -1,6 +1,6 @@
 package resources;
 
-import modelStep.Attribute;
+import modelStep.Label;
 
 import algorithms.*;
 
@@ -14,8 +14,8 @@ public class AlgorithmResource {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     @Produces(MediaType.APPLICATION_JSON)
-    public Collection<Attribute> getAttributes(String algorithmName){
-        return AlgorithmFactory.getAttribute(algorithmName);
+    public Collection<Label> getLabels(String algorithmName){
+        return AlgorithmFactory.getLabels(algorithmName);
     }
 
     @Path("/all")

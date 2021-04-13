@@ -288,7 +288,7 @@ a.article:hover {
 
 #graph_area {
     left: 60px;
-    top: -30px;
+    top: -20px;
 }
 
 #cy {
@@ -346,16 +346,17 @@ a.article:hover {
 }
 
 #attrButton {
-    width: 72px;
     text-align: center;
     vertical-align: middle;
     border: 1px solid transparent;
-    padding: .4rem 0rem;
+    padding: .35rem .56rem;
     background-color: #6d7fcc;
     color: white;
     border-color: #6c757d;
     border-radius: .25rem;
-    z-index:999;
+    position: absolute;
+    left: 7px;
+    z-index: 999;
 }
 
 #attrButton:hover,

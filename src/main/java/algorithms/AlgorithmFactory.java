@@ -1,18 +1,18 @@
 package algorithms;
 
-import modelStep.Attribute;
+import modelStep.Label;
 
 import java.util.Collection;
 
 public class AlgorithmFactory {
 
-    public static Collection<Attribute> getAttribute(String algorithmName) {
+    public static Collection<Label> getLabels(String algorithmName) {
         if (algorithmName.equals("Priority Promotion")) {
-            return PriorityPromotion.getAttributes();
+            return PriorityPromotion.getLabels();
         } else if (algorithmName.equals("DFI")) {
-            return DFI.getAttributes();
+            return DFI.getLabels();
         } else if (algorithmName.equals("Zielonka")) {
-            return Zielonka.getAttributes();
+            return Zielonka.getLabels();
         } else {
             return null;
         }

@@ -3,8 +3,6 @@ package test;
 import algorithms.Algorithm;
 import modelGame.Game;
 import modelGame.Vertex;
-import modelStep.Attribute;
-import modelStep.Effect;
 import modelStep.GameStatus;
 import modelStep.Step;
 

@@ -1,7 +1,7 @@
 package algorithms;
 
 import modelGame.*;
-import modelStep.Attribute;
+import modelStep.Label;
 import modelStep.Effect;
 import modelStep.GameStatus;
 import modelStep.Step;
@@ -423,13 +423,13 @@ public class PriorityPromotion implements Algorithm {
 	}
 
 
-	public static Collection<Attribute> getAttributes() {
-		Collection<Attribute> attributes = new ArrayList<>();
+	public static Collection<Label> getLabels() {
+		Collection<Label> attributes = new ArrayList<>();
 		// color
-		Attribute color = new Attribute("color", Attribute.AttributeType.color, new ArrayList<>(Arrays.asList("even", "odd")));
+		Label color = new Label("color", Label.LabelType.color, new ArrayList<>(Arrays.asList("even", "odd")));
 		attributes.add(color);
 		// region
-		Attribute region = new Attribute("region", Attribute.AttributeType.text);
+		Label region = new Label("region", Label.LabelType.text);
 		attributes.add(region);
 		return attributes;
 	}

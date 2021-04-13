@@ -21,16 +21,16 @@ import java.util.Collection;
  * attribute because there are many cases where you want to color a node when it doesn't have a winnner yet.
  */
 @XmlRootElement
-public class Attribute {
+public class Label {
     private String name;
     // type can be either "color" or "text“
-    private AttributeType type;
+    private LabelType type;
     // if type is "color",
     // need to specify all possible values
     // if type is "text" then it doesn't matter
     private Collection<String> values;
 
-    public enum AttributeType {
+    public enum LabelType {
         color {
             @Override
             public String toString() {
@@ -46,17 +46,17 @@ public class Attribute {
         }
     }
 
-    public Attribute() {
+    public Label() {
 
     }
 
-    public Attribute(String name, AttributeType type) {
+    public Label(String name, LabelType type) {
         this.name = name;
         this.type = type;
         this.values = new ArrayList<>();
     }
 
-    public Attribute(String name, AttributeType type, Collection<String> values) {
+    public Label(String name, LabelType type, Collection<String> values) {
         this.name = name;
         this.type = type;
         this.values = values;
@@ -70,11 +70,11 @@ public class Attribute {
         return this.name;
     }
 
-    public void setType(AttributeType type) {
+    public void setType(LabelType type) {
         this.type = type;
     }
 
-    public AttributeType getType() {
+    public LabelType getType() {
         return this.type;
     }
 
