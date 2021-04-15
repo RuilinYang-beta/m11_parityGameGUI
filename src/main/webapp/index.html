@@ -32,6 +32,7 @@
         </div>
 
         <ul class="list-unstyled components">
+            <!--  Choose graph type -->
             <li class="active">
                 <a href="#graph" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Graph</a>
                 <ul class="collapse list-unstyled" id="graph">
@@ -40,7 +41,7 @@
                     </li>
                 </ul>
             </li>
-
+            <!-- Parity Game -->
             <li class="active">
                 <a href="#algorithm" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Parity Game</a>
                 <ul class="collapse list-unstyled" id="algorithm">
@@ -89,9 +90,7 @@
             <div class="col-3">
                 <!--a hidden field to set priority-->
                 <input id="inputPriorityGroup" pattern="\d*" style="opacity: 0">
-<!--                <p>place holder</p>-->
-<!--                <input type="number" id="inputPrioritySingle" min="0" step="1" pattern="\d*">-->
-<!--                <input id="inputPriorityGroup" pattern="\d*">-->
+
             </div>
             <!--slider and stepper-->
             <div id="forward_backward">
@@ -149,14 +148,18 @@
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Select Labels</h5>
                 </div>
+
                 <div class="modal-body">
                     <input type="text" id="search_attributes" onkeyup="search_attributes()" placeholder="Search for labels.." title="Type in an attribute name">
+
+                    <!-- attributes container -->
                     <div id="attributes_container">
                         <ul id="attributes_list">
 
                         </ul>
                     </div>
 
+                    <!-- selected attributes container -->
                     <div id="selected_attr_container">
                         <ul id="selected_attr_list" class="list-unstyled components list-group">
 
@@ -164,6 +167,7 @@
                     </div>
 
                 </div>
+                <!-- Close and apply buttons -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-primary" id="apply_attribute_setting" onclick="save_selected_attributes()">Apply</button>
@@ -187,17 +191,13 @@
 <!--edge handles-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.js"></script>
 <script src="lib/cytoscape-edgehandles.js"></script>
-<!--webcola-->
+<!--webcola (auto-organize)-->
 <script src="http://marvl.infotech.monash.edu/webcola/cola.min.js"></script>
 <script src="lib/cytoscape-cola.js"></script>
-<!--redo-undo-->
+<!--redo_undo-->
 <script src="lib/cytoscape-undo-redo.js"></script>
-<!--menu-->
-<script src="lib/cytoscape-context-menus.js"></script>
 <!--bootstrap-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-<!--clipboard-->
-<script src="lib/cytoscape-clipboard.js"></script>
 
 <!--customized js-->
 <script src="sidebar.js"></script>

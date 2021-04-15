@@ -24,6 +24,8 @@ document.addEventListener("keydown", function (e) {
 
 });
 
+
+// Paste nodes with priority/edges functionality
 let CopyID = 0;
 function paste() {
     let copyMap = new Map();
