@@ -13,6 +13,10 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.util.*;
 
+/**
+ * Receives the posted vertices from the frontend, invoke other classes to parse the
+ * game, solve the game, and return a list of steps to the frontend.
+ */
 @Path("/vertex")
 public class GameResource {
     @POST

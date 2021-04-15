@@ -4,6 +4,12 @@ import modelStep.GameStatus;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+/**
+ * The Step object has two GameStatus objects: one for the status of all the nodes,
+ * the other for the status of the updated nodes.
+ * The String msg is the accompanying message of each step, they will be displayed to the
+ * right of the graph area on the frontend.
+ */
 @XmlRootElement
 public class Step {
 

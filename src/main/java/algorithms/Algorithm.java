@@ -17,7 +17,11 @@ public interface Algorithm {
 
     Collection<Step> getSteps();
 
-    // get list of attributes related to this algorithm
-    static Collection<Label> getAttributes(){return null;}
+    /**
+     * Get list of Labels related to this algorithm.
+     * This method will be invoked when the user selects an algorithm
+     * in the frontend.
+     */
+    static Collection<Label> getLabels(){return null;}
 
 }

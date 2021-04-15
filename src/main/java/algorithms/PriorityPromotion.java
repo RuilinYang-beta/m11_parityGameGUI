@@ -9,14 +9,6 @@ import modelStep.Step;
 import java.util.*;
 import java.util.stream.Collectors;
 
-/**
- * Algorithm priority promotion.
- * This class contains some methods that might be specific to priority promotion,
- * for example, **reset the priority of all nodes / reset priority of a subset of nodes**,
- * and **get the successor of a set of node**,
- * Currently not sure if they are specific only to priority promotion,
- * if other algorithms also need these functionalities, consider moving them to class Game.
- */
 public class PriorityPromotion implements Algorithm {
 
 	// current priority, have to put it here to use lambda expression
@@ -289,15 +281,17 @@ public class PriorityPromotion implements Algorithm {
 
 	/**
 	 * Given the nodes that changed from last step, construct a step and add it to steps for later returning to client.
-	 * @param focus: nodes that have gone through change from last step
-	 * @param effect: the status that *focus* should change into
+	 * @param updated: nodes that have gone through change from last step
+	 * @param effect: the status that @updated should change into
 	 * @param priority: the priority of the focus nodes
 	 * @param msg: the message of this step
+	 * @param setRegion: set @priority as the region of @updated if true
+	 * @param resetRegion: set the nodal priority as regional priority for each node in @updated if true
 	 */
-	private void triggerStep(Collection<Vertex> focus, String effect, Integer priority, String msg, boolean setRegion, boolean resetRegion){
+	private void triggerStep(Collection<Vertex> updated, String effect, Integer priority, String msg, boolean setRegion, boolean resetRegion){
 
 		// modify gameStatus
-		for (Vertex v : focus) {
+		for (Vertex v : updated) {
 		    int id = v.getId();
 		    if (setRegion) {
 				gameStatus.get(id).put("region", "" + priority);
@@ -316,7 +310,7 @@ public class PriorityPromotion implements Algorithm {
 
 		// construct updateStatus
         GameStatus updateStatus = new GameStatus();
-        for (Vertex v : focus) {
+        for (Vertex v : updated) {
             int id = v.getId();
             // updateStatus share the same set of data with gameStatusCopy
             // they won't be changed later
@@ -421,7 +415,6 @@ public class PriorityPromotion implements Algorithm {
 	public Collection<Step> getSteps() {
 		return steps;
 	}
-
 
 	public static Collection<Label> getLabels() {
 		Collection<Label> attributes = new ArrayList<>();

@@ -41,14 +41,6 @@ public class Vertex {
         this.owner = owner;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     public String toString(){
         return "" + this.id;
     }

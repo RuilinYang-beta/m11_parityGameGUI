@@ -65,7 +65,7 @@ public class DFI implements Algorithm{
 
                 int updatedSize = updated.size();
                 if (updatedSize != 0) {
-                    triggerStep(vertices, updated, "strategy found");
+                    triggerStep(updated, "strategy found");
                 }
 
 
@@ -95,7 +95,7 @@ public class DFI implements Algorithm{
                         updated.add(v2);
                     }
                     if (updated.size() != updatedSize) {
-                        triggerStep(vertices, updated, "distractor found; freeze nodes with same winner; thaw & reset nodes with diff winner");
+                        triggerStep(updated, "distractor found; freeze nodes with same winner; thaw & reset nodes with diff winner");
                     }
                     somethingchanged = true;
                 }
@@ -111,7 +111,7 @@ public class DFI implements Algorithm{
 
 
     /**
-     * Initialize <GameStatus> for all nodes.
+     * Initialize <GameStatus> for the whole game.
      */
     private void init(Game pg) {
         Collection<Vertex> vertices = pg.getVertices();
@@ -122,19 +122,19 @@ public class DFI implements Algorithm{
             // regardless of algorithm, all nodes have these 3 attributes
             nodeStatus.put("id", "" + v.getId());
             nodeStatus.put("strategy", null);
-            nodeStatus.put("winner", (v.getPriority() % 2 == 0)? "0" : "1");
+            nodeStatus.put("winner", (v.getPriority() % 2 == 0)? "0" : "1");  // assumed winner is the player of the parity of the priority
 
             // freeze: specific to DFI
             nodeStatus.put("freeze", null);
             // distract: specific to DFI, initially no node is distraction
             nodeStatus.put("distract", "0");
 
-            // init color is its priority's color
+            // init color is its priority's color, to represent the assumed winner
             nodeStatus.put("color", (v.getPriority() % 2 == 0)? "even" : "odd");
             // init visual effect is highlight
             nodeStatus.put("effect", Effect.HIGHLIGHT.toString());
 
-            // node i is at index i of gameStatus, to accommodate id staring from any number
+            // node i is at index i of gameStatus, to accommodate id starting from any number
             gameStatus.put(v.getId(), nodeStatus);
         }
 
@@ -143,8 +143,11 @@ public class DFI implements Algorithm{
 
     }
 
-
-    protected void triggerStep(List<Vertex> vertices, List<Vertex> updated, String message) {
+    /**
+     * For each vertex in the updated list, get their labels from the F, Z, S set,
+     * update the class variable <GameStatus>, construct a Step object for later returning.
+     */
+    protected void triggerStep(List<Vertex> updated, String message) {
         // based on the update vertices, modify gameStatus
         for (Vertex v : updated) {
             int id = v.getId();
@@ -166,10 +169,6 @@ public class DFI implements Algorithm{
             gameStatus.get(id).put("winner", winnerNum);
         }
 
-        // visually freeze the first vertex (why would I do this???)
-//        Vertex first = updated.get(0);
-//        gameStatus.get(first.getId()).put("freeze", "" + first.getPriority());
-
         // deep copy gameStatus, get a subset of it as updateStatus
         GameStatus gameStatusCopy = gameStatus.getDeepCopy();
         GameStatus updateStatus = new GameStatus();
@@ -190,9 +189,6 @@ public class DFI implements Algorithm{
         int r = v.getPriority() % 2;
         return "" + (Z.contains(v) ? 1-r : r);
     }
-//    public String getWinner(Vertex v) {
-//        return gameStatus.get(v.getId()).get("winner");
-//    }
 
     /**
      * If the vertex owner is winning then returns a single vertex, the strategy to win
@@ -201,9 +197,6 @@ public class DFI implements Algorithm{
     public String getStrategy(Vertex v) {
         return (S.containsKey(v) && S.get(v) != null)? "" + S.get(v).getId() : "null";
     }
-//    public String getStrategy(Vertex v){
-//        return gameStatus.get(v.getId()).get("strategy");
-//    }
 
     public Collection<Step> getSteps() {
         return steps;

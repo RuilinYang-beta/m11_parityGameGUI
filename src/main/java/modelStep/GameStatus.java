@@ -20,7 +20,9 @@ public class GameStatus extends HashMap<Integer, HashMap<String, String>>{
 
 
     /**
-     * Deep copy this object by serialize and deserialize every inner HashMap.
+     * Deep copy this object by serialize and deserialize every inner HashMap. This is needed
+     * because at every step, we want to make a snapshot, and later changes in the algorithm
+     * should not change the already existing snapshot.
      * @return A deep copy of this object.
      */
     public GameStatus getDeepCopy(){

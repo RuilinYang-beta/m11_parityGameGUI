@@ -5,7 +5,9 @@ import java.util.stream.Collectors;
 
 public class Game {
     private Collection<Vertex> vertices;
+    // a map from a vertex to its successors
     private Map<Vertex, List<Vertex>> outMap;
+    // a map from a vertex to its predecessors
     private  Map<Vertex, List<Vertex>> inMap;
 
     public Game(Collection<Vertex> vs, Map<Vertex, List<Vertex>> out) {

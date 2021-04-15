@@ -14,6 +14,7 @@ public class AlgorithmFactory {
         } else if (algorithmName.equals("Zielonka")) {
             return Zielonka.getLabels();
         } else {
+            // TODO: accommodate customized algorithms
             return null;
         }
     }
@@ -26,6 +27,7 @@ public class AlgorithmFactory {
         } else if (algorithmName.equals("Zielonka")) {
             return new Zielonka();
         } else {
+            // TODO: accommodate customized algorithms
             return null;
         }
     }

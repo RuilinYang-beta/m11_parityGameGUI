@@ -12,7 +12,6 @@ import parser.PGParser;
 import parser.PGParser.EdgeContext;
 import parser.PGParser.LineContext;
 import parser.PGParser.RootContext;
-import test.Benchmark;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -24,7 +23,7 @@ import java.util.Map.Entry;
 public class Solver {
 
     /**
-     * Pares a gameString to a Game object, feed it to an algorithm, and write the output
+     * Pares a gameString to a Game object, and feed it to the given algorithm.
      */
     public static Collection<Step> process(String gameString, Algorithm algorithm, boolean isFilename) {
         Game game;
@@ -45,7 +44,7 @@ public class Solver {
         // now we have the vertices, solve the parity game with the given algorithm
         algorithm.solve(game);
 
-        // temp
+        // to print the solution in the console to have a quick look
         System.out.println("winnerMap");
         for (Vertex v : game.getVertices()){
             System.out.println("" + v + " won by " + algorithm.getWinner(v));
@@ -56,21 +55,11 @@ public class Solver {
         }
 
         return algorithm.getSteps();
-
-//        try {
-//            writeSolution(game, solver, gameString + "sol");
-//        } catch (FileNotFoundException e) {
-//            System.err.println("Cannot open " + gameString + " for writing!");
-//        }
-    }
-
-    public static void solve(Game pg, Algorithm algo){
-
     }
 
 
     /**
-     * takes the string of .pg file, transform it into a Game.
+     * takes the string of .pg file, transform it into a Game object.
      */
     public static Game parse(String gameString, boolean isFilename) throws IOException {
 
@@ -140,28 +129,10 @@ public class Solver {
         return new Game(verticesMap.values(), outMap);
     }
 
-//    private static void writeSolution(Collection<Vertex> vertices, DFI solver, String filename) throws FileNotFoundException {
-//        try (PrintWriter pw = new PrintWriter(filename)) {
-//            pw.printf("paritysol %d\n", vertices.size());
-////            for (var v : vertices) {
-//            for (Vertex v : vertices) {
-//                int winner = solver.getWinner(v);
-//                Vertex strategy = solver.getStrategy(v);
-//                if (winner == v.getOwner()) {
-//                    if (strategy == null) System.err.printf("Missing strategy for vertex %d!\n", v.getId());
-//                    else if (solver.getWinner(strategy) != winner) System.err.printf("Wrong winner for strategy %d->%d!", v.getId(), strategy.getId());
-//                } else {
-//                    if (strategy != null) System.err.printf("Unexpected strategy for vertex %d!\n", v.getId());
-//                }
-//                if (strategy == null) pw.printf("%d %d\n", v.getId(), winner);
-//                else pw.printf("%d %d %d\n", v.getId(), winner, strategy.getId());
-//            }
-//        }
-//    }
 
-
-
-
+    /**
+     * To have a quick test on parsing and solving a game.
+     */
     public static void main(String[] args) {
 //        // ===== option 1: test using a gameString =====
 //        String testGameString = "parity 5;\n" +
@@ -181,12 +152,10 @@ public class Solver {
             if (files != null) {
                 for (File file : files) {
                     process(file.getPath(), new DFI(), true);
-//                    process(file.getPath(), new Benchmark(), true);
                 }
             }
         } else {
             process(f.getPath(), new DFI(),true);
-//            process(f.getPath(), new Benchmark(), true);
         }
 
     }
