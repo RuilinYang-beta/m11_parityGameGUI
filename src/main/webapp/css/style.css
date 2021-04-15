@@ -608,3 +608,7 @@ input:checked + #auto_slider:before {
     left: 30px;
     position: relative;
 }
+
+.algorithm::before {
+    content: ">>  "
+}

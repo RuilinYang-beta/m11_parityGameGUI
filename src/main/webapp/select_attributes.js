@@ -39,9 +39,6 @@ function search_attributes() {
  * @param selected_vis_attr: index -> attribute object.
  */
 function remove_attribute(attribute_id) {
-    // enable apply button
-    document.getElementById("apply_attribute_setting").disabled = false;
-
     let index = parseInt(attribute_id.split("_")[2], 10);
 
     // remove the attribute from selected_vis_attr
@@ -76,9 +73,6 @@ function remove_attribute(attribute_id) {
  * @param max_selected_attr: maximum number of selected attributes.
  */
 function handleChange(checkbox, attribute_id, attribute_name) {
-    // enable apply button
-    document.getElementById("apply_attribute_setting").disabled = false;
-
     // if the number of selected attributes is equal to max_selected_attr,
     // and checkbox.checked === true,
     // set checkbox.checked in HTML to false, disable all checkboxes and return
@@ -156,10 +150,7 @@ function handleChange(checkbox, attribute_id, attribute_name) {
  */
 let selected_attr_colors = {};
 function save_selected_attributes() {
-    // disable apply button
-    document.getElementById("apply_attribute_setting").disabled = true;
-
-    // clear current grpah setting
+    // clear current graph setting
     clear_compounds();
 
     // map compound node to attribute
