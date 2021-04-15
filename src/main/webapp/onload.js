@@ -1,4 +1,4 @@
-baseURL = "http://localhost:8080/rest"
+baseURL = "http://localhost:8080/pandavis/rest"
 
 /**
  * Fetch installed algorithms at the start of the program.

@@ -1,7 +1,7 @@
 /**
  * the base url of the HTTP request
  * */
-baseURL = "http://localhost:8080/rest"
+baseURL = "http://localhost:8080/pandavis/rest"
 
 /**
  * the algorithm steps to be displayed
