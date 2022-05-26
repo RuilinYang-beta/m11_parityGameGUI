@@ -8,6 +8,8 @@ For researchers, the layouts of a game is represented in a specific text format.
 
 This app aims to provide the visualization to aid research/study. It is a web app developed with Jarkata EE (Java) in the backend, and HTML/CSS/JavaScript in the frontend. Specifically, we use [Cytoscape.js](https://js.cytoscape.org/) for the complex visualization of a graph of Parity Game. 
 
+The [poster](https://ruilinyang-beta.github.io/pdf/m11_poster.pdf) and [presentation slides](https://ruilinyang-beta.github.io/pdf/m11_slides.pdf) is helpful to have a quick overview of this project.
+
 # Instructions
 Step 1. Install Tomcat and Maven:
   1. download Tomcat to a local directory.
