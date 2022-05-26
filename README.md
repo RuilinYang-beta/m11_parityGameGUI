@@ -1,3 +1,14 @@
+# About
+
+A parity game is played on a colored directed graph, where each node has been colored by a priority – one of (usually) finitely many natural numbers. Two players, 0 and 1, move a (single, shared) token along the edges of the graph. The owner of the node that the token falls on selects the successor node, resulting in a (possibly infinite) path, called the play.
+
+It has applications in software verification (model checking), and currently the research question "Is there algorithm(s) that can solve Parity Game in Polynomial time" is at the research frontier. 
+
+For researchers, the layouts of a game is represented in a specific text format. However, having to work with text files for numerous day-to-day mini adjustment of a graph is tedious, and error-prone. Besides, with no visualization, it is not intuitive for a researcher/student how an algorithm runs. 
+
+This app aims to provide the visualization to aid research/study. It is a web app developed with Jarkata EE (Java) in the backend, and HTML/CSS/JavaScript in the frontend. Specifically, we use [Cytoscape.js](https://js.cytoscape.org/) for the complex visualization of a graph of Parity Game. 
+
+# Instructions
 Step 1. Install Tomcat and Maven:
   1. download Tomcat to a local directory.
     b. For Mac: apache-tomcat-9.0.21.zip
